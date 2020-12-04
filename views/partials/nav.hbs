@@ -1,0 +1,34 @@
+<nav class="nav">
+	<div class="logo">
+		<img src="./assets/images/logo.png" alt="logo">
+		<div class="search">
+			<i class="fas fa-search"></i>
+			<input type="text">
+		</div>
+	</div>
+	<div class="routes">
+		<ul>
+			<li><a href=""><i class="fas fa-home"></i></a></li>
+			<li><a href="">About</a></li>
+		</ul>
+	</div>
+	<div class="profile">
+		{{#if this.user}}
+			<img class="avatar"
+			     src="https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.0-9/70034536_2485956838316123_7790870654022057984_n.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=HoGUhWAOuKkAX-CxnY7&_nc_ht=scontent.fsgn5-6.fna&oh=5e5471e345125731dda2685755956a5e&oe=5FEECDF1"
+			     alt="">
+			<div class="name">
+				<span>{{this.user.name}}</span>
+			</div>
+			<i class="fas fa-angle-down"></i>
+		{{else}}
+			<div class="name">
+				<div class="avatar">
+					<i class="fas fa-user"></i>
+				</div>
+				<span>Login</span>
+				<i class="fas fa-angle-down"></i>
+			</div>
+		{{/if}}
+	</div>
+</nav>

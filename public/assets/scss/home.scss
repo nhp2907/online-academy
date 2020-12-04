@@ -1,0 +1,22 @@
+.container {
+  flex: 1;
+  position: relative;
+  display: grid;
+  background-color: red;
+  width: 95%;
+  margin: auto;
+  .category {
+    // category is shrinkable
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background-color: green;
+  }
+
+  .content {
+    background-color: aqua;
+  }
+}

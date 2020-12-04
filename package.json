@@ -1,0 +1,21 @@
+{
+  "name": "online-academy",
+  "version": "1.0.0",
+  "description": "Online Academy",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "node app.js"
+  },
+  "author": "pqt",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
+    "node-sass": "^5.0.0",
+    "node-sass-middleware": "^0.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
