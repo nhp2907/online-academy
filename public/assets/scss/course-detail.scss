@@ -1,0 +1,167 @@
+.course-detail {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    justify-content: space-between;
+    padding: 20px 15%;
+    background-color: #1e1e1c;
+    height: 345px;
+    ul{
+        display: flex;
+        li{
+            list-style-type: none;
+        }
+    }
+    .basic-info{
+
+        padding-right: 20px;
+        color: white;
+        i {
+            color: white;
+            font-size: 14px;
+            margin: auto 5px auto 10px;
+        }
+        .name{
+            font-size: 35px;
+            font-weight: bold;
+            line-height: 40px;
+        }
+        ul {
+            align-items: center;
+            margin: 10px auto;
+            &:first-child{
+                color: #8ed1dc;
+                font-weight: bold;
+                margin-top: 0px;
+            }
+            li {
+                display: inline;
+                margin: auto 5px;
+                &:first-child{
+                    margin-left: 0px;
+                }
+            }
+        }
+        p{
+            margin: 10px 0px;
+        }
+        button{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+        .headline{
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .more{
+            background-color: #1e1e1c;
+            border: 1px solid white;
+            color: white;
+            padding: 15px 10px;
+            margin-right: 10px;
+            margin-top: 10px;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        .rating{
+            color: yellow;
+            i{
+                color: yellow;
+                font-size: 10px;
+                margin-right: -5px;
+            }
+        }
+        .best-seller-btn{
+            background-color: orange;
+            border: none;
+            padding: 5px;
+        }
+    }
+    .must-info{
+        border: 1px solid white;
+        background-color: white;
+        color: black;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        z-index: 1;
+        height: auto;
+        margin-bottom: 500px;
+        img{
+            max-width: 100%;
+        }
+        button{
+            width: 100%;
+            text-align: center;
+            font-weight: 500;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        i{
+            color:grey;
+            margin-right: 10px;
+        }
+        div{
+            padding: 20px 20px 50px 20px;
+        }
+        ul{
+            flex-direction: column;
+            li{
+                margin: 5px 0px;
+            }
+        }
+        .price{
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .add-to-cart{
+            background-color: #EC5252;
+            color: white;
+            border-radius: 5px;
+        }
+        .buy-now{
+            background-color: white;
+            color: green;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+        .guarantee{
+            font-size: 13px;
+            text-align: center;
+            margin: 10px auto;
+        }
+        .include{
+            font-weight: bold;
+            font-size: 18px;
+            margin: 30px 0px 10px 0px;
+        }
+        form{
+            margin: 15px 0px 20px 0px;
+            input{
+                float: left;
+                width: 70%;
+                padding: 10px;
+                border: 2px solid grey;
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
+            button{
+                float:left;
+                width: 30%;
+                padding: 10px;
+                color: white;
+                background-color: #0F7C90;
+                border: 1px solid grey;
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+        }
+        &::after{
+            clear: both;
+            display: table;
+        }
+    }
+}

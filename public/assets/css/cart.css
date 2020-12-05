@@ -1,0 +1,27 @@
+.cart {
+  padding: 20px 15%; }
+  .cart .header {
+    padding: 30px 20%;
+    background-color: #505763;
+    width: 140%;
+    margin-left: -20%; }
+    .cart .header p {
+      color: white; }
+      .cart .header p:last-child {
+        font-size: 30px;
+        margin-top: 10px; }
+    .cart .header i {
+      color: grey;
+      font-size: 14px; }
+  .cart .cart-item {
+    display: grid;
+    grid-template-columns: 80% 20%; }
+    .cart .cart-item .list {
+      display: grid;
+      grid-template-columns: 20% 60% 10% 10%; }
+      .cart .cart-item .list div {
+        display: flex;
+        flex-direction: column; }
+      .cart .cart-item .list img {
+        width: 100%;
+        border: 1px solid black; }

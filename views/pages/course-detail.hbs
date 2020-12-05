@@ -1,0 +1,45 @@
+<section class="course-detail">
+    <div class="basic-info">
+        <ul>
+            <li>Development<i class="fas fa-chevron-right"></i></li>
+            <li>Data Science<i class="fas fa-chevron-right"></i></li>
+            <li>Python</li>
+        </ul>
+        <p class="name">{{course.name}}</p>
+        <p class="headline">{{course.headline}}</p>
+        <ul>
+            <li><button class="best-seller-btn">Bestseller</button></li>
+            <li class="rating">{{course.rating}}<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></li>
+            <li>({{course.num_review}} ratings)</li><span>{{course.num_enroll}} students</span><br/>
+        </ul>
+        <ul>
+            <li>Created by {{course.author}}</li>
+            <li><i class="fab fa-yahoo"></i>Last updated {{course.updated_date}}</li>
+            <li><i class="fas fa-globe"></i>{{course.language}}</li>
+            <li><i class="fas fa-closed-captioning"></i>
+            {{#each course.caption_language}}{{this.name}}{{/each}}</li><br/>
+        </ul>
+        <ul>
+            <li><button class="more">Wishlist<i class="fas fa-heart"></i></button></li>
+            <li><button class="more">Shared<i class="fas fa-share"></i></button></li>
+            <li><button class="more">Gift this course</button></li>
+        </ul>
+    </div>
+    <div class="must-info">
+        <img src="https://1.bp.blogspot.com/-Lgl4flwEc1k/XnM-GUJPJ2I/AAAAAAAAALo/BmVVDI8BLuEhTzrGy8Cw0wz2RydH_HEdgCPcBGAYYCw/s1600/IMG_20200318_214527_250.jpg" alt="">
+        <div>
+            <p class="price">{{course.price}}</p>
+            <button class="add-to-cart">Add to cart</button>
+            <button class="buy-now">Buy now</button>
+            <p class="guarantee">30-Day Money-Back Guarantee</p>
+            <p class="include">This course includes:</p>
+            <ul>
+                {{#each course.incentive}}<li>{{this.name}}{{/each}}</li>
+            </ul>
+            <form action="">
+                <input type="text" placeholder="Enter coupon">
+                <button class="coupon-apply-btn">Enter</button>
+            </form>
+        </div>  
+    </div>
+</section>
