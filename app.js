@@ -3,8 +3,9 @@ const path = require('path')
 const exphbs = require('express-handlebars')
 const sassMiddleware = require('node-sass-middleware');
 const User = require("./models/user");
-const {cc} = require('./service/auth.service')
+const bodyParser = require('body-parser')
 require('dotenv').config();
+
 const app = express();
 
 app.engine('hbs', exphbs({
@@ -13,6 +14,7 @@ app.engine('hbs', exphbs({
 
 }))
 app.set('view engine', 'hbs');
+app.use(bodyParser.json());
 app.use(
     sassMiddleware({
         src: __dirname + '/public/assets/scss',
@@ -21,17 +23,13 @@ app.use(
         debug: true,
     })
 )
-
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/index'));
 app.use('/teacher', require('./routes/teacher'));
-app.use('/admin', require('./routes/admin'))
-app.get('/test', async (req, res, next) => {
-    const users = await User.findAll();
-    res.send(users);
-})
+app.use('/admin', require('./routes/admin'));
+app.use('/test', require('./routes/test'));
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
-const User = require('../models/user');
+const UserService = require("./user..service");
 
 /**
  * Verify authentication middleware
@@ -19,8 +19,8 @@ const verifyJwt = (req, res, next) => {
             if (err) {
                 throw new err;
             }
-
-            res.locals.user = await User.findByUsername(decoded.username);
+            const user = await UserService.findByUsername(decoded.username);
+            res.locals.user = user;
             next();
         })
     } else {
@@ -35,7 +35,7 @@ const verifyJwt = (req, res, next) => {
 const signup = (user) => {
     bcrypt.hash(user.password, 10, (err, hashedPassword) => {
         user.password = hashedPassword;
-        User.save(user);
+        UserService.save(user);
     })
 }
 
@@ -47,24 +47,20 @@ const signup = (user) => {
  */
 const login = async (username, password) => {
     try {
-        const user = await User.findByUsername(username)
-        if (!user) {
-            throw new Error(`User with username = ${username} not found`)
+        const user = await UserService.findByUsername(username)
+        if (user) {
+            if (bcrypt.compareSync(password, user.password)) {
+                return jwt.sign({username}, process.env.JWT_SECRET_KEY);
+            }
+            return null;
         }
-
-        if (bcrypt.compareSync(password, user.password)) {
-            return jwt.sign({username}, process.env.JWT_SECRET_KEY);
-        } else {
-            throw new Error(`Username or password is incorrect`)
-        }
-
     } catch (err) {
         throw err;
     }
 }
 
 module.exports = {
-    verifyJwt: verifyJwt,
-    signup: signup,
-    login: login
+    verifyJwt,
+    signup,
+    login
 };
