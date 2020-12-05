@@ -1,3 +1,4 @@
+
 module.exports = {
     findAll() {
 
@@ -6,6 +7,17 @@ module.exports = {
 
     },
     findByCriteria(criteria) {
+
+    },
+    /**
+     *
+     * @param username
+     * return Promise
+     */
+    findByUsername(username){
+
+    },
+    save(user) {
 
     }
 }
