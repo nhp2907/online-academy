@@ -3,7 +3,7 @@ const path = require('path')
 const exphbs = require('express-handlebars')
 const sassMiddleware = require('node-sass-middleware');
 const User = require("./models/user");
-const bodyParser = require('body-parser')
+const {cc} = require('./service/auth.service')
 require('dotenv').config();
 
 const app = express();
