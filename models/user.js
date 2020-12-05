@@ -35,30 +35,31 @@ const User = sequelize.define('User', {
         type: DataTypes.INTEGER
     },
     username: {
-        type: DataTypes.INTEGER
+        type: DataTypes.STRING(45)
     },
     password: {
-        type: DataTypes.INTEGER
+        type: DataTypes.STRING
     },
     birthday: {
         type: DataTypes.DATE
     },
     street: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         field: 'address_street'
     },
     district: {
-        type: DataTypes.INTEGER
+        type: DataTypes.STRING
     },
     city: {
-        type: DataTypes.INTEGER
+        type: DataTypes.STRING
     },
     country: {
-        type: DataTypes.INTEGER
+        type: DataTypes.STRING
     },
     roleId: {
         type: DataTypes.INTEGER,
-        field: 'role_id'
+        field: 'role_id',
+        defaultValue: 3,
     }
 }, {
     tableName: 'user',
