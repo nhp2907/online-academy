@@ -2,7 +2,9 @@ const express = require('express');
 const path = require('path')
 const exphbs = require('express-handlebars')
 const sassMiddleware = require('node-sass-middleware');
-
+const User = require("./models/user");
+const {cc} = require('./service/auth.service')
+require('dotenv').config();
 const app = express();
 
 app.engine('hbs', exphbs({
@@ -20,22 +22,16 @@ app.use(
     })
 )
 
-app.use((req, res, next) => {
-    // get auth info from request
-    // const auth = req.header('Authentication');
-    // const {user, token} = auth;
-    // load user from access token if any or return null;
-    // res.locals.user = user;
-    res.locals.user = null;
-    next();
-})
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/index'));
 app.use('/teacher', require('./routes/teacher'));
 app.use('/admin', require('./routes/admin'))
-
+app.get('/test', async (req, res, next) => {
+    const users = await User.findAll();
+    res.send(users);
+})
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
