@@ -2,7 +2,8 @@ const express = require('express');
 const path = require('path')
 const exphbs = require('express-handlebars')
 const sassMiddleware = require('node-sass-middleware');
-
+const {cc} = require('./service/auth.service')
+require('dotenv').config();
 const app = express();
 
 app.engine('hbs', exphbs({
@@ -20,15 +21,6 @@ app.use(
     })
 )
 
-app.use((req, res, next) => {
-    // get auth info from request
-    // const auth = req.header('Authentication');
-    // const {user, token} = auth;
-    // load user from access token if any or return null;
-    // res.locals.user = user;
-    res.locals.user = null;
-    next();
-})
 
 app.use(express.static(path.join(__dirname, 'public')));
 

@@ -26,6 +26,17 @@ module.exports = {
 
     },
     /**
+     *
+     * @param username
+     * return Promise
+     */
+    findByUsername(username){
+
+    },
+    save(user) {
+
+    },
+    /**
      * Save or update user
      * @param user
      */
