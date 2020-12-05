@@ -3,6 +3,7 @@ const path = require('path')
 const exphbs = require('express-handlebars')
 const sassMiddleware = require('node-sass-middleware');
 const bodyParser = require('body-parser')
+require('dotenv').config();
 const app = express();
 
 app.engine('hbs', exphbs({
@@ -22,7 +23,6 @@ app.use(
     })
 )
 
-app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json()); 
 
 app.use((req, res, next) => {

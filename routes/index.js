@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router();
 const Category = require('../models/category')
 const user = {};
-const AuthService = require('../service/auth')
+const AuthService = require('../service/auth.service')
 
 
 router.get('/auth', (req, res) => {
