@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path')
 const exphbs = require('express-handlebars')
 const sassMiddleware = require('node-sass-middleware');
+const User = require("./models/user");
 const {cc} = require('./service/auth.service')
 require('dotenv').config();
 const app = express();
@@ -27,7 +28,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', require('./routes/index'));
 app.use('/teacher', require('./routes/teacher'));
 app.use('/admin', require('./routes/admin'))
-
+app.get('/test', async (req, res, next) => {
+    const users = await User.findAll();
+    res.send(users);
+})
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
