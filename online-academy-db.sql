@@ -142,7 +142,7 @@ CREATE TABLE `course` (
   `image` varchar(45) DEFAULT NULL,
   `concurrency` varchar(45) DEFAULT NULL,
   `price` int DEFAULT NULL,
-  `discount` int DEFAULT NULL,
+  'pre_price' int DEFAULT NULL,
   `language` varchar(45) DEFAULT NULL,
   `rating` float DEFAULT NULL,
   `num_review` int DEFAULT NULL,
