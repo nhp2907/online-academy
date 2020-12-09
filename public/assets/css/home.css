@@ -2,7 +2,6 @@
   flex: 1;
   position: relative;
   display: grid;
-  background-color: red;
   width: 95%;
   margin: auto; }
   .container .category {
@@ -12,6 +11,4 @@
     width: 90px;
     height: 90px;
     border-radius: 50%;
-    background-color: green; }
-  .container .content {
-    background-color: #FFFFFF; }
+    background-color: red; }

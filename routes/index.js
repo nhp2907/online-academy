@@ -1,43 +1,44 @@
 const express = require('express')
 const router = express.Router();
 const Category = require('../models/category')
-const Course = require('../models/course')
 const user = {};
 const AuthService = require('../service/auth.service')
 
 
 router.get('/auth', (req, res) => {
     res.render('pages/auth', {
-      layout: 'blank',
-      css: ['auth']
-  })
+        layout: 'blank',
+        css: ['auth']
+    })
 })
 router.post('/signin', (req, res) => {
     console.log("--------------");
     console.log('request.body', req.body);
-    const user = res.locals.user; 
+    const user = res.locals.user;
 
-        // const token = await AuthService.signin({username, password});
-        // if (token != null) {
-        //     res.render('pages/home', {
-        //         css: ['home'],
-        //         user: {
-        //             token: token,
-        //             name: req.body.username
-        //         }
-        //     })
-        // } else {
-        //     res.send({statusCode: 200})
-        // }
-    
+    // const token = await AuthService.signin({username, password});
+    // if (token != null) {
+    //     res.render('pages/home', {
+    //         css: ['home'],
+    //         user: {
+    //             token: token,
+    //             name: req.body.username
+    //         }
+    //     })
+    // } else {
+    //     res.send({statusCode: 200})
+    // }
+
 })
 router.post('/signup', (req, res) => {
-//     res.render('pages/signin', {
-      
-//   })
+    //     res.render('pages/signin', {
+
+    //   })
 })
 
 router.get('/', (req, res) => {
+
+    console.log('user in locals', res.locals.user);
     res.render('pages/home', {
         css: ['home', 'category'],
         user: res.locals.user,
@@ -48,9 +49,10 @@ router.get('/', (req, res) => {
 /**
  * search
  */
-router.get('/cart', (req, res) => {
-    res.render('pages/cart', {
-        css: ['cart']
+router.get('/courses', (req, res) => {
+    const { category } = req.query;
+    res.render('/courses', {
+        user
     })
 })
 
@@ -72,9 +74,8 @@ router.get('/courses/:id', (req, res) => {
  * return {}
  */
 router.get('/search', (req, res) => {
-    const {criteria} = req.params;
+    const { criteria } = req.params;
     res.send(['list of course']);
 })
-
 
 module.exports = router;
