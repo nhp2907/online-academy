@@ -2,8 +2,15 @@
   position: relative; }
   .course-detail .wrapper .basic-info-wrapper {
     background-color: #212932;
-    padding: 25px 0;
-    width: 100vw; }
+    padding-bottom: 25px;
+    width: 100vw;
+    margin: 0px auto; }
+    .course-detail .wrapper .basic-info-wrapper img {
+      width: 100%;
+      height: 350px;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      object-fit: cover; }
     .course-detail .wrapper .basic-info-wrapper .basic-info {
       max-width: 1800px;
       margin-left: 7%;

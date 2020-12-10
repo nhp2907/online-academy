@@ -6,8 +6,16 @@ $leftSideWidthPercent: 60%;
   .wrapper {
     .basic-info-wrapper {
       background-color: #212932;
-      padding: 25px 0;
+      padding-bottom: 25px;
       width: 100vw;
+      margin: 0px auto;
+      img {
+        width: 100%;
+        height: 350px;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        object-fit: cover;
+      }
 
       .basic-info {
         max-width: 1800px;
@@ -232,6 +240,7 @@ $leftSideWidthPercent: 60%;
 
       .instructor-info {
         margin-left: 20px;
+
         .info {
           margin: 10px 0;
 
@@ -300,6 +309,7 @@ $leftSideWidthPercent: 60%;
 
       .student-feedback {
         margin-left: 20px;
+
         .rating-area {
           display: flex;
           align-items: center;
@@ -334,6 +344,7 @@ $leftSideWidthPercent: 60%;
 
           .processes {
             width: 350px;
+
             .process {
               display: flex;
               align-items: center;
@@ -358,27 +369,33 @@ $leftSideWidthPercent: 60%;
       margin-left: $marginPercent;
       margin-top: 20px;
       width: $leftSideWidthPercent;
+
       .reviews {
         margin-left: 20px;
+
         .review {
           padding: 20px 0;
           display: flex;
           align-items: flex-start;
           border-bottom: 1px solid gray;
+
           img {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             margin-right: 20px;
           }
-          .main{
+
+          .main {
             .name {
               display: flex;
               justify-content: space-between;
               align-items: center;
+
               h2 {
                 font-size: 20px;
               }
+
               .like-dislike {
                 i {
                   padding: 5px;
@@ -386,12 +403,15 @@ $leftSideWidthPercent: 60%;
                 }
               }
             }
+
             .rating {
               display: flex;
               justify-content: flex-start;
               margin: 10px 0;
+
               .stars {
                 margin-right: 20px;
+
                 i {
                   color: orange;
                 }
@@ -483,6 +503,7 @@ $leftSideWidthPercent: 60%;
     form {
       margin: 15px 0px 20px 0px;
       display: flex;
+
       input[type="text"] {
         outline: none;
         flex: 1;
@@ -490,8 +511,9 @@ $leftSideWidthPercent: 60%;
         border: 2px solid grey;
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px;
+
         &:focus {
-          border:2px solid #103d5f;
+          border: 2px solid #103d5f;
         }
       }
 
