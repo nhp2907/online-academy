@@ -1,45 +1,354 @@
-<section class="course-detail">
-    <div class="basic-info">
-        <ul>
-            <li>Development<i class="fas fa-chevron-right"></i></li>
-            <li>Data Science<i class="fas fa-chevron-right"></i></li>
-            <li>Python</li>
-        </ul>
-        <p class="name">{{course.name}}</p>
-        <p class="headline">{{course.headline}}</p>
-        <ul>
-            <li><button class="best-seller-btn">Bestseller</button></li>
-            <li class="rating">{{course.rating}}<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></li>
-            <li>({{course.num_review}} ratings)</li><span>{{course.num_enroll}} students</span><br/>
-        </ul>
-        <ul>
-            <li>Created by {{course.author}}</li>
-            <li><i class="fab fa-yahoo"></i>Last updated {{course.updated_date}}</li>
-            <li><i class="fas fa-globe"></i>{{course.language}}</li>
-            <li><i class="fas fa-closed-captioning"></i>
-            {{#each course.caption_language}}{{this.name}}{{/each}}</li><br/>
-        </ul>
-        <ul>
-            <li><button class="more">Wishlist<i class="fas fa-heart"></i></button></li>
-            <li><button class="more">Shared<i class="fas fa-share"></i></button></li>
-            <li><button class="more">Gift this course</button></li>
-        </ul>
-    </div>
-    <div class="must-info">
-        <img src="https://1.bp.blogspot.com/-Lgl4flwEc1k/XnM-GUJPJ2I/AAAAAAAAALo/BmVVDI8BLuEhTzrGy8Cw0wz2RydH_HEdgCPcBGAYYCw/s1600/IMG_20200318_214527_250.jpg" alt="">
-        <div>
-            <p class="price">{{course.price}}</p>
-            <button class="add-to-cart">Add to cart</button>
-            <button class="buy-now">Buy now</button>
-            <p class="guarantee">30-Day Money-Back Guarantee</p>
-            <p class="include">This course includes:</p>
-            <ul>
-                {{#each course.incentive}}<li>{{this.name}}{{/each}}</li>
-            </ul>
-            <form action="">
-                <input type="text" placeholder="Enter coupon">
-                <button class="coupon-apply-btn">Enter</button>
-            </form>
-        </div>  
-    </div>
-</section>
+<div class="course-detail">
+	<div class="wrapper">
+		<div class="basic-info-wrapper">
+			<div class="basic-info">
+				<ul>
+					<li>Development<i class="fas fa-chevron-right"></i></li>
+					<li>Data Science<i class="fas fa-chevron-right"></i></li>
+					<li>Python</li>
+				</ul>
+				<p class="name">{{course.name}}</p>
+				<p class="headline">{{course.headline}}</p>
+				<ul>
+					<li>
+						<button class="best-seller-btn">Bestseller</button>
+					</li>
+					<li class="rating">{{course.rating}}<i class="fas fa-star"></i><i class="fas fa-star"></i><i
+							class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></li>
+					<li>({{course.num_review}} ratings)</li>
+					<li>{{course.num_enroll}} students</li>
+				</ul>
+				<ul>
+					<li>Created by {{course.author}}</li>
+					<li><i class="fab fa-yahoo"></i>Last updated {{course.updated_date}}</li>
+					<li><i class="fas fa-globe"></i>{{course.language}}</li>
+					<li><i class="fas fa-closed-captioning"></i>
+						{{#each course.caption_language}}{{this.name}}{{/each}}</li>
+				</ul>
+				<ul>
+					<li>
+						<button class="more">Wishlist<i class="fas fa-heart"></i></button>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="course-content-wrapper">
+			<h2>Course content</h2>
+			<div class="course-content">
+				<div class="chapter">
+					<div class="header">
+						<div class="title">
+							<i class="fas fa-angle-right"></i>
+							<span>Course introduction</span>
+						</div>
+						<div class="time">
+							<span>5 lectures, 40 mins</span>
+						</div>
+					</div>
+					<div class="chapter-content">
+						<div class="section">
+							Auto welcome message
+						</div>
+						<div class="section">
+							Course introduction
+						</div>
+					</div>
+				</div>
+				<div class="chapter">
+					<div class="header">
+						<div class="title">
+							<i class="fas fa-angle-down"></i>
+							<span>Python setup</span>
+						</div>
+						<div class="time">
+							<span>5 lectures, 40 mins</span>
+						</div>
+					</div>
+					<div class="chapter-content">
+						<div class="section">
+							Auto welcome message
+						</div>
+						<div class="section">
+							Course introduction
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="frequently-bought-wrapper">
+			<h2>Student also bought</h2>
+			<div class="frequently-bought">
+				<div class="course">
+					<img src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/S5atf80QTb2tZOScHsiW"
+					     alt="">
+					<div class="info">
+						<h2>Machine learning with python and so on </h2>
+						<div class="other-info">
+							<button class="best-seller-btn">Bestseller</button>
+							<i class="fas fa-dot-circle"></i>
+							<span>44.5 total hours</span>
+							<i class="fas fa-dot-circle"></i>
+							<span>updated on 2020/29/07</span>
+						</div>
+					</div>
+					<div class="rating">
+						<span>4.9</span>
+						<i class="fas fa-star"></i>
+					</div>
+					<div class="number-of-member">
+						<i class="fas fa-users"></i>
+						<span>724,242</span>
+					</div>
+					<div class="cost">
+						<h4>$21.33</h4>
+						<span>$112.99</span>
+					</div>
+					<div class="wish">
+						<i class="fas fa-heart"></i>
+					</div>
+				</div>
+				<div class="course">
+					<img src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/S5atf80QTb2tZOScHsiW"
+					     alt="">
+					<div class="info">
+						<h2>Machine learning with python and so on </h2>
+						<div class="other-info">
+							<button class="best-seller-btn">Bestseller</button>
+							<i class="fas fa-dot-circle"></i>
+							<span>44.5 total hours</span>
+							<i class="fas fa-dot-circle"></i>
+							<span>updated on 2020/29/07</span>
+						</div>
+					</div>
+					<div class="rating">
+						<span>4.9</span>
+						<i class="fas fa-star"></i>
+					</div>
+					<div class="number-of-member">
+						<i class="fas fa-users"></i>
+						<span>724,242</span>
+					</div>
+					<div class="cost">
+						<h4>$21.33</h4>
+						<span>$112.99</span>
+					</div>
+					<div class="wish">
+						<i class="fas fa-heart"></i>
+					</div>
+				</div>
+				<div class="course">
+					<img src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/S5atf80QTb2tZOScHsiW"
+					     alt="">
+					<div class="info">
+						<h2>Machine learning with python and so on </h2>
+						<div class="other-info">
+							<button class="best-seller-btn">Bestseller</button>
+							<i class="fas fa-dot-circle"></i>
+							<span>44.5 total hours</span>
+							<i class="fas fa-dot-circle"></i>
+							<span>updated on 2020/29/07</span>
+						</div>
+					</div>
+					<div class="rating">
+						<span>4.9</span>
+						<i class="fas fa-star"></i>
+					</div>
+					<div class="number-of-member">
+						<i class="fas fa-users"></i>
+						<span>724,242</span>
+					</div>
+					<div class="cost">
+						<h4>$21.33</h4>
+						<span>$112.99</span>
+					</div>
+					<div class="wish">
+						<i class="fas fa-heart"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="instructor-info-wrapper">
+			<h2>Instructor</h2>
+			<div class="instructor-info">
+				<div class="info">
+					<h3 class="name">Joe Portila</h3>
+					<span class="short-description">Head of Data Science, Pierian Data Inc.</span>
+					<div class="review-info">
+						<img src="https://img-b.udemycdn.com/user/75x75/9685726_67e7_4.jpg?secure=2jlgVQeBH46k_DKJxcxgxQ%3D%3D%2C1607671067"
+						     alt="">
+						<div class="detail-info-area">
+							<div class="detail">
+								<div class="icon">
+									<i class="fas fa-star"></i>
+								</div>
+								<span>4.6 Instructor Rating</span>
+							</div>
+							<div class="detail">
+								<div class="icon">
+									<i class="fas fa-award"></i>
+								</div>
+								<span>678,073 Reviews</span>
+							</div>
+							<div class="detail">
+								<div class="icon">
+									<i class="fas fa-user-friends"></i>
+								</div>
+								<span>2,075,593 Students</span>
+							</div>
+							<div class="detail">
+								<div class="icon">
+									<i class="fas fa-play-circle"></i>
+								</div>
+								<span>31 Courses</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p>
+					&nbsp;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam aspernatur assumenda atque
+					autem beatae cum cumque dolor eius enim est eum facere facilis fugiat id illum impedit ipsa ipsum
+					itaque iusto laborum magni molestiae mollitia necessitatibus nesciunt nisi nulla optio perferendis
+					qui quod reprehenderit saepe sequi sit soluta, tempora veritatis vitae voluptas. A, eaque illum
+					impedit modi mollitia nam nesciunt recusandae tempore. Aliquam animi aperiam asperiores commodi
+					consectetur corporis culpa cupiditate deleniti doloribus earum eligendi et, eveniet explicabo illum
+					labore laboriosam maxime molestiae mollitia, nihil nostrum obcaecati perspiciatis quasi qui
+					recusandae sequi suscipit tempore tenetur vel voluptas voluptates. Molestiae, nihil?
+				</p>
+			</div>
+		</div>
+		<div class="student-feedback-wrapper">
+			<h2>Student feedback</h2>
+			<div class="student-feedback">
+				<div class="rating-area">
+					<div class="number-area">
+						<span class="number">4,5</span>
+						<div class="rating">
+							<i class="fas fa-star"></i>
+							<i class="fas fa-star"></i>
+							<i class="fas fa-star"></i>
+							<i class="fas fa-star"></i>
+							<i class="fas fa-star"></i>
+						</div>
+						<div class="total">
+							<i class="fas fa-user"></i>
+							<span>Total 15.233</span>
+						</div>
+					</div>
+					<div class="processes">
+						<div class="process">
+							<span>5</span>
+							<div class="bar">
+
+							</div>
+						</div>
+						<div class="process">
+							<span>4</span>
+							<div class="bar">
+
+							</div>
+						</div>
+						<div class="process">
+							<span>3</span>
+							<div class="bar">
+
+							</div>
+						</div>
+						<div class="process">
+							<span>2</span>
+							<div class="bar">
+
+							</div>
+						</div>
+						<div class="process">
+							<span>1</span>
+							<div class="bar">
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="review-area">
+
+				</div>
+			</div>
+		</div>
+		<div class="review-wrapper">
+			<h2>Reviews</h2>
+			<div class="reviews">
+				<div class="search-area"></div>
+				<div class="review">
+					<img src="https://img-a.udemycdn.com/user/50x50/64820798_6947.jpg?AdlDz-c0Lm73SAv_YyRSccNY8rzFqZ2XjupybeZwtSs1oKuSNlacy-Sop4Rt2E_5r5Jbm65fG3RhhuV0kRQr-PLUoBg_FCerAeLz81Y8VyR7JWCczdUUJxbUGg"
+					     alt="">
+					<div class="main">
+						<div class="name">
+							<h2>Debora Durek</h2>
+							<div class="like-dislike">
+								<i class="fas fa-thumbs-up"></i>
+								<i class="fas fa-thumbs-down"></i>
+							</div>
+						</div>
+						<div class="rating">
+							<div class="stars">
+								<i class="fas fa-star"></i>
+								<i class="fas fa-star"></i>
+								<i class="fas fa-star"></i>
+								<i class="fas fa-star"></i>
+								<i class="fas fa-star"></i>
+							</div>
+							<span>30 tháng 9, 2018</span>
+						</div>
+						<p> This course is fantastic! I learned so much so far, and I knew nothing about any
+							programming languages. Thanks Jose!!</p>
+					</div>
+				</div>
+				<div class="review">
+					<img src="https://img-a.udemycdn.com/user/50x50/64820798_6947.jpg?AdlDz-c0Lm73SAv_YyRSccNY8rzFqZ2XjupybeZwtSs1oKuSNlacy-Sop4Rt2E_5r5Jbm65fG3RhhuV0kRQr-PLUoBg_FCerAeLz81Y8VyR7JWCczdUUJxbUGg"
+					     alt="">
+					<div class="main">
+						<div class="name">
+							<h2>Debora Durek</h2>
+							<div class="like-dislike">
+								<i class="fas fa-thumbs-up"></i>
+								<i class="fas fa-thumbs-down"></i>
+							</div>
+						</div>
+						<div class="rating">
+							<div class="stars">
+								<i class="fas fa-star"></i>
+								<i class="fas fa-star"></i>
+								<i class="fas fa-star"></i>
+								<i class="fas fa-star"></i>
+								<i class="fas fa-star"></i>
+							</div>
+							<span>30 tháng 9, 2018</span>
+						</div>
+						<p> This course is fantastic! I learned so much so far, and I knew nothing about any
+							programming languages. Thanks Jose!!</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="buy-info">
+		<img src="https://1.bp.blogspot.com/-Lgl4flwEc1k/XnM-GUJPJ2I/AAAAAAAAALo/BmVVDI8BLuEhTzrGy8Cw0wz2RydH_HEdgCPcBGAYYCw/s1600/IMG_20200318_214527_250.jpg"
+		     alt="">
+		<div>
+			<p class="price">$ {{course.price}}</p>
+			<button class="add-to-cart">Add to cart</button>
+			<button class="buy-now">Buy now</button>
+			<p class="guarantee">30-Day Money-Back Guarantee</p>
+			<p class="include">This course includes:</p>
+			<ul>
+				{{#each course.incentive}}
+				<li>{{this.name}}{{/each}}</li>
+			</ul>
+			<form action="">
+				<label>
+					<input type="text" placeholder="Enter coupon">
+				</label>
+				<input  type="submit" class="coupon-apply-btn" value="Enter"/>
+			</form>
+		</div>
+	</div>
+</div>
