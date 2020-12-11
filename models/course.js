@@ -11,11 +11,11 @@ const Course = sequelize.define('course', {
     discount: DataTypes.INTEGER,
     language: DataTypes.STRING,
     rating: DataTypes.FLOAT,
-    numberOfReview: {
+    numberOfReviews: {
         type: DataTypes.FLOAT,
         field: 'num_review'
     },
-    numOfLecture: {
+    numOfLectures: {
         type: DataTypes.FLOAT,
         field: 'num_lecture'
     },

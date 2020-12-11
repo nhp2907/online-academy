@@ -16,12 +16,12 @@
 					</li>
 					<li class="rating">{{course.rating}}<i class="fas fa-star"></i><i class="fas fa-star"></i><i
 							class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></li>
-					<li>({{course.num_review}} ratings)</li>
-					<li>{{course.num_enroll}} students</li>
+					<li>({{course.numOfReview}} ratings)</li>
+					<li>{{course.numOfStudenttEnroll}} students</li>
 				</ul>
 				<ul>
 					<li>Created by {{course.author}}</li>
-					<li><i class="fab fa-yahoo"></i>Last updated {{course.updated_date}}</li>
+					<li><i class="fab fa-yahoo"></i>Last updated {{course.updatedAt}}</li>
 					<li><i class="fas fa-globe"></i>{{course.language}}</li>
 					<li><i class="fas fa-closed-captioning"></i>
 						{{#each course.caption_language}}{{this.name}}{{/each}}</li>
@@ -195,29 +195,29 @@
 			<h2>Instructor</h2>
 			<div class="instructor-info">
 				<div class="info">
-					<h3 class="name">Joe Portila</h3>
-					<span class="short-description">Head of Data Science, Pierian Data Inc.</span>
+					<h3 class="name">{{course.instructor.name}}</h3>
+					<span class="short-description">{{course.instructor.shortDescription}}</span>
 					<div class="review-info">
-						<img src="https://img-b.udemycdn.com/user/75x75/9685726_67e7_4.jpg?secure=2jlgVQeBH46k_DKJxcxgxQ%3D%3D%2C1607671067"
+						<img src="{{course.instructor.avatar}}"
 						     alt="">
 						<div class="detail-info-area">
 							<div class="detail">
 								<div class="icon">
 									<i class="fas fa-star"></i>
 								</div>
-								<span>4.6 Instructor Rating</span>
+								<span>{{course.instructor.instructorRating}} Instructor Rating</span>
 							</div>
 							<div class="detail">
 								<div class="icon">
 									<i class="fas fa-award"></i>
 								</div>
-								<span>678,073 Reviews</span>
+								<span>{{course.instructor.numberOfReview}} Reviews</span>
 							</div>
 							<div class="detail">
 								<div class="icon">
 									<i class="fas fa-user-friends"></i>
 								</div>
-								<span>2,075,593 Students</span>
+								<span>{{course.instructor.numberOfCourse}} Students</span>
 							</div>
 							<div class="detail">
 								<div class="icon">
@@ -229,14 +229,7 @@
 					</div>
 				</div>
 				<p>
-					&nbsp;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam aspernatur assumenda atque
-					autem beatae cum cumque dolor eius enim est eum facere facilis fugiat id illum impedit ipsa ipsum
-					itaque iusto laborum magni molestiae mollitia necessitatibus nesciunt nisi nulla optio perferendis
-					qui quod reprehenderit saepe sequi sit soluta, tempora veritatis vitae voluptas. A, eaque illum
-					impedit modi mollitia nam nesciunt recusandae tempore. Aliquam animi aperiam asperiores commodi
-					consectetur corporis culpa cupiditate deleniti doloribus earum eligendi et, eveniet explicabo illum
-					labore laboriosam maxime molestiae mollitia, nihil nostrum obcaecati perspiciatis quasi qui
-					recusandae sequi suscipit tempore tenetur vel voluptas voluptates. Molestiae, nihil?
+					&nbsp;{{course.instructor.longDescription}}
 				</p>
 			</div>
 		</div>
@@ -245,7 +238,7 @@
 			<div class="student-feedback">
 				<div class="rating-area">
 					<div class="number-area">
-						<span class="number">4,5</span>
+						<span class="number">{{course.rating}}</span>
 						<div class="rating">
 							<i class="fas fa-star"></i>
 							<i class="fas fa-star"></i>
@@ -255,7 +248,7 @@
 						</div>
 						<div class="total">
 							<i class="fas fa-user"></i>
-							<span>Total 15.233</span>
+							<span>Total {{course.numberOfReview}}</span>
 						</div>
 					</div>
 					<div class="processes">
