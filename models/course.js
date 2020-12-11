@@ -1,17 +1,31 @@
-module.exports = {
-    findAll() {
-        return [];
+const {DataTypes} = require('sequelize');
+const sequelize = require('./db');
+
+const Course = sequelize.define('course', {
+    id: {
+        primaryKey: true,
+        type: DataTypes.INTEGER
     },
-    findById (id) {
-        return [];
-    },
-    findByCategory(category){
-        return [];
-    },
-    findByAuthor(author) {
-        return [];
-    },
-    findByCriteria(criteria){
-        return [];
-    }
-}
+    name: DataTypes.STRING,
+    headline: DataTypes.STRING,
+    image: DataTypes.STRING,
+    concurrency: DataTypes.STRING,
+    price: DataTypes.DOUBLE,
+    discount: DataTypes.INTEGER,
+    language: DataTypes.STRING,
+    rating: DataTypes.FLOAT,
+    numReview: DataTypes.FLOAT,
+    numLecture:  DataTypes.FLOAT,
+    numStudentEnroll: DataTypes.INTEGER,
+    createdDate: DataTypes.DATE,
+    updatedDate: DataTypes.DATE,
+}, {
+    underscored: true,
+    tableName: 'course',
+    timestamps: true,
+    createdAt: 'createdDate',
+    updatedAt: 'updatedDate'
+})
+
+
+module.exports = Course;
