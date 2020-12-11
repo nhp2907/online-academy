@@ -3,7 +3,7 @@ const router = express.Router();
 const Category = require('../models/category')
 const user = {};
 const AuthService = require('../service/auth.service')
-const Course = require("../models/course");
+const Course = require("../service/course.service");
 
 
 router.get('/auth', (req, res) => {
@@ -31,6 +31,7 @@ router.post('/signin', (req, res) => {
     // }
 
 })
+
 router.post('/signup', (req, res) => {
     //     res.render('pages/signin', {
 
@@ -89,15 +90,8 @@ router.get('/', (req, res) => {
 })
 
 /**
- * search
+ * render course view with specific id
  */
-router.get('/courses', (req, res) => {
-    const {category} = req.query;
-    res.render('/courses', {
-        user
-    })
-})
-
 router.get('/courses/:id', (req, res) => {
     const reqId = req.params.id;
     try {
@@ -115,9 +109,9 @@ router.get('/courses/:id', (req, res) => {
  * Search courses by criteria. Criteria could be name, author, category,...
  * return {}
  */
-router.get('/search', (req, res) => {
+router.get('/course', (req, res) => {
     const {criteria} = req.params;
-    res.send(['list of course']);
+    res.send(Course.search(criteria));
 })
 
 
