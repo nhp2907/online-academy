@@ -2,8 +2,9 @@ $marginPercent: 7%;
 $leftSideWidthPercent: 60%;
 .course-detail {
   position: relative;
-
+  display: flex;
   .wrapper {
+    flex: 1;
     .basic-info-wrapper {
       background-color: #212932;
       padding-bottom: 25px;
@@ -107,14 +108,13 @@ $leftSideWidthPercent: 60%;
       width: $leftSideWidthPercent;
 
       .course-content {
-        border-radius: 10px;
-        border: 1px solid gray;
-        background-color: #fcfbfb;
+        border-radius: 5px;
+        border: 1px solid #DCDACB;
 
         .chapter {
           &:first-child .header {
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
           }
 
           //&:last-child .header{
@@ -123,22 +123,58 @@ $leftSideWidthPercent: 60%;
           //}
 
           .header {
-            padding: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #ece8e8;
+            background-color: #FBFBF8;
+            border-bottom: 1px solid #DCDACB;
+            &:last-child {
+              border: none;
+            }
 
             .title {
+              i {
+                padding: 15px
+              }
+              span:last-child {
+
+              }
+            }
+            .time {
+              display:flex;
+              align-items: center;
+              justify-content: space-between;
+              margin-right: 20px;
+              i {
+                font-size: 5px;
+                padding: 5px
+              }
             }
 
           }
 
           .chapter-content {
             margin: 0 10px;
-
             .section {
-              padding: 10px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              .title {
+                display: flex;
+                align-items: center;
+                span {
+                color: #0F7C9E;
+                }
+                i {
+                  font-size: 15px;
+                  padding: 10px;
+                  color: #25a55e;
+                }
+              }
+
+              .time {
+                margin-right: 10px;
+              }
 
             }
           }
