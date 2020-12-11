@@ -1,13 +1,14 @@
 const express = require('express');
 const path = require('path')
-const exphbs = require('express-handlebars')
+const hbs = require('express-handlebars')
 const sassMiddleware = require('node-sass-middleware');
 const bodyParser = require('body-parser')
 require('dotenv').config();
+require('./models/relation-mapping');
 
 const app = express();
 
-app.engine('hbs', exphbs({
+app.engine('hbs', hbs({
     defaultLayout: 'main.hbs',
     extname: '.hbs',
 

@@ -2,7 +2,10 @@ const {DataTypes} = require('sequelize');
 const sequelize = require('./db');
 
 const Course = sequelize.define('course', {
-    int: DataTypes.INTEGER,
+    id: {
+        primaryKey: true,
+        type: DataTypes.INTEGER
+    },
     name: DataTypes.STRING,
     headline: DataTypes.STRING,
     image: DataTypes.STRING,
@@ -11,23 +14,18 @@ const Course = sequelize.define('course', {
     discount: DataTypes.INTEGER,
     language: DataTypes.STRING,
     rating: DataTypes.FLOAT,
-    numberOfReviews: {
-        type: DataTypes.FLOAT,
-        field: 'num_review'
-    },
-    numOfLectures: {
-        type: DataTypes.FLOAT,
-        field: 'num_lecture'
-    },
-    numOfStudentEnroll: {
-        type: DataTypes.INTEGER,
-        field: 'num_student_enroll'
-    }
+    numReview: DataTypes.FLOAT,
+    numLecture:  DataTypes.FLOAT,
+    numStudentEnroll: DataTypes.INTEGER,
+    createdDate: DataTypes.DATE,
+    updatedDate: DataTypes.DATE,
 }, {
+    underscored: true,
     tableName: 'course',
     timestamps: true,
-    createdAt: 'created_date',
-    updatedAt: 'updated_date'
+    createdAt: 'createdDate',
+    updatedAt: 'updatedDate'
 })
+
 
 module.exports = Course;
