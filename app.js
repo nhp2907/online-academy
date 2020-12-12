@@ -4,7 +4,6 @@ const hbs = require('express-handlebars')
 const sassMiddleware = require('node-sass-middleware');
 const bodyParser = require('body-parser')
 const User = require("./models/user");
-const bodyParser = require('body-parser');
 require('dotenv').config();
 require('./models/relation-mapping');
 

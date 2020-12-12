@@ -1,5 +1,8 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('./db');
+const CategoryLink = require("./category-link");
+const Level = require("./level");
+const Advancement = require("./advancement");
 
 const Course = sequelize.define('course', {
     id: {
@@ -11,11 +14,13 @@ const Course = sequelize.define('course', {
     image: DataTypes.STRING,
     concurrency: DataTypes.STRING,
     price: DataTypes.DOUBLE,
+    prePrice: DataTypes.DOUBLE,
     discount: DataTypes.INTEGER,
     language: DataTypes.STRING,
     rating: DataTypes.FLOAT,
     numReview: DataTypes.FLOAT,
     numLecture:  DataTypes.FLOAT,
+    estimateContentLength: DataTypes.STRING,
     numStudentEnroll: DataTypes.INTEGER,
     createdDate: DataTypes.DATE,
     updatedDate: DataTypes.DATE,
@@ -28,13 +33,4 @@ const Course = sequelize.define('course', {
 })
 
 module.exports = Course;
-
-CategoryLink.hasMany(Course, {as: 'courses'});
-Course.belongsTo(CategoryLink, {as: "categoryLink", foreignKey: 'categoryLinkId'});
-
-Level.hasMany(Course, {as: 'courses'});
-Course.belongsTo(Level, {as: "level", foreignKey: "levelId"});
-
-Advancement.hasMany(Course, {as: 'courses'});
-Course.belongsTo(Advancement, {as: "advancement", foreignKey: "advancementId"});
 
