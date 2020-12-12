@@ -1,53 +1,29 @@
 const sequelize = require('./db')
-const {DataTypes} = require('sequelize');
-const User = require('./user');
-const Course = require('./course');
-const Role = require('./role');
+const User = require("./user");
+const {DataTypes} = require('sequelize')
 
-const Instructor = sequelize.define('Instructor', {
+const Instructor = sequelize.define('instructor', {
     id: {
-        type: DataTypes.INTEGER,
         primaryKey: true,
-        notNull: true,
-        references: {
-            model: User,
-            key: 'id'
-        }
-    },
-    rating: {
-        type: DataTypes.FLOAT,
-        field: 'rating'
-    },
-    numReview: {
         type: DataTypes.INTEGER,
-        field: 'num_review'
+        field: 'id',
     },
-    shortDescription: {
-        type: DataTypes.FLOAT,
-        field: 'short_description'
-    },
-    description: {
-        type: DataTypes.FLOAT,
-        field: 'description'
-    },
-    numCourse: {
-        type: DataTypes.FLOAT,
-        field: 'num_course'
-    },
-    contactUrl: {
-        type: DataTypes.FLOAT,
-        field: 'contact_url'
-    },
-    
+    rating: DataTypes.FLOAT,
+    numReview:  DataTypes.INTEGER,
+    shortDescription: DataTypes.STRING,
+    description: DataTypes.STRING,
+    numStudentEnroll: DataTypes.INTEGER,
+    numCourse: DataTypes.INTEGER,
+    createdDate: DataTypes.DATE,
+    updatedDate: DataTypes.DATE
 }, {
     tableName: 'instructor',
+    underscored: true,
     timestamps: true,
-    createdAt: 'created_date',
-    updatedAt: 'updated_date',
+    createdAt: 'createdDate',
+    updatedAt: 'updatedDate'
 })
 
 module.exports = Instructor;
-
 Instructor.hasMany(Course, {as: 'courses'});
 Course.belongsTo(Instructor, {as: "instructor", foreignKey: "instructorId"});
-

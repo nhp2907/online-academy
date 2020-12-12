@@ -34,46 +34,34 @@ const User = sequelize.define('User', {
         field: 'job'
     },
     gender: {
-        type: DataTypes.BOOLEAN,
-        field: 'gender'
+        type: DataTypes.INTEGER
     },
     username: {
-        type: DataTypes.STRING,
-        field: 'username'
+        type: DataTypes.STRING(45)
     },
     password: {
-        type: DataTypes.STRING,
-        field: 'password'
+        type: DataTypes.STRING
     },
     birthday: {
-        type: DataTypes.DATE,
-        field: 'birthday'
+        type: DataTypes.DATE
     },
     street: {
         type: DataTypes.STRING,
         field: 'address_street'
     },
     district: {
-        type: DataTypes.STRING,
-        field: 'district'
+        type: DataTypes.STRING
     },
     city: {
-        type: DataTypes.STRING,
-        field: 'city'
+        type: DataTypes.STRING
     },
     country: {
-        type: DataTypes.STRING,
-        field: 'country'
+        type: DataTypes.STRING
     },
     roleId: {
         type: DataTypes.INTEGER,
         field: 'role_id',
-        defaultValue: 1,
-        notNull: true,
-        references: {
-            model: Role,
-            key: 'id'
-        }
+        defaultValue: 3,
     }
 }, {
     tableName: 'user',
