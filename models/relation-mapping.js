@@ -30,4 +30,4 @@ Advancement.hasMany(Course, {as: 'courses'});
 Course.belongsTo(Advancement, {as: "advancement", foreignKey: "advancementId"});
 
 Instructor.hasMany(Course, {as: 'courses'});
-Course.belongsTo(Instructor, {as: "instructor", foreignKey: "instructorId"});
+// Course.belongsTo(Instructor, {as: "instructor", foreignKey: "instructorId"});
