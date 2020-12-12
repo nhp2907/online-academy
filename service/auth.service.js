@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
-const UserService = require("./user..service");
+const UserService = require("./user.service");
 
 /**
  * Verify authentication middleware

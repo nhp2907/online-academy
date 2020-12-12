@@ -62,7 +62,7 @@ router.get('/courses', (req, res) => {
 router.get('/courses/:id', (req, res) => {
     const reqId = req.params.id;
     try{
-        const course = Course.findById(reqId);
+        const course = CourseService.findById(reqId);
         res.render('pages/course-detail',{
             css: ['course-detail'],
             course,
