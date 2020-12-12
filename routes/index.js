@@ -1,9 +1,8 @@
 const express = require('express')
 const router = express.Router();
-const Category = require('../models/category')
 const user = {};
-const AuthService = require('../service/auth.service')
-
+const { getAllCategories, getMostEnrollCategories } = require('../service/category.service');
+const { getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses } = require('../service/course.service');
 
 router.get('/auth', (req, res) => {
     res.render('pages/auth', {
@@ -36,14 +35,18 @@ router.post('/signup', (req, res) => {
     //   })
 })
 
-router.get('/', (req, res) => {
 
-    console.log('user in locals', res.locals.user);
+router.get('/', async (req, res) => {
+
     res.render('pages/home', {
-        css: ['home', 'category'],
-        user: res.locals.user,
-        category: Category.findAll(),
-    })
+        css: ['home', 'star-rating-svg'],
+        user: null,
+        categories: await getAllCategories(),
+        topEnrollCategories: await getMostEnrollCategories(),
+        topCoursesInWeek: await getTopCoursesInWeek(),
+        newestCourses: await getNewestCourses(),
+        mostEnrollCourses: await getMostEnrollCourses()
+    });
 })
 
 /**

@@ -3,11 +3,10 @@ const path = require('path')
 const exphbs = require('express-handlebars')
 const sassMiddleware = require('node-sass-middleware');
 const User = require("./models/user");
-const {cc} = require('./service/auth.service')
+const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const app = express();
-
 app.engine('hbs', exphbs({
     defaultLayout: 'main.hbs',
     extname: '.hbs',

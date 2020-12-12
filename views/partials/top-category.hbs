@@ -1,0 +1,31 @@
+<section class="top-category" id="top-category">
+    <p>Category &nbsp;<i class="fas fa-chevron-down"></i></p>
+    <div class="category-content">
+        {{#each this.categories}}
+            <div class="category-item">
+                <a href="#" class="ok"><i class="{{this.logo}}"></i>{{this.name}}</a>
+                <div class="sub-category-content">
+                    {{#each this.subCategories}}
+                        <a href="#"><i class="fas fa-long-arrow-alt-right"></i>{{this.name}}</a>
+                    {{/each}}
+                </div>
+            </div>
+        {{/each}}
+	</div>
+    <script>
+        $(document).ready(function () {  
+			var top = $('#top-category').offset().top;
+			$(window).scroll(function (event) {
+				var y = $(this).scrollTop();
+				if (y >= top){
+                    $('#top-category').addClass('sticky');
+                    console.log("OK");
+                }
+				else{
+                    $('#top-category').removeClass('sticky');
+				    $('#top-category').width($('#top-category').parent().width());
+                }
+			});
+		});
+    </script>
+</section>

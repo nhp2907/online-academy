@@ -1,5 +1,7 @@
 const sequelize = require('./db')
-const {DataTypes} = require('sequelize')
+const {DataTypes} = require('sequelize');
+const Role = require('./role');
+const Instructor = require('./instructor');
 
 const User = sequelize.define('User', {
     id: {
@@ -32,34 +34,46 @@ const User = sequelize.define('User', {
         field: 'job'
     },
     gender: {
-        type: DataTypes.INTEGER
+        type: DataTypes.BOOLEAN,
+        field: 'gender'
     },
     username: {
-        type: DataTypes.STRING(45)
+        type: DataTypes.STRING,
+        field: 'username'
     },
     password: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        field: 'password'
     },
     birthday: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        field: 'birthday'
     },
     street: {
         type: DataTypes.STRING,
         field: 'address_street'
     },
     district: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        field: 'district'
     },
     city: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        field: 'city'
     },
     country: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        field: 'country'
     },
     roleId: {
         type: DataTypes.INTEGER,
         field: 'role_id',
-        defaultValue: 3,
+        defaultValue: 1,
+        notNull: true,
+        references: {
+            model: Role,
+            key: 'id'
+        }
     }
 }, {
     tableName: 'user',
@@ -69,3 +83,9 @@ const User = sequelize.define('User', {
 })
 
 module.exports = User;
+
+Role.hasMany(User, {as: 'users'});
+User.belongsTo(Role, {as: "role", foreignKey: "roleId"});
+
+User.hasOne(Instructor, {as: 'instructor'});
+Instructor.belongsTo(User, {as: 'user', foreignKey: 'id'});

@@ -1,8 +1,143 @@
-<div class="container">
+<div class="main">
 	<div class="category">
-		category here
+		<div class="category-content" id="category-content">
+			<div class="category-item">
+				<a href="#"><i class="fab fa-buffer"></i>Category</a>
+			</div>
+			{{#each this.categories}}
+				<div class="category-item">
+					<a href="#" class="ok"><i class="{{this.logo}}"></i>{{this.name}}</a>
+					<div class="sub-category-content" id="sub-category-content">
+						{{#each this.subCategories}}
+							<a href="#"><i class="fas fa-long-arrow-alt-right"></i>{{this.name}}</a>
+						{{/each}}
+					</div>
+				</div>
+			{{/each}}
+		</div>
+		<div class="slide-show-content">
+			<img src="https://static-resize2.edumall.vn/540x540/button/image/540x540_giam50K_1.jpg" alt="">
+		</div>
+		<div class="ads-img-content">
+			<img src="https://static-resize2.edumall.vn/255x160/button/image/435x279_kd189.jpg" alt="">
+			<img src="https://static-resize2.edumall.vn/255x160/button/image/435x279_kd189.jpg" alt="">
+			<img src="https://static-resize2.edumall.vn/255x160/button/image/2110_435x279_2.jpg" alt="">
+			<img src="https://static-resize2.edumall.vn/255x160/button/image/2110_435x279_2.jpg" alt="">
+			<img src="https://static-resize2.edumall.vn/255x160/button/image/Frame-10.jpg" alt="">
+			<img src="https://static-resize2.edumall.vn/255x160/button/image/Frame-10.jpg" alt="">
+		</div>
 	</div>
-	<div class="content">
-		homepage content here
+
+	<div class="topic-recommend">
+		<p>Topics recommended for you</p>
+		<div class="topic-recommend-content">
+			{{#each this.topEnrollCategories}}
+				<div class="topic-recommend-item">
+					<a href="#">{{this.name}}</a>
+				</div>
+			{{/each}}
+		</div>
 	</div>
+	<div class="basic-course">
+		<a href="#" style="color:#A541B5">Top Courses This Week</a>
+		<div class="basic-content">
+			{{#each this.topCoursesInWeek}}
+				<a href="#"><div class="basic-item">
+					<img class="course-img" src={{this.image}} alt={{this.name}}>
+					<p>{{this.name}}</p>
+					<p>{{this.instructor.user.firstName}} {{this.instructor.user.lastName}}</p>
+					<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}})</span></p>
+					<p><span>$ {{this.price}}</span><span>$ {{this.prePrice}}</span></p>
+					<p><span class="advancement">{{this.advancement.description}}</span></p>
+					<script>
+						$(".star-rating").starRating({
+							initialRating: {{this.rating}},
+							strokeColor: '#EB8A2F',
+							strokeWidth: 10,
+							starSize: 15,
+							readOnly: true
+						});
+					</script>
+				</div></a>
+			{{/each}}
+		</div>
+	</div>
+	<div class="basic-course">
+		<a href="#" style="color:#A92107">Newest Courses</a>
+		<div class="basic-content">
+			{{#each this.newestCourses}}
+				<a href="#"><div class="basic-item">
+					<img class="course-img" src={{this.image}} alt={{this.name}}>
+					<p>{{this.name}}</p>
+					<p><span>{{this.instructor.user.firstName}} {{this.instructor.user.lastName}}</span></p>
+					<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}})</span></p>
+					<p><span>$ {{this.price}}</span><span>$ {{this.prePrice}}</span></p>
+					<p><span class="advancement">{{this.advancement.description}}</span></p>
+					<script>
+						$(".star-rating").starRating({
+							initialRating: {{this.rating}},
+							strokeColor: '#EB8A2F',
+							strokeWidth: 10,
+							starSize: 15,
+							readOnly: true
+						});
+					</script>
+				</div></a>
+			{{/each}}
+		</div>
+	</div>
+	<div class="basic-course">
+		<a href="#" class="headline" style="color: #45D7FF">Most Enroll Courses</a>
+		<div class="basic-content">
+			{{#each this.mostEnrollCourses}}
+				<a href="#"><div class="basic-item">
+					<img class="course-img" src={{this.image}} alt={{this.name}}>
+					<p>{{this.name}}</p>
+					<p><span>{{this.instructor.user.firstName}} {{this.instructor.user.lastName}}</span></p>
+					<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}})</span></p>
+					<p><span>$ {{this.price}}</span><span>$ {{this.prePrice}}</span></p>
+					<p><span class="advancement">{{this.advancement.description}}</span></p>
+					<script>
+						$(".star-rating").starRating({
+							initialRating: {{this.rating}},
+							strokeColor: '#EB8A2F',
+							strokeWidth: 10,
+							starSize: 15,
+							readOnly: true
+						});
+					</script>
+				</div></a>
+			{{/each}}
+		</div>
+	</div>
+	<script>
+		var categoryHeight = $('#category-content').height() * 90 / 100;
+		$('.sub-category-content').height(categoryHeight);
+		var categoryWidth = $('#category-content').width();
+		$('.category-content').width(categoryWidth);
+		$(document).ready(function(){
+			var courseTypes = $('.advancement').toArray().map(function(i){ return i.innerText });
+			var i = 0;
+			courseTypes.map(courseType => {
+				var temp = courseType;
+				if(temp == "BestSeller"){
+					$(".advancement:eq(" + i + ")").css("background-color","#FFE799");
+				}
+				else if(temp == "Hot & New"){
+					$(".advancement:eq(" + i + ")").css("background-color","#FF9999");
+				}
+				else if(temp == "Highest Rated"){
+					$(".advancement:eq(" + i + ")").css("background-color","#FFC48C");
+				}
+				else if(temp == "New"){
+					$(".advancement:eq(" + i + ")").css("background-color","#99DBAA");
+				}
+				else if(temp == "Best Choice"){
+					$(".advancement:eq(" + i + ")").css("background-color","#17BCCF");
+				}
+				i++;
+			})
+		});
+
+	</script>
 </div>

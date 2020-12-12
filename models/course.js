@@ -1,39 +1,120 @@
-module.exports = {
-    findAll() {
-        return [];
+const sequelize = require('./db')
+const {DataTypes} = require('sequelize');
+const CategoryLink = require('./category-link');
+const Level = require('./level');
+const Advancement = require('./advancement');
+const Instructor = require('./instructor');
+
+const Course = sequelize.define('Course', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        notNull: true,
     },
-    findById (id) {
-        return {
-            name: "Machine Learning A-Z™: Hands-On Python & R In Data Science",
-            headline: "Learn to create Machine Learning Algorithms in Python and R from two Data Science experts. Code templates included.",
-            rating: "4.5",
-            num_review: "136,222",
-            num_enroll: "720,144",
-            author: " Kiril Elemenko",
-            updated_date: "1/1/2020",
-            language: "English",
-            caption_language:[
-                {id: "1", name: "English"},
-                {id: "2", name: "France"}
-            ],
-            price: "129.99",
-            incentive:[
-                {id: "1", name: "44 hours on-demand video"},
-                {id: "2", name: "75 articles"},
-                {id: "3", name: "38 downloadable resources"},
-                {id: "4", name: "Full lifetime access"},
-                {id: "5", name: "Access on mobile and TV"},
-                {id: "6", name: "Certificate of completion"}
-            ]
-        };
+    name: {
+        type: DataTypes.STRING,
+        field: 'name'
     },
-    findByCategory(category){
-        return [];
+    headline: {
+        type: DataTypes.STRING,
+        field: 'headline'
     },
-    findByAuthor(author) {
-        return [];
+    image: {
+        type: DataTypes.STRING,
+        field: 'image'
     },
-    findByCriteria(criteria){
-        return [];
-    }
-}
+    concurrency: {
+        type: DataTypes.STRING,
+        field: 'concurrency'
+    },
+    price: {
+        type: DataTypes.FLOAT,
+        field: 'price'
+    },
+    discount: {
+        type: DataTypes.INTEGER,
+        field: 'discount'
+    },
+    prePrice: {
+        type: DataTypes.FLOAT,
+        field: 'pre_price'
+    },
+    language: {
+        type: DataTypes.STRING,
+        field: 'language'
+    },
+    rating: {
+        type: DataTypes.FLOAT,
+        field: 'rating'
+    },
+    numReview: {
+        type: DataTypes.INTEGER,
+        field: 'num_review'
+    },
+    numLecture: {
+        type: DataTypes.INTEGER,
+        field: 'num_lecture'
+    },
+    estimateContentLength: {
+        type: DataTypes.INTEGER,
+        field: 'estimate_content_length'
+    },
+    numStudentEnroll: {
+        type: DataTypes.STRING,
+        field: 'num_student_enroll'
+    },
+    categoryLinkId: {
+        type: DataTypes.INTEGER,
+        field: 'category_link_id',
+        notNull: true,
+        references: {
+            model: CategoryLink,
+            key: 'id'
+        }
+    },
+    levelId: {
+        type: DataTypes.INTEGER,
+        field: 'level_id',
+        notNull: true,
+        references: {
+            model: Level,
+            key: 'id'
+        }
+    },
+    advancementId: {
+        type: DataTypes.INTEGER,
+        field: 'advancement_id',
+        notNull: true,
+        references: {
+            model: Advancement,
+            key: 'id'
+        }
+    },
+    instructorId: {
+        type: DataTypes.INTEGER,
+        field: 'instructor_id',
+        notNull: true,
+        references: {
+            model: Instructor,
+            key: 'id'
+        }
+    },
+}, {
+    tableName: 'course',
+    timestamps: true,
+    createdAt: 'created_date',
+    updatedAt: 'updated_date',
+})
+
+module.exports = Course;
+
+CategoryLink.hasMany(Course, {as: 'courses'});
+Course.belongsTo(CategoryLink, {as: "categoryLink", foreignKey: 'categoryLinkId'});
+
+Level.hasMany(Course, {as: 'courses'});
+Course.belongsTo(Level, {as: "level", foreignKey: "levelId"});
+
+Advancement.hasMany(Course, {as: 'courses'});
+Course.belongsTo(Advancement, {as: "advancement", foreignKey: "advancementId"});
+
