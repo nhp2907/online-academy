@@ -16,15 +16,14 @@
 					</li>
 					<li class="rating">{{course.rating}}<i class="fas fa-star"></i><i class="fas fa-star"></i><i
 							class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></li>
-					<li>({{course.numOfReview}} ratings)</li>
-					<li>{{course.numOfStudenttEnroll}} students</li>
+					<li>({{course.numReview}} ratings)</li>
+					<li>{{course.numStudentEnroll}} students</li>
 				</ul>
+				<span>Created by <a id="instructorLink" href="">{{course.instructor.basicInfo.firstName}} {{course.instructor.basicInfo.lastName}}</a></span>
+
 				<ul>
-					<li>Created by {{course.author}}</li>
-					<li><i class="fab fa-yahoo"></i>Last updated {{course.updatedAt}}</li>
+					<li><i class="fab fa-yahoo"></i>Last updated {{course.updatedDate}}</li>
 					<li><i class="fas fa-globe"></i>{{course.language}}</li>
-					<li><i class="fas fa-closed-captioning"></i>
-						{{#each course.caption_language}}{{this.name}}{{/each}}</li>
 				</ul>
 				<ul>
 					<li>
@@ -195,7 +194,7 @@
 			<h2>Instructor</h2>
 			<div class="instructor-info">
 				<div class="info">
-					<h3 class="name">{{course.instructor.name}}</h3>
+					<h3 class="name">{{course.instructor.basicInfo.firstName}} {{course.instructor.basicInfo.lastName}}</h3>
 					<span class="short-description">{{course.instructor.shortDescription}}</span>
 					<div class="review-info">
 						<img src="{{course.instructor.avatar}}"
@@ -205,19 +204,19 @@
 								<div class="icon">
 									<i class="fas fa-star"></i>
 								</div>
-								<span>{{course.instructor.instructorRating}} Instructor Rating</span>
+								<span>{{course.instructor.rating}} Instructor Rating</span>
 							</div>
 							<div class="detail">
 								<div class="icon">
 									<i class="fas fa-award"></i>
 								</div>
-								<span>{{course.instructor.numberOfReview}} Reviews</span>
+								<span>{{course.instructor.numReview}} Reviews</span>
 							</div>
 							<div class="detail">
 								<div class="icon">
 									<i class="fas fa-user-friends"></i>
 								</div>
-								<span>{{course.instructor.numberOfCourse}} Students</span>
+								<span>{{course.instructor.numStudentEnroll}} Students</span>
 							</div>
 							<div class="detail">
 								<div class="icon">
@@ -229,7 +228,7 @@
 					</div>
 				</div>
 				<p>
-					&nbsp;{{course.instructor.longDescription}}
+					&nbsp;{{course.instructor.description}}
 				</p>
 			</div>
 		</div>
@@ -248,7 +247,7 @@
 						</div>
 						<div class="total">
 							<i class="fas fa-user"></i>
-							<span>Total {{course.numberOfReview}}</span>
+							<span>Total {{course.numReview}}</span>
 						</div>
 					</div>
 					<div class="processes">

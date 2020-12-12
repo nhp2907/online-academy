@@ -27,6 +27,8 @@
           font-size: 35px;
           font-weight: bold;
           line-height: 40px; }
+        .course-detail .wrapper .basic-info-wrapper .basic-info #instructorLink {
+          color: #64b8ac; }
         .course-detail .wrapper .basic-info-wrapper .basic-info ul {
           display: flex;
           align-items: center;
@@ -201,7 +203,7 @@
                   display: flex;
                   justify-content: center;
                   align-items: center;
-                  margin-right: 40px; }
+                  margin-right: 20px; }
                   .course-detail .wrapper .instructor-info-wrapper .instructor-info .info .review-info .detail-info-area .detail .icon i {
                     margin: auto;
                     color: orange; }

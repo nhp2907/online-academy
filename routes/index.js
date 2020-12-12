@@ -4,6 +4,7 @@ const Category = require('../models/category')
 const user = {};
 const AuthService = require('../service/auth.service')
 const Course = require("../service/course.service");
+const CourseService = require("../service/course.service");
 
 
 router.get('/auth', (req, res) => {
@@ -92,10 +93,11 @@ router.get('/', (req, res) => {
 /**
  * render course view with specific id
  */
-router.get('/courses/:id', (req, res) => {
-    const reqId = req.params.id;
+router.get('/courses/:id', async (req, res) => {
+    const reqId = 1;
     try {
-        const course = Course.findById(reqId);
+        const course = await CourseService.findById(reqId);
+        console.log(course);
         res.render('pages/course-detail', {
             css: ['course-detail'],
             course,
