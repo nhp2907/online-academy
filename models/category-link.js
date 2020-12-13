@@ -43,7 +43,4 @@ const CategoryLink = sequelize.define('CategoryLink', {
 
 module.exports = CategoryLink;
 
-SubCategory.belongsToMany(Category, { through: CategoryLink, as: 'categories', foreignKey: 'subCategoryId', otherKey: 'categoryId' });
-Category.belongsToMany(SubCategory, { through: CategoryLink, as: 'subCategories', foreignKey: 'categoryId', otherKey: 'subCategoryId'});
-
 

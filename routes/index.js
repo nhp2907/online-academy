@@ -15,6 +15,7 @@ router.get('/auth', (req, res) => {
         css: ['auth']
     })
 })
+
 router.post('/signin', (req, res) => {
     console.log("--------------");
     console.log('request.body', req.body);
@@ -41,9 +42,7 @@ router.post('/signup', (req, res) => {
     //   })
 })
 
-
 router.get('/', async (req, res) => {
-
     res.render('pages/home', {
         css: ['home', 'star-rating-svg'],
         user: null,
@@ -65,11 +64,6 @@ router.get('/courses', (req, res) => {
     })
 })
 
-router.get('/courses/:id', (req, res) => {
-    const reqId = req.params.id;
-    try{
-        const course = CourseService.findById(reqId);
-        res.render('pages/course-detail',{
 router.get('/courses/:id', async (req, res) => {
     const reqId = 1;
     try {
