@@ -1,9 +1,12 @@
 nav {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
   display: grid;
   grid-template-columns: 15% 55% 30%;
   align-items: center;
   justify-content: flex-start;
-  height: auto;
   background: #333d49;
   //position: fixed;
   //top: 0;

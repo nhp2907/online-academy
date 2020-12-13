@@ -1,8 +1,13 @@
 const express = require('express')
 const router = express.Router();
+const Category = require('../models/category')
 const user = {};
 const { getAllCategories, getMostEnrollCategories } = require('../service/category.service');
 const { getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses } = require('../service/course.service');
+const AuthService = require('../service/auth.service')
+const Course = require("../service/course.service");
+const CourseService = require("../service/course.service");
+
 
 router.get('/auth', (req, res) => {
     res.render('pages/auth', {
@@ -29,6 +34,7 @@ router.post('/signin', (req, res) => {
     // }
 
 })
+
 router.post('/signup', (req, res) => {
     //     res.render('pages/signin', {
 
@@ -50,7 +56,7 @@ router.get('/', async (req, res) => {
 })
 
 /**
- * search
+ * render course view with specific id
  */
 router.get('/courses', (req, res) => {
     const { category } = req.query;
@@ -64,13 +70,19 @@ router.get('/courses/:id', (req, res) => {
     try{
         const course = CourseService.findById(reqId);
         res.render('pages/course-detail',{
+router.get('/courses/:id', async (req, res) => {
+    const reqId = 1;
+    try {
+        const course = await CourseService.findById(reqId);
+        console.log(course);
+        res.render('pages/course-detail', {
             css: ['course-detail'],
             course,
         })
-    }catch(error){
-        console.log(res.console.error())
+    } catch (error) {
+        console.log(error)
     }
-})
+});
 
 /**
  * Search courses by criteria. Criteria could be name, author, category,...
@@ -79,6 +91,7 @@ router.get('/courses/:id', (req, res) => {
 router.get('/search', (req, res) => {
     const { criteria } = req.params;
     res.send(['list of course']);
-})
+});
+
 
 module.exports = router;
