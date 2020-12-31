@@ -33,10 +33,11 @@ const CategoryLink = sequelize.define('CategoryLink', {
             model: SubCategory,
             key: 'id'
         }
-    },
+    }
 }, {
     tableName: 'category_link',
     timestamps: true,
+    underscored: true,
     createdAt: 'created_date',
     updatedAt: 'updated_date',
 });

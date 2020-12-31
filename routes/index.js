@@ -2,12 +2,12 @@ const express = require('express')
 const router = express.Router();
 const Category = require('../models/category')
 const user = {};
-const { getAllCategories, getMostEnrollCategories } = require('../service/category.service');
-const { getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses } = require('../service/course.service');
+const { getAllCategories, getMostEnrollCategories, getPopularSubCategoriesByCategory, getSubCategoriesByCategory } = require('../service/category.service');
+const { getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses, getCategoryCourses, getPopularCategoryCourses} = require('../service/course.service');
 const AuthService = require('../service/auth.service')
 const Course = require("../service/course.service");
 const CourseService = require("../service/course.service");
-
+const { getAllInstructor } = require('../service/user.service');
 
 router.get('/auth', (req, res) => {
     res.render('pages/auth', {
@@ -44,15 +44,96 @@ router.post('/signup', (req, res) => {
 
 router.get('/', async (req, res) => {
     res.render('pages/home', {
-        css: ['home', 'star-rating-svg'],
+        css: ['home', 'star-rating-svg','slick','slick-theme'],
         user: null,
         categories: await getAllCategories(),
         topEnrollCategories: await getMostEnrollCategories(),
         topCoursesInWeek: await getTopCoursesInWeek(),
         newestCourses: await getNewestCourses(),
-        mostEnrollCourses: await getMostEnrollCourses()
+        mostEnrollCourses: await getMostEnrollCourses(),
+        instructors: await getAllInstructor()
     });
 })
+
+function setFilter(requestPage, requestRating, requestDuration, requestPrice, requestLevel, requestOrder, requestTopic){
+
+    const page = requestPage !== undefined ? requestPage : 1;
+    const rating = requestRating !== undefined ? requestRating : 3.0;
+    const order = requestOrder !== undefined ? requestOrder : 'top-enrolled';
+    const topic = requestTopic !== undefined ? requestTopic.replace(/\-/g, ' ').replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()) : '';
+
+    const duration = [];
+    if(requestDuration === undefined){
+        duration[0] = 0;
+        duration[1] = 999;
+    }else{
+        const durationArray = []
+        if(requestDuration.includes('short')) { 
+            durationArray.push(0);
+            durationArray.push(10);
+        }
+        if(requestDuration.includes('medium')) {
+            durationArray.push(10);
+            durationArray.push(20);
+        }
+        if(requestDuration.includes('long')) {
+            durationArray.push(20);
+            durationArray.push(30);
+        }
+        if(requestDuration.includes('extra')) {
+            durationArray.push(30);
+            durationArray.push(999);
+        }
+        durationArray.sort((a, b) => a - b);
+        duration[0] = durationArray[0];
+        duration[1] = durationArray[durationArray.length - 1];
+    }
+
+    const price = [];
+    if(requestPrice === undefined){
+        price[0] = 0;
+        price[1] = 999;
+    }else{
+        if(requestPrice.includes("free")) { 
+            price[0] = 0;
+            price[1] = 0;
+        }else{
+            price1[0] = 1;
+            price1[1] = 999;
+        }
+    }
+    var level = [];
+    if(requestLevel === undefined){
+       level = [...[1,2,3,4]];
+    }else{
+        if(requestLevel.includes("beginner"))
+            level.push(1);
+        if(requestLevel.includes("intermediate"))
+            level.push(2);
+        if(requestLevel.includes("expert"))
+            level.push(3);
+        if(requestLevel.includes("all-levels"))
+            level.push(4);
+    }
+    return {page, rating, duration, price, level, order, topic}
+}
+
+router.get('/collection/*/', async (req, res) => {
+
+    const {page, rating, duration, price, level, order, topic} = setFilter(req.query.page, req.query.rating, req.query.duration, req.query.price, req.query.level, req.query.order, req.query.topic);
+
+    const {pageCount: {totalItems, totalPages, currentPage}, categorycourses: categoryCourses} = await getCategoryCourses(req.query.id, page, size = 5, duration, rating, level, price, order, topic);
+
+    res.render('pages/category-detail', {
+        css: ['category-detail', 'star-rating-svg'],
+        user: null,
+        categories: await getAllCategories(),
+        totalItems, totalPages, currentPage, categoryCourses,
+        popularCategoryCourses: await getPopularCategoryCourses(req.query.id),
+        popularSubCategories: await getPopularSubCategoriesByCategory(req.query.id),
+        subcategoriesByCategory: await getSubCategoriesByCategory(req.query.id)
+    });
+});
 
 /**
  * render course view with specific id

@@ -17,6 +17,10 @@ const Category = sequelize.define('Category', {
     logo: {
         type: DataTypes.STRING,
         field: 'logo'
+    },
+    image: {
+        type: DataTypes.STRING,
+        field: 'image'
     }
 }, {
     tableName: 'category',

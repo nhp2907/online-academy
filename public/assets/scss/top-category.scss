@@ -3,20 +3,8 @@
     padding: 10px 10%;
     position: relative;
     font-size: 15px;
-    //margin-top: 50px;
-    //margin-bottom: 100px;
-    //visibility: hidden;
     display: inline-block;
-   // position: fixed;
-   // top: 8%;
-    //width: 100%;
-    //overflow: hidden;
-    //z-index: 1;
-    .sticky {
-        position:fixed;
-        top:0;
-        z-index:99999;
-    }
+    border-top: 1px solid white;
     a{
         display: block;
         color: black;
