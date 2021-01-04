@@ -234,7 +234,7 @@
             .course-detail .wrapper .student-feedback-wrapper .student-feedback .rating-area .number-area .total i {
               color: black; }
           .course-detail .wrapper .student-feedback-wrapper .student-feedback .rating-area .processes {
-            width: 350px; }
+            width: 450px; }
             .course-detail .wrapper .student-feedback-wrapper .student-feedback .rating-area .processes .process {
               display: flex;
               align-items: center;
@@ -243,7 +243,6 @@
                 margin-right: 10px; }
               .course-detail .wrapper .student-feedback-wrapper .student-feedback .rating-area .processes .process .bar {
                 height: 15px;
-                width: 60%;
                 background-color: darkorange; }
     .course-detail .wrapper .review-wrapper {
       margin-left: 7%;
@@ -261,23 +260,22 @@
             height: 40px;
             border-radius: 50%;
             margin-right: 20px; }
-          .course-detail .wrapper .review-wrapper .reviews .review .main .name {
-            display: flex;
-            justify-content: space-between;
-            align-items: center; }
-            .course-detail .wrapper .review-wrapper .reviews .review .main .name h2 {
-              font-size: 20px; }
-            .course-detail .wrapper .review-wrapper .reviews .review .main .name .like-dislike i {
-              padding: 5px;
-              color: gray; }
-          .course-detail .wrapper .review-wrapper .reviews .review .main .rating {
-            display: flex;
-            justify-content: flex-start;
-            margin: 10px 0; }
-            .course-detail .wrapper .review-wrapper .reviews .review .main .rating .stars {
-              margin-right: 20px; }
-              .course-detail .wrapper .review-wrapper .reviews .review .main .rating .stars i {
-                color: orange; }
+          .course-detail .wrapper .review-wrapper .reviews .review .main {
+            flex: 1; }
+            .course-detail .wrapper .review-wrapper .reviews .review .main .name {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              width: 100%; }
+              .course-detail .wrapper .review-wrapper .reviews .review .main .name h2 {
+                font-size: 20px; }
+              .course-detail .wrapper .review-wrapper .reviews .review .main .name .like-dislike i {
+                padding: 5px;
+                color: gray; }
+            .course-detail .wrapper .review-wrapper .reviews .review .main .rating {
+              display: flex;
+              justify-content: flex-start;
+              margin: 10px 0; }
   .course-detail .buy-info {
     position: fixed;
     top: 80px;

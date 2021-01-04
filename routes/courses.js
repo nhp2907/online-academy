@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const router = express.Router();
 const Category = require('../models/category')
 const Course = require('../models/course')
 const user = {};

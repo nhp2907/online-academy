@@ -19,7 +19,8 @@
 					<li>({{course.numReview}} ratings)</li>
 					<li>{{course.numStudentEnroll}} students</li>
 				</ul>
-				<span>Created by <a id="instructorLink" href="">{{course.instructor.basicInfo.firstName}} {{course.instructor.basicInfo.lastName}}</a></span>
+				<span>Created by <a id="instructorLink"
+				                    href="">{{course.instructor.basicInfo.firstName}} {{course.instructor.basicInfo.lastName}}</a></span>
 
 				<ul>
 					<li><i class="fab fa-yahoo"></i>Last updated {{course.updatedDate}}</li>
@@ -99,7 +100,7 @@
 			</div>
 		</div>
 		<div class="frequently-bought-wrapper">
-			<h2>Student also bought</h2>
+			<h2>Related courses</h2>
 			<div class="frequently-bought">
 				<div class="course">
 					<img src="https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:705/https://www.filepicker.io/api/file/S5atf80QTb2tZOScHsiW"
@@ -189,6 +190,13 @@
 					</div>
 				</div>
 			</div>
+			<script>
+				$('.frequently-bought').load(() => {
+				    $.ajax('', {
+
+				    })
+				})
+			</script>
 		</div>
 		<div class="instructor-info-wrapper">
 			<h2>Instructor</h2>
@@ -197,8 +205,8 @@
 					<h3 class="name">{{course.instructor.basicInfo.firstName}} {{course.instructor.basicInfo.lastName}}</h3>
 					<span class="short-description">{{course.instructor.shortDescription}}</span>
 					<div class="review-info">
-						<img src="{{course.instructor.avatar}}"
-						     alt="">
+						<img src="../../{{course.instructor.basicInfo.image}}"
+						     alt="{{course.instructor.basicInfo.firstName}}">
 						<div class="detail-info-area">
 							<div class="detail">
 								<div class="icon">
@@ -253,31 +261,31 @@
 					<div class="processes">
 						<div class="process">
 							<span>5</span>
-							<div class="bar">
+							<div class="bar bar-5">
 
 							</div>
 						</div>
 						<div class="process">
 							<span>4</span>
-							<div class="bar">
+							<div class="bar bar-4">
 
 							</div>
 						</div>
 						<div class="process">
 							<span>3</span>
-							<div class="bar">
+							<div class="bar bar-3">
 
 							</div>
 						</div>
 						<div class="process">
 							<span>2</span>
-							<div class="bar">
+							<div class="bar bar-2">
 
 							</div>
 						</div>
 						<div class="process">
 							<span>1</span>
-							<div class="bar">
+							<div class="bar bar-1">
 
 							</div>
 						</div>
@@ -292,56 +300,38 @@
 			<h2>Reviews</h2>
 			<div class="reviews">
 				<div class="search-area"></div>
-				<div class="review">
-					<img src="https://img-a.udemycdn.com/user/50x50/64820798_6947.jpg?AdlDz-c0Lm73SAv_YyRSccNY8rzFqZ2XjupybeZwtSs1oKuSNlacy-Sop4Rt2E_5r5Jbm65fG3RhhuV0kRQr-PLUoBg_FCerAeLz81Y8VyR7JWCczdUUJxbUGg"
-					     alt="">
-					<div class="main">
-						<div class="name">
-							<h2>Debora Durek</h2>
-							<div class="like-dislike">
-								<i class="fas fa-thumbs-up"></i>
-								<i class="fas fa-thumbs-down"></i>
+				{{#each course.reviews}}
+					<div class="review">
+						<img src="../../{{this.user.image}}"
+						     alt="{{this.user.firstName}}">
+						<div class="main">
+							<div class="name">
+								<h2>{{this.user.firstName}} {{this.user.lastName}}</h2>
+								<div class="like-dislike">
+									<i class="fas fa-thumbs-up"></i>
+									<i class="fas fa-thumbs-down"></i>
+								</div>
 							</div>
-						</div>
-						<div class="rating">
-							<div class="stars">
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
+							<div class="rating">
+								<p>
+									<span class="star-rating"></span>
+								</p>
+								<script>
+									$(".star-rating").starRating({
+										initialRating: 4.0,
+										strokeColor: '#ff7c00',
+										strokeWidth: 10,
+										starSize: 15,
+										readOnly: true
+									});
+								</script>
+								<span>{{this.createdDate}}</span>
 							</div>
-							<span>30 tháng 9, 2018</span>
+							<p>{{this.content}}</p>
 						</div>
-						<p> This course is fantastic! I learned so much so far, and I knew nothing about any
-							programming languages. Thanks Jose!!</p>
 					</div>
-				</div>
-				<div class="review">
-					<img src="https://img-a.udemycdn.com/user/50x50/64820798_6947.jpg?AdlDz-c0Lm73SAv_YyRSccNY8rzFqZ2XjupybeZwtSs1oKuSNlacy-Sop4Rt2E_5r5Jbm65fG3RhhuV0kRQr-PLUoBg_FCerAeLz81Y8VyR7JWCczdUUJxbUGg"
-					     alt="">
-					<div class="main">
-						<div class="name">
-							<h2>Debora Durek</h2>
-							<div class="like-dislike">
-								<i class="fas fa-thumbs-up"></i>
-								<i class="fas fa-thumbs-down"></i>
-							</div>
-						</div>
-						<div class="rating">
-							<div class="stars">
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-							</div>
-							<span>30 tháng 9, 2018</span>
-						</div>
-						<p> This course is fantastic! I learned so much so far, and I knew nothing about any
-							programming languages. Thanks Jose!!</p>
-					</div>
-				</div>
+				{{/each}}
+
 			</div>
 		</div>
 
@@ -363,8 +353,15 @@
 				<label>
 					<input type="text" placeholder="Enter coupon">
 				</label>
-				<input  type="submit" class="coupon-apply-btn" value="Enter"/>
+				<input type="submit" class="coupon-apply-btn" value="Enter"/>
 			</form>
 		</div>
 	</div>
+	<script>
+		$('.bar-5').css('width', '{{course.review.five}}%')
+		$('.bar-4').css('width', '{{course.review.four}}%')
+		$('.bar-3').css('width', '{{course.review.three}}%')
+		$('.bar-2').css('width', '{{course.review.two}}%')
+		$('.bar-1').css('width', '{{course.review.one}}%')
+	</script>
 </div>

@@ -4,9 +4,8 @@ const Category = require('../models/category')
 const user = {};
 const { getAllCategories, getMostEnrollCategories, getPopularSubCategoriesByCategory, getSubCategoriesByCategory } = require('../service/category.service');
 const { getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses, getCategoryCourses, getPopularCategoryCourses} = require('../service/course.service');
-const AuthService = require('../service/auth.service')
-const Course = require("../service/course.service");
 const CourseService = require("../service/course.service");
+const CourseReviewService = require("../service/course-review.service");
 const { getAllInstructor } = require('../service/user.service');
 
 router.get('/auth', (req, res) => {
@@ -146,14 +145,31 @@ router.get('/courses', (req, res) => {
 })
 
 router.get('/courses/:id', async (req, res) => {
-    const reqId = 1;
+    const courseId = req.params.id;
     try {
-        const course = await CourseService.findById(reqId);
-        console.log(course);
+        const course = await CourseService.findById(courseId);
+        const numReview = await  CourseReviewService.countNumberOfRating(courseId);
+        const five = await CourseReviewService.countNumberOfRating(courseId, 5);
+        const four = await CourseReviewService.countNumberOfRating(courseId, 4);
+        const three = await CourseReviewService.countNumberOfRating(courseId, 3);
+        const two = await CourseReviewService.countNumberOfRating(courseId, 2);
+        const one = await CourseReviewService.countNumberOfRating(courseId, 1);
+
+        console.log('numReview: ', numReview);
+        course.review = {
+            five: Math.round((five / numReview) * 100),
+            four: Math.round((four / numReview) * 100),
+            three: Math.round((three / numReview) * 100),
+            two: Math.round((two / numReview) * 100),
+            one: Math.round((one / numReview) * 100),
+        }
+
+        console.log('course: ', course);
         res.render('pages/course-detail', {
-            css: ['course-detail'],
+            css: ['course-detail', 'star-rating-svg'],
             course,
         })
+
     } catch (error) {
         console.log(error)
     }

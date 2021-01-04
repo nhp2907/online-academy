@@ -394,7 +394,7 @@ $leftSideWidthPercent: 60%;
           }
 
           .processes {
-            width: 350px;
+            width: 450px;
 
             .process {
               display: flex;
@@ -407,8 +407,9 @@ $leftSideWidthPercent: 60%;
 
               .bar {
                 height: 15px;
-                width: 60%;
                 background-color: darkorange;
+              }
+              .bar-5 {
               }
             }
           }
@@ -438,10 +439,12 @@ $leftSideWidthPercent: 60%;
           }
 
           .main {
+            flex: 1;
             .name {
               display: flex;
               justify-content: space-between;
               align-items: center;
+              width: 100%;
 
               h2 {
                 font-size: 20px;
@@ -460,13 +463,13 @@ $leftSideWidthPercent: 60%;
               justify-content: flex-start;
               margin: 10px 0;
 
-              .stars {
-                margin-right: 20px;
-
-                i {
-                  color: orange;
-                }
-              }
+              //.stars {
+              //  margin-right: 20px;
+              //
+              //  i {
+              //    color: orange;
+              //  }
+              //}
             }
           }
         }
