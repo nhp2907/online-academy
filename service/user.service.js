@@ -2,6 +2,11 @@ const { Op } = require('sequelize');
 const Instructor = require('../models/instructor');
 const User = require('../models/user')
 
+
+function update(user) {
+    User.update()
+}
+
 module.exports = {
     async findByUsername(username) {
         const user = await User.findOne({
@@ -16,7 +21,7 @@ module.exports = {
         const savedUser = await User.build({...user}).save();
         return savedUser;
     },
-
+   update,
     async getAllInstructor() {
         const instructors = await User.findAll({
             attributes: ['id','firstName','lastName','image','job'],
