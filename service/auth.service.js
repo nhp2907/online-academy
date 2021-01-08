@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
-const User = require('../models/user');
+const UserService = require("./user.service");
 
 /**
  * Verify authentication middleware
@@ -9,33 +9,35 @@ const User = require('../models/user');
  * @param next
  */
 const verifyJwt = (req, res, next) => {
-    const privateRoute = ['teacher', 'admin', 'student']
+    console.log('cookies', req.cookies);
+    console.log('url', req.originalUrl);
+    const token = req.cookies.token;
+    if (req.originalUrl === '/logout' || !token) {
+        next();
+    } else {
+        jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
+            console.log(token);
+            console.log('temp decode decode', decoded)
 
-    if (req.originalUrl.startsWith('/teacher')
-        || req.originalUrl.startsWith('/admin')
-        || req.originalUrl.startsWith('/student')) {
-        const token = req.header('Authentication').split(' ')[1];
-        jwt.verify(token, process.env.JWT_SERET_KEY, async (err, decoded) => {
             if (err) {
-                throw new err;
+                res.redirect('/');
             }
-
-            res.locals.user = await User.findByUsername(decoded.username);
+            console.log('decoded', decoded)
+            const user = await UserService.findByUsername(decoded.username);
+            delete user.password;
+            res.locals.user = user;
             next();
         })
-    } else {
-        next();
     }
 }
 
 /**
- * Hash password and save user with the hashedPassword
  * @param user
  */
 const signup = (user) => {
     bcrypt.hash(user.password, 10, (err, hashedPassword) => {
         user.password = hashedPassword;
-        User.save(user);
+        UserService.save(user).then(() => console.log('Signup Save account successfully'));
     })
 }
 
@@ -47,24 +49,26 @@ const signup = (user) => {
  */
 const login = async (username, password) => {
     try {
-        const user = await User.findByUsername(username)
-        if (!user) {
-            throw new Error(`User with username = ${username} not found`)
-        }
+        const user = await UserService.findByUsername(username)
+        if (user) {
+            if (bcrypt.compareSync(password, user.password)) {
+                const token = jwt.sign({username}, process.env.JWT_SECRET_KEY);
+                jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
+                    console.log(token);
+                    console.log('login decode', decoded)
+                })
 
-        if (bcrypt.compareSync(password, user.password)) {
-            return jwt.sign({username}, process.env.JWT_SECRET_KEY);
-        } else {
-            throw new Error(`Username or password is incorrect`)
+                return token;
+            }
+            return null;
         }
-
     } catch (err) {
         throw err;
     }
 }
 
 module.exports = {
-    verifyJwt: verifyJwt,
-    signup: signup,
-    login: login
+    verifyJwt,
+    signup,
+    login
 };

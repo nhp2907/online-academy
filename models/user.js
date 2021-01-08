@@ -1,5 +1,7 @@
 const sequelize = require('./db')
-const {DataTypes} = require('sequelize')
+const {DataTypes} = require('sequelize');
+const Role = require('./role');
+const Instructor = require('./instructor');
 
 const User = sequelize.define('User', {
     id: {
@@ -60,12 +62,15 @@ const User = sequelize.define('User', {
         type: DataTypes.INTEGER,
         field: 'role_id',
         defaultValue: 3,
-    }
+    },
+    createdDate: DataTypes.DATE,
+    updatedDate: DataTypes.DATE,
 }, {
     tableName: 'user',
+    underscored: true,
     timestamps: true,
-    createdAt: 'created_date',
-    updatedAt: 'updated_date',
+    createdAt: 'createdDate',
+    updatedAt: 'updatedDate',
 })
 
 module.exports = User;

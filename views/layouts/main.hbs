@@ -2,17 +2,26 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>Data world</title>
+	<link rel="icon" href="/assets/images/education.svg">
 	<link rel="stylesheet" href="/assets/css/style.css">
 	<link rel="stylesheet" href="/assets/css/nav.css">
+	<link rel="stylesheet" href="/assets/css/footer.css">
+	<link rel="stylesheet" href="/assets/css/top-category.css">
 	{{#each this.css}}
 		<link rel="stylesheet" href="/assets/css/{{this}}.css">
 	{{/each}}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="/assets/js/jquery.star-rating-svg.js"></script>
+	<script src="/assets/js/param-filter.js"></script>
+	<script src="/assets/js/slick.js"></script>
 </head>
 <body>
 <div class="page">
 	{{> nav}}
+	{{> top-category}}
 	{{{ body}}}
+	{{> footer}}
 </div>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </body>

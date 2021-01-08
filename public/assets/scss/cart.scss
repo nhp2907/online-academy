@@ -1,0 +1,100 @@
+.cart{
+    padding: 20px 15%;
+    .header{
+        padding: 30px 20%;
+        background-color: #505763;
+        width: 140%;
+        margin-left: -20%;
+        p{
+            color: white;
+            &:last-child{
+                font-size: 30px;
+                margin-top: 10px;
+            }
+        }
+        i{
+            color: grey;
+            font-size: 14px;
+        }
+    }
+    .headline{
+        font-size: 20px;
+        margin: 40px 0px 20px 0px;
+    }
+    .cart-item{
+        display: grid;
+        grid-template-columns: 75% 25%;
+        grid-column-gap: 2%;
+        .list{
+            display: flex;
+            flex-direction: column;
+            .item{
+                display: grid;
+                grid-template-columns: 20% 50% 15% 15%;
+                border: 1px solid whitesmoke;
+                padding: 10px;
+                line-height: 20px;
+                .link{
+                    a{
+                        display: block;
+                        text-align: right;
+                        margin-right: 40px;
+                        text-decoration: none;
+                        font-size: 14px;
+                    }
+                }
+                img{
+                    width: 100%;
+                }
+                .price{
+                    color: red;
+                    font-weight: 800;
+                }
+            }
+        }
+        .checkout{
+            p{
+                &:first-child{
+                    font-size: 16px;
+                    margin: 10px 0px;
+                }
+            }
+            .price{
+                font-size: 40px;
+                font-weight: bold;
+                margin: 10px 0px;
+            }
+            .checkout-btn{
+                width: 100%;
+                padding: 20px;
+                color: white;
+                background-color: #EC5252;
+                border: none;
+                border-radius: 5px;
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+            form{
+                margin: 15px 0px 20px 0px;
+                input{
+                    float: left;
+                    width: 70%;
+                    padding: 10px;
+                    border: 1px solid grey;
+                    border-top-left-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                }
+                button{
+                    float:left;
+                    width: 30%;
+                    padding: 10px;
+                    color: white;
+                    background-color: #EC5252;
+                    border: 1px solid grey;
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                }
+            }
+        }
+    }
+}

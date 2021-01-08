@@ -1,34 +1,174 @@
 <nav class="nav">
-	<div class="logo">
-		<img src="./assets/images/logo.png" alt="logo">
-		<div class="search">
-			<i class="fas fa-search"></i>
-			<input type="text">
-		</div>
+	<div class="left-sight">
+		<a href=""><img src="https://assets.data.world/assets/logo-horiz-white.4ce1e77312620581d5a1c421c845b488.svg"
+				alt=""></a>
 	</div>
-	<div class="routes">
-		<ul>
-			<li><a href=""><i class="fas fa-home"></i></a></li>
-			<li><a href="">About</a></li>
-		</ul>
+	<div class="center">
+		<i class="fas fa-search"></i>
+		<form action="">
+			<input type="text" placeholder="Search for anything"
+				onfocus="$(this).parent().parent().css('filter', 'brightness(120%)')"
+				onfocusout="$(this).parent().parent().css('filter', 'brightness(100%)')">
+		</form>
 	</div>
-	<div class="profile">
-		{{#if this.user}}
-			<img class="avatar"
-			     src="https://scontent.fsgn5-6.fna.fbcdn.net/v/t1.0-9/70034536_2485956838316123_7790870654022057984_n.jpg?_nc_cat=106&ccb=2&_nc_sid=09cbfe&_nc_ohc=HoGUhWAOuKkAX-CxnY7&_nc_ht=scontent.fsgn5-6.fna&oh=5e5471e345125731dda2685755956a5e&oe=5FEECDF1"
-			     alt="">
-			<div class="name">
-				<span>{{this.user.name}}</span>
-			</div>
-			<i class="fas fa-angle-down"></i>
-		{{else}}
-			<div class="name">
-				<div class="avatar">
-					<i class="fas fa-user"></i>
+	<div class="right-sight">
+		{{#unless this.user}}
+			<div class="before-sign-in">
+				<div class="my-teach">
+					<a href="#" class="nav-link">Teach on Udemy</a>
+					<div class="my-teach-content">
+						<p>Turn what you know into an opportunity and reach millions around the world.</p>
+						<a href="#" class="content-btn nav-link">Learn More</a>
+					</div>
 				</div>
-				<span>Login</span>
-				<i class="fas fa-angle-down"></i>
+				<a href="#" class="nav-link">Sign Up</a>
+				<a href="auth" class="nav-link">Sign In</a>
 			</div>
-		{{/if}}
+		{{else}}
+			<script>
+				var sumPrice = 0;
+				var sumPrePrice = 0;
+				var i = 0;
+			</script>
+			<div class="after-sign-in">
+				<a href="#" class="nav-link">Instructor</a>
+				<div class="my-learning">
+					<a href="#" class="nav-link">My learning</a>
+					<div class="my-learning-dropdown-content">
+						{{#each this.user.course}}
+							<a href="#"><div class="my-course-item">
+								<img src={{this.img}} alt="" />
+								<p>{{this.name}}</p>
+								<p class="start-learning">Start Learning</p>
+								<progress max='100' value = '0'></progress>
+							</div></a>
+							<hr/>
+							<script>
+								var courseProcess = {{this.progress}}
+								var temp = ".start-learning:eq(" + i + ")"; 
+								if(courseProcess > 0){
+									$(temp).next().val(courseProcess);
+									$(temp).css("display","none");
+								}else{
+									$(temp).next().css("display", "none");
+								}
+								i++;
+							</script>
+						{{/each}}
+						<a href="#" class="content-btn nav-link">Go To My Learning</a>
+						<div class="my-empty-course">
+							<p>Start learning from over 130,000 courses today.</p>
+							<a href="#" class="content-btn nav-link">Browse Now</a>
+						</div>
+						<script>
+							var numInCourse = {{ this.user.course.length }}
+								if (numInCourse > 0) {
+									$('.my-empty-course:first').css("display", "none");
+								} else {
+									$(".my-course-item, .content:btn:first").css("display", "none");
+								}
+						</script>
+					</div>
+				</div>
+				<div class="my-cart">
+					<div class="amount-in-cart">{{this.user.cart.length}}</div>
+					<a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i></a>
+					<div class="my-cart-content">
+						{{#each this.user.cart}}
+							<a href="#"><div class="my-cart-item">
+								<img src={{this.img}} alt="" />
+								<p>{{this.name}}</p>
+								<p>{{this.author}}</p>
+								<p><span>${{this.price}}&nbsp;&nbsp;</span><span>${{this.pre_price}}</span></p>
+							</div></a>
+							<hr/>
+							<script>
+								sumPrice += {{ this.price }}
+								sumPrePrice += {{ this.pre_price }}
+							</script>
+						{{/each}}
+						<div class="my-cart-sum">
+							<p><span class="sum-price">$</span>&nbsp;&nbsp;<span class="sum-pre-price">$</span></p></span>
+							<a href="#" class="content-btn nav-link">Go To Cart</a>
+						</div>
+						<div class="my-empty-cart">
+							<p>Your Cart Is Empty</p>
+							<a href="#" class="nav-link">Keep Shopping</a>
+						</div>
+						<script>
+							var numInCart = {{ this.user.cart.length }}
+							if (numInCart > 0) {
+								$(".my-empty-cart:first").css("display", "none");
+								$(".sum-price:first").html("$" + sumPrice);
+								$(".sum-pre-price:first").html("$" + sumPrePrice);
+							} else {
+								$(".my-cart-item, .my-cart-sum").css("display", "none");
+							}
+						</script>
+					</div>
+				</div>
+				<div class="my-notification">
+					<div class="amount-of-notification">1</div>
+					<a href="#" class="nav-link"><i class="fas fa-bell"></i></a>
+					<div class="my-notification-content">
+						<div class="my-introduce-notification">
+							<span>Notification</span>
+							<a href="#">Settings</a>
+							<button>Instructor</button>
+							<button>Student</button>
+						</div>
+						<div class="my-notification-item">
+
+						</div>
+						<div class="my-empty-notification">
+							<p>No Notification</p>
+						</div>
+					</div>
+				</div>
+				<div class="my-profile">
+					<a href="#" class="nav-link"><i class="far fa-user"></i></a>
+					<div class="my-profile-content">
+						<div>
+							<p>TT</p>
+							<p><span class="first-name">{{this.user.first_name}} </span><span class="last-name">{{this.user.last_name}}</span></p>
+							<p>{{this.user.email}}</p>
+						</div>
+						<hr/>
+						<div>
+							<a href="#">My Learning</a>
+							<a href="#">My Cart</a>
+							<a href="#">Instructor Dashboard</a>
+						</div>
+						<hr />
+						<div>
+							<a href="#">Notifications</a>
+							<a href="#">Messages</a>
+						</div>
+						<hr />
+						<div>
+							<a href="#">Account Settings</a>
+							<a href="#">Payment Methods</a>
+							<a href="#">Udemy Credits</a>
+							<a href="#">Purchase History</a>
+						</div>
+						<hr />
+						<div>
+							<a href="#">Public Profile</a>
+							<a href="#">Edit Profile</a>
+						</div>
+						<hr />
+						<div>
+							<a href="#">Help</a>
+							<a href="#" id="log-out-btn">Log Out</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		{{/unless}}
 	</div>
+	<script>
+		$("#log-out-btn").click(function(){
+			location.reload();
+		});
+	</script>
 </nav>

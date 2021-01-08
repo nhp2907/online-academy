@@ -1,19 +1,23 @@
 const express = require('express');
-const path = require('path')
-const exphbs = require('express-handlebars')
+const path = require('path');
+const hbs = require('express-handlebars');
 const sassMiddleware = require('node-sass-middleware');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const User = require("./models/user");
 require('dotenv').config();
-const app = express();
+require('./models/relation-mapping');
+const {verifyJwt} = require("./service/auth.service");
 
-app.engine('hbs', exphbs({
+const app = express();
+app.engine('hbs', hbs({
     defaultLayout: 'main.hbs',
     extname: '.hbs',
-
 }))
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.set('view engine', 'hbs');
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
     sassMiddleware({
         src: __dirname + '/public/assets/scss',
@@ -22,24 +26,13 @@ app.use(
         debug: true,
     })
 )
-
-app.use(bodyParser.json()); 
-
-app.use((req, res, next) => {
-    // get auth info from request
-    // const auth = req.header('Authentication');
-    // const {user, token} = auth;
-    // load user from access token if any or return null;
-    // res.locals.user = user;
-    res.locals.user = null;
-    next();
-})
-
+app.use(verifyJwt);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/index'));
 app.use('/teacher', require('./routes/teacher'));
 app.use('/admin', require('./routes/admin'));
+app.use('/test', require('./routes/test'));
 
 const PORT = process.env.PORT || 5000;
 
