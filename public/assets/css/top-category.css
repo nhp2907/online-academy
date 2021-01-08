@@ -3,11 +3,8 @@
   padding: 10px 10%;
   position: relative;
   font-size: 15px;
-  display: inline-block; }
-  .top-category .sticky {
-    position: fixed;
-    top: 0;
-    z-index: 99999; }
+  display: inline-block;
+  border-top: 1px solid white; }
   .top-category a {
     display: block;
     color: black;

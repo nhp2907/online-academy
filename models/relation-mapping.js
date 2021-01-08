@@ -6,19 +6,20 @@ const CourseChapterSection = require("./course-chapter-section");
 const CategoryLink = require("./category-link");
 const Level = require("./level");
 const Advancement = require("./advancement");
+const SubCategory = require("./sub-category");
+const Category = require("./category");
+const CourseReview = require("./course-review");
 
-Instructor.hasOne(User , {
+Instructor.hasOne(User, {
     as: 'basicInfo',
     foreignKey: 'id',
 });
+
 Course.belongsTo(Instructor);
-Course.hasMany(CourseChapter, {
-    as: 'chapters'
-});
-CourseChapter.hasMany(CourseChapterSection, {
-    foreignKey: 'chapter_id',
-    as: 'sections'
-});
+Instructor.hasMany(Course);
+
+Course.hasMany(CourseChapter, {as: 'chapters'});
+CourseChapter.hasMany(CourseChapterSection, {foreignKey: 'chapter_id',as: 'sections'});
 
 CategoryLink.hasMany(Course, {as: 'courses'});
 Course.belongsTo(CategoryLink, {as: "categoryLink", foreignKey: 'categoryLinkId'});
@@ -29,5 +30,14 @@ Course.belongsTo(Level, {as: "level", foreignKey: "levelId"});
 Advancement.hasMany(Course, {as: 'courses'});
 Course.belongsTo(Advancement, {as: "advancement", foreignKey: "advancementId"});
 
-Instructor.hasMany(Course, {as: 'courses'});
-// Course.belongsTo(Instructor, {as: "instructor", foreignKey: "instructorId"});
+Course.hasMany(CourseReview, {
+    as: 'reviews'
+});
+
+SubCategory.belongsToMany(Category, {through: CategoryLink,as: 'categories', foreignKey: 'subCategoryId'});
+Category.belongsToMany(SubCategory, {through: CategoryLink,as: 'subCategories', foreignKey: 'categoryId'});
+
+Category.hasMany(CategoryLink, {as: 'categoryLinks'});
+CategoryLink.belongsTo(Category, {as: 'category', foreignKey: 'categoryId'});
+SubCategory.hasMany(CategoryLink,{as: 'categoryLinks'});
+CategoryLink.belongsTo(SubCategory, {as: 'subCategory', foreignKey: 'subCategoryId'});

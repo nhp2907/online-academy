@@ -1,8 +1,5 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('./db');
-const CategoryLink = require("./category-link");
-const Level = require("./level");
-const Advancement = require("./advancement");
 
 const Course = sequelize.define('course', {
     id: {

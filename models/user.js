@@ -62,18 +62,15 @@ const User = sequelize.define('User', {
         type: DataTypes.INTEGER,
         field: 'role_id',
         defaultValue: 3,
-    }
+    },
+    createdDate: DataTypes.DATE,
+    updatedDate: DataTypes.DATE,
 }, {
     tableName: 'user',
+    underscored: true,
     timestamps: true,
-    createdAt: 'created_date',
-    updatedAt: 'updated_date',
+    createdAt: 'createdDate',
+    updatedAt: 'updatedDate',
 })
 
 module.exports = User;
-
-Role.hasMany(User, {as: 'users'});
-User.belongsTo(Role, {as: "role", foreignKey: "roleId"});
-
-User.hasOne(Instructor, {as: 'instructor'});
-Instructor.belongsTo(User, {as: 'user', foreignKey: 'id'});

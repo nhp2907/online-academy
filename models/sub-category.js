@@ -24,3 +24,6 @@ const SubCategory = sequelize.define('SubCategory', {
 
 
 module.exports = SubCategory;
+
+
+
