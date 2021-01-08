@@ -1,51 +1,86 @@
 const express = require('express')
 const router = express.Router();
-const Category = require('../models/category')
-const user = {};
-const { getAllCategories, getMostEnrollCategories, getPopularSubCategoriesByCategory, getSubCategoriesByCategory } = require('../service/category.service');
-const { getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses, getCategoryCourses, getPopularCategoryCourses} = require('../service/course.service');
+const {getAllCategories, getMostEnrollCategories, getPopularSubCategoriesByCategory, getSubCategoriesByCategory} = require('../service/category.service');
+const {getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses, getCategoryCourses, getPopularCategoryCourses} = require('../service/course.service');
 const AuthService = require('../service/auth.service')
-const Course = require("../service/course.service");
 const CourseService = require("../service/course.service");
-const { getAllInstructor } = require('../service/user.service');
+const UserService = require("../service/user.service");
+const {getAllInstructor} = require('../service/user.service');
 
 router.get('/auth', (req, res) => {
+    if (req.cookies.token) {
+        res.redirect('/');
+    }
     res.render('pages/auth', {
         layout: 'blank',
         css: ['auth']
     })
 })
 
-router.post('/signin', (req, res) => {
-    console.log("--------------");
+router.get('/user/is-username-available', async (req, res) => {
+    const username = req.query.username;
+    const user = await UserService.findByUsername(username);
+
+    if (user) {
+        res.json(false);
+    } else {
+        res.json(true);
+    }
+})
+
+router.post('/signin', async (req, res) => {
+
     console.log('request.body', req.body);
-    const user = res.locals.user;
+    const {username, password} = req.body;
 
-    // const token = await AuthService.signin({username, password});
-    // if (token != null) {
-    //     res.render('pages/home', {
-    //         css: ['home'],
-    //         user: {
-    //             token: token,
-    //             name: req.body.username
-    //         }
-    //     })
-    // } else {
-    //     res.send({statusCode: 200})
-    // }
+    const token = await AuthService.login(username, password);
+    console.log('token: ', token);
+    if (token != null) {
+        res.cookie('token', token, {httpOnly: true})
 
+        res.redirect('/')
+    } else {
+        res.send({statusCode: 501})
+    }
 })
 
-router.post('/signup', (req, res) => {
-    //     res.render('pages/signin', {
-
-    //   })
+router.post('/signup', async (req, res) => {
+    const user = req.body;
+    console.log(user);
+    AuthService.signup(user);
+    res.render('pages/auth', {
+        layout: 'blank',
+        css: ['auth'],
+    })
 })
+
+router.get('/logout', async (req, res) => {
+    console.log('cclogout');
+    res.clearCookie('token');
+    res.redirect('/');
+})
+
+router.get('/my-profile', async (require, res) => {
+    res.render('pages/profile', {
+        user: res.locals.user,
+        css: ['profile']
+    })
+});
+
+router.post('/my-profile', async (require, res) => {
+    const user = UserService.update(user);
+    res.render('pages/profile', {
+        user: res.locals.user,
+        css: ['profile']
+    })
+});
+
 
 router.get('/', async (req, res) => {
+    const user = res.locals.user
     res.render('pages/home', {
-        css: ['home', 'star-rating-svg','slick','slick-theme'],
-        user: null,
+        css: ['home', 'star-rating-svg', 'slick', 'slick-theme'],
+        user,
         categories: await getAllCategories(),
         topEnrollCategories: await getMostEnrollCategories(),
         topCoursesInWeek: await getTopCoursesInWeek(),
@@ -53,9 +88,10 @@ router.get('/', async (req, res) => {
         mostEnrollCourses: await getMostEnrollCourses(),
         instructors: await getAllInstructor()
     });
+
 })
 
-function setFilter(requestPage, requestRating, requestDuration, requestPrice, requestLevel, requestOrder, requestTopic){
+function setFilter(requestPage, requestRating, requestDuration, requestPrice, requestLevel, requestOrder, requestTopic) {
 
     const page = requestPage !== undefined ? requestPage : 1;
     const rating = requestRating !== undefined ? requestRating : 3.0;
@@ -63,24 +99,24 @@ function setFilter(requestPage, requestRating, requestDuration, requestPrice, re
     const topic = requestTopic !== undefined ? requestTopic.replace(/\-/g, ' ').replace(/(^\w{1})|(\s{1}\w{1})/g, match => match.toUpperCase()) : '';
 
     const duration = [];
-    if(requestDuration === undefined){
+    if (requestDuration === undefined) {
         duration[0] = 0;
         duration[1] = 999;
-    }else{
+    } else {
         const durationArray = []
-        if(requestDuration.includes('short')) { 
+        if (requestDuration.includes('short')) {
             durationArray.push(0);
             durationArray.push(10);
         }
-        if(requestDuration.includes('medium')) {
+        if (requestDuration.includes('medium')) {
             durationArray.push(10);
             durationArray.push(20);
         }
-        if(requestDuration.includes('long')) {
+        if (requestDuration.includes('long')) {
             durationArray.push(20);
             durationArray.push(30);
         }
-        if(requestDuration.includes('extra')) {
+        if (requestDuration.includes('extra')) {
             durationArray.push(30);
             durationArray.push(999);
         }
@@ -90,29 +126,29 @@ function setFilter(requestPage, requestRating, requestDuration, requestPrice, re
     }
 
     const price = [];
-    if(requestPrice === undefined){
+    if (requestPrice === undefined) {
         price[0] = 0;
         price[1] = 999;
-    }else{
-        if(requestPrice.includes("free")) { 
+    } else {
+        if (requestPrice.includes("free")) {
             price[0] = 0;
             price[1] = 0;
-        }else{
+        } else {
             price1[0] = 1;
             price1[1] = 999;
         }
     }
     var level = [];
-    if(requestLevel === undefined){
-       level = [...[1,2,3,4]];
-    }else{
-        if(requestLevel.includes("beginner"))
+    if (requestLevel === undefined) {
+        level = [...[1, 2, 3, 4]];
+    } else {
+        if (requestLevel.includes("beginner"))
             level.push(1);
-        if(requestLevel.includes("intermediate"))
+        if (requestLevel.includes("intermediate"))
             level.push(2);
-        if(requestLevel.includes("expert"))
+        if (requestLevel.includes("expert"))
             level.push(3);
-        if(requestLevel.includes("all-levels"))
+        if (requestLevel.includes("all-levels"))
             level.push(4);
     }
     return {page, rating, duration, price, level, order, topic}
@@ -139,7 +175,7 @@ router.get('/collection/*/', async (req, res) => {
  * render course view with specific id
  */
 router.get('/courses', (req, res) => {
-    const { category } = req.query;
+    const {category} = req.query;
     res.render('/courses', {
         user
     })
@@ -164,7 +200,7 @@ router.get('/courses/:id', async (req, res) => {
  * return {}
  */
 router.get('/search', (req, res) => {
-    const { criteria } = req.params;
+    const {criteria} = req.params;
     res.send(['list of course']);
 });
 

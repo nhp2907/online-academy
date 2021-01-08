@@ -29,4 +29,8 @@ router.get('/instructor/:id/courses', async (req, res) => {
     res.send(courses);
 })
 
+router.post('/test-post',(req, res) =>  {
+    res.send(req.body);
+})
+
 module.exports = router;
