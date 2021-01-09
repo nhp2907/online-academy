@@ -9,23 +9,18 @@ const UserService = require("./user.service");
  * @param next
  */
 const verifyJwt = (req, res, next) => {
-    console.log('cookies', req.cookies);
-    console.log('url', req.originalUrl);
     const token = req.cookies.token;
     if (req.originalUrl === '/logout' || !token) {
         next();
     } else {
         jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
-            console.log(token);
-            console.log('temp decode decode', decoded)
-
             if (err) {
                 res.redirect('/');
             }
-            console.log('decoded', decoded)
+
             const user = await UserService.findByUsername(decoded.username);
             delete user.password;
-            res.locals.user = user;
+            res.locals.user = user.toJSON();
             next();
         })
     }
@@ -52,13 +47,7 @@ const login = async (username, password) => {
         const user = await UserService.findByUsername(username)
         if (user) {
             if (bcrypt.compareSync(password, user.password)) {
-                const token = jwt.sign({username}, process.env.JWT_SECRET_KEY);
-                jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
-                    console.log(token);
-                    console.log('login decode', decoded)
-                })
-
-                return token;
+                return jwt.sign({username}, process.env.JWT_SECRET_KEY);
             }
             return null;
         }

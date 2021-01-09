@@ -55,26 +55,9 @@ router.post('/signup', async (req, res) => {
 })
 
 router.get('/logout', async (req, res) => {
-    console.log('cclogout');
     res.clearCookie('token');
     res.redirect('/');
 })
-
-router.get('/my-profile', async (require, res) => {
-    res.render('pages/profile', {
-        user: res.locals.user,
-        css: ['profile']
-    })
-});
-
-router.post('/my-profile', async (require, res) => {
-    const user = UserService.update(user);
-    res.render('pages/profile', {
-        user: res.locals.user,
-        css: ['profile']
-    })
-});
-
 
 router.get('/', async (req, res) => {
     const user = res.locals.user

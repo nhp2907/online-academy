@@ -2,35 +2,70 @@
 	<div class="container">
 		<div class="info">
 			<h2>Profile</h2>
-			<form action="">
+			<form action="/user/update-basic-info" method="post">
+				<div class="form-control">
+					<label for="">Username</label>
+					<input type="text" name="username" value="{{user.username}}" readonly>
+				</div>
 				<div class="name row">
 					<div class="form-control">
 						<label for="">Firstname</label>
-						<input type="text" name="firstName">
+						<input type="text" name="firstName" value="{{user.firstName}}">
 					</div>
 					<div class="form-control">
 						<label for="">Lastname</label>
-						<input type="text" name="lastName">
+						<input type="text" name="lastName" value="{{user.lastName}}">
 					</div>
 				</div>
 				<div class="form-control row">
 					<label for="">Email</label>
-					<input type="text" name="email">
+					<input type="text" name="email" value="{{user.email}}">
 				</div>
 
 				<div class="form-control row">
-					<label for="">Email</label>
-					<textarea ></textarea>
+					<label for="">Bio</label>
+					<textarea></textarea>
 				</div>
 
 				<div class="form-control">
 					<input type="submit" value="Save">
 				</div>
 			</form>
+			<h2>Security</h2>
+			<form action="/user/update-password" method="post" class="security">
+				<div class="form-control row">
+					<label for="">Old password</label>
+					<input type="password" name="oldPassword">
+				</div>
+				<div class="form-control row">
+					<label for="">New password</label>
+					<input type="password" name="newPassword">
+				</div>
+				<div class="form-control row">
+					<label for="">Confirm password</label>
+					<input type="password">
+				</div>
+				<div class="form-control">
+					<input type="submit" value="Update">
+				</div>
+			</form>
 		</div>
 		<div class="avatar">
 			<h2>Avatar</h2>
-			<img src="" alt="">
+			<div class="img">
+				<img src="../../{{user.image}}" alt="avatar">
+				<!--				<button></button>-->
+				<form action="/user/update-avatar" method="post" enctype="multipart/form-data">
+					<div class="form-control inputLabel">
+						<label for="avatarInput"><i class="fas fa-cog"></i> Change your picture</label>
+						<input type="file" name="avatar" id="avatarInput" style="display: none"/>
+					</div>
+					<div class="form-control">
+						<input type="submit" value="Save">
+					</div>
+				</form>
+				<!--				<span><i class="fas fa-cog"></i> Change your photo</span>-->
+			</div>
 		</div>
 	</div>
 </div>

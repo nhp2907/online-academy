@@ -30,6 +30,7 @@ app.use(verifyJwt);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/index'));
+app.use('/user', require('./routes/user'));
 app.use('/teacher', require('./routes/teacher'));
 app.use('/admin', require('./routes/admin'));
 app.use('/test', require('./routes/test'));

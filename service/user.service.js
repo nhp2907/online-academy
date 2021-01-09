@@ -1,10 +1,43 @@
-const { Op } = require('sequelize');
+const {Op} = require('sequelize');
 const Instructor = require('../models/instructor');
 const User = require('../models/user')
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const util = require('util')
 
 
-function update(user) {
-    User.update()
+async function updateBasicInfo(user) {
+    const persistedUser = await User.findByPk(user.id);
+    for (const [key, value] of Object.entries(user)) {
+        persistedUser[key] = value;
+    }
+    const updatedUser = await persistedUser.save();
+    return updatedUser.toJSON();
+}
+
+/**
+ * Update password
+ * @param userId
+ * @param oldPass
+ * @param newPass
+ * @returns {Promise<void> return new token
+ */
+async function updatePassword(userId, oldPass, newPass) {
+    const user = await User.findByPk(userId);
+    if (bcrypt.compareSync(oldPass, user.password)) {
+        const pHash = util.promisify(bcrypt.hash);
+        const hashedPassword = await pHash(newPass, 10);
+        // bcrypt.hash(newPass, 10, (err, hashedPassword) => {
+        user.password = hashedPassword;
+        console.log('update password new hashedPassword', hashedPassword);
+        user.save().then((res) => console.log('update password successfully'));
+        return jwt.sign({username: user.username}, process.env.JWT_SECRET_KEY);
+        // })
+
+    } else {
+        console.log('wrong password')
+        return null
+    }
 }
 
 module.exports = {
@@ -21,15 +54,16 @@ module.exports = {
         const savedUser = await User.build({...user}).save();
         return savedUser;
     },
-   update,
+    updateBasicInfo,
+    updatePassword,
     async getAllInstructor() {
         const instructors = await User.findAll({
-            attributes: ['id','firstName','lastName','image','job'],
-            where: {
-                id: {
-                    [Op.between] : [4, 10]
+                attributes: ['id', 'firstName', 'lastName', 'image', 'job'],
+                where: {
+                    id: {
+                        [Op.between]: [4, 10]
+                    }
                 }
-            }
             }
         )
         return instructors.map(instructor => instructor.toJSON());
