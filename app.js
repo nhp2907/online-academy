@@ -10,9 +10,11 @@ require('./models/relation-mapping');
 const {verifyJwt} = require("./service/auth.service");
 
 const app = express();
+
 app.engine('hbs', hbs({
     defaultLayout: 'main.hbs',
     extname: '.hbs',
+
 }))
 app.set('view engine', 'hbs');
 app.use(cookieParser());
@@ -34,6 +36,8 @@ app.use('/user', require('./routes/user'));
 app.use('/teacher', require('./routes/teacher'));
 app.use('/admin', require('./routes/admin'));
 app.use('/test', require('./routes/test'));
+app.use('/cart', require('./routes/cart'));
+app.use('/cart/payment', require('./routes/payment'));
 
 const PORT = process.env.PORT || 5000;
 
