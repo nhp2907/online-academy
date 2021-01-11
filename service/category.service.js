@@ -66,7 +66,6 @@ module.exports = {
                     attributes: ['id','name'],
                 }]
             });
-            console.log(mostEnrollCategories.map(category => category.toJSON()).slice(0, 10));
             return mostEnrollCategories.map(category => category.toJSON()).slice(0, 10);
         }
         catch(err){

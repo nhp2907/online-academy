@@ -386,6 +386,43 @@ const findByInstructorId = async (instructorId) => {
     return st;
 }
 
+const getCourseChapter = async (courseid) => {
+    try{
+        const courseChapters = await CourseChapter.findAll({
+            attributes: ['id','title'],
+            where: {
+                courseId: courseid,
+            },
+            include: {
+                model: CourseChapterSection,
+                as: 'sections',
+                attributes: ['id','title','length']
+            }
+        });
+        console.log(courseChapters.map(course => course.toJSON()));
+        return courseChapters.map(course => course.toJSON());
+    }
+    catch (err){
+        throw err;
+    }
+}
+
+const getSectionVideo = async (sectionid) => {
+    try{
+        const sectionVideo = await CourseChapterSection.findOne({
+            attributes: ['urlVideo'],
+            where: {
+                id: sectionid,
+            }
+        });
+        console.log(sectionVideo.toJSON())
+        return sectionVideo.toJSON();
+    }
+    catch (err){
+        throw err;
+    }
+}
+
 module.exports = {
     save,
     update,
@@ -398,4 +435,7 @@ module.exports = {
     getPopularCategoryCourses,
     getAllLevel,
     findByInstructorId,
+    getPopularCategoryCourses,
+    getCourseChapter,
+    getSectionVideo
 }

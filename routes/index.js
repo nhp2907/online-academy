@@ -1,12 +1,19 @@
 const express = require('express')
 const router = express.Router();
-const {getAllCategories, getMostEnrollCategories, getPopularSubCategoriesByCategory, getSubCategoriesByCategory} = require('../service/category.service');
-const {getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses, getCategoryCourses, getPopularCategoryCourses} = require('../service/course.service');
+const Category = require('../models/category')
+const user = {};
+const { getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses, getCategoryCourses, getPopularCategoryCourses, getCourseChapter, getSectionVideo} = require('../service/course.service');
 const AuthService = require('../service/auth.service')
 const CourseService = require("../service/course.service");
+const { getAllInstructor, getById, getAllUserCourses } = require('../service/user.service');
+const { getUnPaymentInvoice } = require('../service/invoice.service');
 const UserService = require("../service/user.service");
 const UserRole = require("../constant/UserRole");
 const {getAllInstructor} = require('../service/user.service');
+const {getSubCategoriesByCategory} = require("../service/category.service");
+const {getPopularSubCategoriesByCategory} = require("../service/category.service");
+const {getMostEnrollCategories} = require("../service/category.service");
+const {getAllCategories} = require("../service/category.service");
 
 router.get('/auth', (req, res) => {
     if (req.cookies.token) {
@@ -42,6 +49,7 @@ router.get('/user/is-email-available', async (req, res) => {
 })
 
 router.post('/signin', async (req, res) => {
+
     console.log('request.body', req.body);
     const {username, password} = req.body;
 
@@ -175,6 +183,28 @@ router.get('/collection/*/', async (req, res) => {
     });
 });
 
+router.get('/courses/*/:courseid/lecture/:sectionid', async (req, res) => {
+    res.render('pages/course-learning', {
+        css: ['course-learning', 'star-rating-svg'],
+        user: null,
+        courseChapters: await getCourseChapter(req.params.courseid),
+        sectionVideo: await getSectionVideo(req.params.sectionid)
+    });
+})
+
+router.get('/my-courses/learning', async (req, res) => {
+
+    res.render('pages/user-learning', {
+        css: ['user-learning', 'star-rating-svg'],
+        user: null,
+        userCourses: await getAllUserCourses((res.locals.user.id))
+    });
+})
+
+router.get('/instructor/:id', async (req, res) => {
+    const instructor = await getById(req.params.id);
+    res.send(instructor);
+})
 /**
  * render course view with specific id
  */

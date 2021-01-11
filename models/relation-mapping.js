@@ -9,6 +9,12 @@ const Advancement = require("./advancement");
 const SubCategory = require("./sub-category");
 const Category = require("./category");
 const CourseReview = require("./course-review");
+const UserCourse = require("./user-course");
+const Invoice = require("./invoice");
+const Coupon = require("./coupon");
+const InvoiceStatus = require("./invoice-status");
+const PaymentType = require("./payment-type");
+const InvoiceCourse = require("./invoice-course");
 
 Instructor.hasOne(User, {
     as: 'basicInfo',
@@ -17,9 +23,11 @@ Instructor.hasOne(User, {
 
 Course.belongsTo(Instructor);
 Instructor.hasMany(Course);
-
+CourseChapter.belongsTo(Course);
 Course.hasMany(CourseChapter, {as: 'chapters'});
-CourseChapter.hasMany(CourseChapterSection, {foreignKey: 'chapter_id',as: 'sections'});
+
+CourseChapterSection.belongsTo(CourseChapter);
+CourseChapter.hasMany(CourseChapterSection, {as: 'sections' , foreignKey: 'chapterId'});
 
 CategoryLink.hasMany(Course, {as: 'courses'});
 Course.belongsTo(CategoryLink, {as: "categoryLink", foreignKey: 'categoryLinkId'});
@@ -41,3 +49,34 @@ Category.hasMany(CategoryLink, {as: 'categoryLinks'});
 CategoryLink.belongsTo(Category, {as: 'category', foreignKey: 'categoryId'});
 SubCategory.hasMany(CategoryLink,{as: 'categoryLinks'});
 CategoryLink.belongsTo(SubCategory, {as: 'subCategory', foreignKey: 'subCategoryId'});
+
+Course.hasMany(UserCourse);
+UserCourse.belongsTo(Course);
+
+User.hasMany(UserCourse);
+UserCourse.belongsTo(User);
+
+Coupon.hasMany(Invoice);
+Invoice.belongsTo(Coupon);
+
+InvoiceStatus.hasMany(Invoice);
+Invoice.belongsTo(InvoiceStatus);
+
+PaymentType.hasMany(Invoice);
+Invoice.belongsTo(PaymentType);
+
+User.hasMany(Invoice);
+Invoice.belongsTo(User);
+
+// Invoice.hasMany(InvoiceCourse, {as: 'courses'});
+// InvoiceCourse.belongsTo(Invoice);
+// Course.hasMany(InvoiceCourse, {as: 'invoices'});
+// InvoiceCourse.belongsTo(Course);
+
+Invoice.belongsToMany(Course, {through: InvoiceCourse});
+Course.belongsToMany(Invoice, {through: InvoiceCourse});
+
+
+
+
+
