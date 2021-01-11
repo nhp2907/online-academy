@@ -8,6 +8,7 @@ const CourseChapterSection = sequelize.define('course', {
     },
     description: DataTypes.STRING,
     title: DataTypes.STRING,
+    urlVideo: DataTypes.STRING,
     length: DataTypes.STRING,
     canBePreview: DataTypes.TINYINT,
     createdDate: DataTypes.DATE,

@@ -15,7 +15,7 @@ app.engine('hbs', hbs({
 
 }))
 app.set('view engine', 'hbs');
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(
     sassMiddleware({
         src: __dirname + '/public/assets/scss',
@@ -30,6 +30,8 @@ app.use('/', require('./routes/index'));
 app.use('/teacher', require('./routes/teacher'));
 app.use('/admin', require('./routes/admin'));
 app.use('/test', require('./routes/test'));
+app.use('/cart', require('./routes/cart'));
+app.use('/cart/payment', require('./routes/payment'));
 
 const PORT = process.env.PORT || 5000;
 
