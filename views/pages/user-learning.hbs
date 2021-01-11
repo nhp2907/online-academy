@@ -3,18 +3,7 @@
         <div class="user-avatar">
             <img src="https://dvkhfbm6djrbs.cloudfront.net/5acc7360f161b700446f8349/5c2dd8a2f96d4d000caaeeda/logo_mycourses.png" alt="">
             <img src="https://graph.facebook.com/539920009811517/picture" alt="">
-            <p>Hoàng Trung</p>
-            <script>
-                const currentUser = location.pathname.split("/").pop();
-                $.ajax('/instructor/' + currentUser, {
-                    success: function(data) {
-                        $('.user-avatar p:eq(0)').html(data.firstName + " " +data.lastName);
-                    },
-                    error: function(err) {
-                        console.log(err);
-                    }
-                });
-            </script>
+            <p>{{this.user.firstName}} {{this.user.lastName}}</p>
             <p>Học viên</p>
         </div>
         <hr/>
