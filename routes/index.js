@@ -3,11 +3,12 @@ const router = express.Router();
 const Category = require('../models/category')
 const user = {};
 const { getAllCategories, getMostEnrollCategories, getPopularSubCategoriesByCategory, getSubCategoriesByCategory } = require('../service/category.service');
-const { getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses, getCategoryCourses, getPopularCategoryCourses} = require('../service/course.service');
+const { getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses, getCategoryCourses, getPopularCategoryCourses, getCourseChapter, getSectionVideo} = require('../service/course.service');
 const AuthService = require('../service/auth.service')
 const Course = require("../service/course.service");
 const CourseService = require("../service/course.service");
-const { getAllInstructor } = require('../service/user.service');
+const { getAllInstructor, getById, getAllUserCourses } = require('../service/user.service');
+const { getUnPaymentInvoice } = require('../service/invoice.service');
 
 router.get('/auth', (req, res) => {
     res.render('pages/auth', {
@@ -135,6 +136,27 @@ router.get('/collection/*/', async (req, res) => {
     });
 });
 
+router.get('/courses/*/:courseid/lecture/:sectionid', async (req, res) => {
+    res.render('pages/course-learning', {
+        css: ['course-learning', 'star-rating-svg'],
+        user: null,
+        courseChapters: await getCourseChapter(req.params.courseid),
+        sectionVideo: await getSectionVideo(req.params.sectionid)
+    });
+})
+
+router.get('/my-courses/learning/:id', async (req, res) => {
+    res.render('pages/user-learning', {
+        css: ['user-learning', 'star-rating-svg'],
+        user: null,
+        userCourses: await getAllUserCourses(req.params.id)
+    });
+})
+
+router.get('/instructor/:id', async (req, res) => {
+    const instructor = await getById(req.params.id);
+    res.send(instructor);
+})
 /**
  * render course view with specific id
  */
@@ -167,6 +189,9 @@ router.get('/search', (req, res) => {
     const { criteria } = req.params;
     res.send(['list of course']);
 });
+
+
+
 
 
 module.exports = router;
