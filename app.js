@@ -4,6 +4,7 @@ const hbs = require('express-handlebars');
 const sassMiddleware = require('node-sass-middleware');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const User = require("./models/user");
 require('dotenv').config();
 require('./models/relation-mapping');
@@ -15,9 +16,17 @@ app.engine('hbs', hbs({
     extname: '.hbs',
 }))
 app.set('view engine', 'hbs');
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        // secure: true
+    }
+}));
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(
     sassMiddleware({
         src: __dirname + '/public/assets/scss',
@@ -31,8 +40,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/index'));
 app.use('/user', require('./routes/user'));
-app.use('/teacher', require('./routes/teacher'));
+app.use('/instructor', require('./routes/instructor'));
 app.use('/admin', require('./routes/admin'));
+app.use('/api/category', require('./api/category.api'));
+app.use('/error', require('./routes/error'));
 app.use('/test', require('./routes/test'));
 
 const PORT = process.env.PORT || 5000;

@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
 const UserService = require("./user.service");
+const UserRole = require("../constant/UserRole");
 
 /**
  * Verify authentication middleware
@@ -9,7 +10,9 @@ const UserService = require("./user.service");
  * @param next
  */
 const verifyJwt = (req, res, next) => {
+    console.log(req.originalUrl)
     const token = req.cookies.token;
+    req.session.returnTo = req.originalUrl;
     if (req.originalUrl === '/logout' || !token) {
         next();
     } else {
@@ -49,6 +52,8 @@ const login = async (username, password) => {
             if (bcrypt.compareSync(password, user.password)) {
                 return jwt.sign({username}, process.env.JWT_SECRET_KEY);
             }
+            return null;
+        } else {
             return null;
         }
     } catch (err) {

@@ -11,18 +11,34 @@ const Level = require('../models/level');
 const SubCategory = require('../models/sub-category');
 const Category = require('../models/category');
 
+const save = async (course) => {
+    const savedCourse = await Course.create(course);
+    return savedCourse.toJSON();
+}
+
+const update = async (course) => {
+    const savedCourse = await Course.findByPk(course.id);
+
+    for (const [key, value] of Object.entries(course)) {
+        savedCourse[key] = value;
+    }
+    const updatedCourse = await savedCourse.save();
+    return updatedCourse.toJSON();
+
+}
+
 const getPagination = (page, size) => {
-    const limit = size ? + size : 5;
+    const limit = size ? +size : 5;
     const offset = 0 + (page - 1) * limit;
-    return { limit, offset };
+    return {limit, offset};
 };
 
 const getPagingData = (data, page, limit) => {
-    const { count: totalItems } = data;
-    const currentPage = page ? + page : 0;
+    const {count: totalItems} = data;
+    const currentPage = page ? +page : 0;
     const totalPages = Math.ceil(totalItems / limit);
-  
-    return { totalItems, totalPages, currentPage };
+
+    return {totalItems, totalPages, currentPage};
 };
 
 const findAll = async () => {
@@ -48,6 +64,7 @@ const findAll = async () => {
     });
     return courses.map(c => c.toJSON());
 }
+
 const findById = async (id) => {
     const course = await Course.findOne({
         where: {
@@ -70,20 +87,29 @@ const findById = async (id) => {
         }, {
             model: CourseReview,
             as: 'reviews'
+        }, {
+            model: CategoryLink,
+            as: 'categoryLink'
         }]
     });
-    return course.toJSON();
+    console.log(course);
+    const st = course.toJSON();
+    console.log(st)
+    return st;
 }
 
 const findByCategory = (category) => {
     return [];
 }
+
 const findByAuthor = (author) => {
     return [];
 }
+
 const search = (criteria) => {
     return [];
 }
+
 const getTopCoursesInWeek = async () => {
     try {
         const topCoursesInWeek = await Course.findAll({
@@ -124,6 +150,7 @@ const getTopCoursesInWeek = async () => {
         throw err;
     }
 }
+
 const getNewestCourses = async () => {
     try {
         const newestCourses = await Course.findAll({
@@ -153,6 +180,7 @@ const getNewestCourses = async () => {
         throw err;
     }
 }
+
 const getMostEnrollCourses = async () => {
     try {
         const mostEnrollCourses = await Course.findAll({
@@ -215,7 +243,7 @@ const getMostRatingCourses = async () => {
 
 const getCategoryCourses = async (categoryid, page, size, duration, rating, level, price, order, topic) => {
     try {
-        const { limit, offset } = getPagination(page, size);
+        const {limit, offset} = getPagination(page, size);
         console.log(categoryid);
         const categoryCourses = await Course.findAndCountAll({
             attributes: ['id', 'name', 'headline', 'image', 'price', 'rating', 'numReview', 'numLecture', 'numStudentEnroll', 'estimateContentLength'],
@@ -233,28 +261,28 @@ const getCategoryCourses = async (categoryid, page, size, duration, rating, leve
                 },
             },
             order: [
-                order == 'price-low-to-high' ? ['price','ASC'] : 
-                order == 'price-high-to-low' ? ['price','DESC'] : 
-                order == 'top-rating' ? ['rating','DESC'] :
-                order == 'top-enrolled'? ['numStudentEnroll', 'DESC'] :
-                order == 'top-newest' ? ['createdDate','DESC'] : ['numStudentEnroll', 'DESC']
+                order == 'price-low-to-high' ? ['price', 'ASC'] :
+                    order == 'price-high-to-low' ? ['price', 'DESC'] :
+                        order == 'top-rating' ? ['rating', 'DESC'] :
+                            order == 'top-enrolled' ? ['numStudentEnroll', 'DESC'] :
+                                order == 'top-newest' ? ['createdDate', 'DESC'] : ['numStudentEnroll', 'DESC']
             ],
             include: [{
                 model: Instructor,
                 as: 'instructor',
                 attributes: ['id'],
-                    include: {
-                        model: User,
-                        as: 'basicInfo',
-                        attributes: ['id', 'firstName', 'lastName']
-                    }
-                },
+                include: {
+                    model: User,
+                    as: 'basicInfo',
+                    attributes: ['id', 'firstName', 'lastName']
+                }
+            },
                 {
                     model: Advancement,
                     as: 'advancement',
                     attributes: ['id', 'description'],
                 },
-                {   
+                {
                     model: CategoryLink,
                     as: 'categoryLink',
                     attributes: ['id'],
@@ -275,7 +303,7 @@ const getCategoryCourses = async (categoryid, page, size, duration, rating, leve
                 {
                     model: Level,
                     as: 'level',
-                    attributes: ['id','description'],
+                    attributes: ['id', 'description'],
                     where: {
                         id: {
                             [Op.in]: level
@@ -294,27 +322,27 @@ const getCategoryCourses = async (categoryid, page, size, duration, rating, leve
 const getPopularCategoryCourses = async (categoryid) => {
     try {
         const popularCatetogyCourses = await Course.findAll({
-            attributes: ['id', 'name', 'headline', 'image', 'price', 'prePrice','rating', 'numReview', 'numLecture', 'numStudentEnroll', 'estimateContentLength'],
+            attributes: ['id', 'name', 'headline', 'image', 'price', 'prePrice', 'rating', 'numReview', 'numLecture', 'numStudentEnroll', 'estimateContentLength'],
             order: [
-                ['numStudentEnroll','DESC'],
-                ['rating','DESC']
+                ['numStudentEnroll', 'DESC'],
+                ['rating', 'DESC']
             ],
             include: [{
                 model: Instructor,
                 as: 'instructor',
                 attributes: ['id'],
-                    include: {
-                        model: User,
-                        as: 'basicInfo',
-                        attributes: ['id', 'firstName', 'lastName']
-                    }
-                },
+                include: {
+                    model: User,
+                    as: 'basicInfo',
+                    attributes: ['id', 'firstName', 'lastName']
+                }
+            },
                 {
                     model: Advancement,
                     as: 'advancement',
                     attributes: ['id', 'description'],
                 },
-                {   
+                {
                     model: CategoryLink,
                     as: 'categoryLink',
                     attributes: ['id'],
@@ -325,10 +353,10 @@ const getPopularCategoryCourses = async (categoryid) => {
                 {
                     model: Level,
                     as: 'level',
-                    attributes: ['id','description'],
+                    attributes: ['id', 'description'],
                     where: {
                         id: {
-                            [Op.or]: [1, 2] 
+                            [Op.or]: [1, 2]
                         }
                     }
                 }]
@@ -340,12 +368,34 @@ const getPopularCategoryCourses = async (categoryid) => {
     }
 }
 
+const getAllLevel = async () => {
+    const levels = await Level.findAll();
+    return levels.map(l => l.toJSON());
+}
+
+const findByInstructorId = async (instructorId) => {
+    const courses = await Course.findAll({
+        where: {
+            instructorId
+        }
+    })
+    const st = courses.map(c => c.toJSON());
+
+    console.log(st);
+
+    return st;
+}
+
 module.exports = {
+    save,
+    update,
     findById,
     findAll,
     search, getTopCoursesInWeek,
     getNewestCourses,
     getMostEnrollCourses,
     getCategoryCourses,
-    getPopularCategoryCourses
+    getPopularCategoryCourses,
+    getAllLevel,
+    findByInstructorId,
 }

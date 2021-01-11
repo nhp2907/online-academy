@@ -2,6 +2,7 @@ const fs = require('fs');
 const express = require('express')
 const UserService = require("../service/user.service");
 const router = express.Router();
+
 const multer = require('multer')
 const USER_IMAGE_PATH = "public/assets/images/users/";
 
@@ -14,7 +15,6 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + ext)
     }
 })
-
 const upload = multer({storage: storage});
 
 router.get('/me', async (req, res) => {
@@ -65,7 +65,7 @@ router.post('/update-password', async (req, res) => {
     const token = await UserService.updatePassword(res.locals.user.id, oldPassword, newPassword);
     console.log('update password new token: ', token);
     if (token != null) {
-        res.cookie('token', token, {httpOnly: true})
+        res.cookie('token', token, {httpOnly: true, sameSite: 'lax'})
         res.redirect('/user/me');
     } else {
         res.send({statusCode: 501})

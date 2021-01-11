@@ -41,6 +41,15 @@ async function updatePassword(userId, oldPass, newPass) {
 }
 
 module.exports = {
+    async findByEmail(email) {
+        const user = await User.findOne({
+                where: {
+                    email
+                }
+            }
+        )
+        return user;
+    },
     async findByUsername(username) {
         const user = await User.findOne({
                 where: {

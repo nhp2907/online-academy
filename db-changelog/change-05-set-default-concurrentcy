@@ -1,0 +1,5 @@
+alter table course alter column concurrency set default 'USD';
+alter table course alter column rating set default 0;
+alter table course alter column num_review set default 0;
+alter table course alter column num_student_enroll set default 0;
+alter table course add status int default 0 null;

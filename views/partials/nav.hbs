@@ -61,11 +61,11 @@
 							<a href="#" class="content-btn nav-link">Browse Now</a>
 						</div>
 						<script>
-							var numInCourse = {{ this.user.course.length }}
+							const numInCourse = "{{ this.user.course.length }}"
 								if (numInCourse > 0) {
 									$('.my-empty-course:first').css("display", "none");
 								} else {
-									$(".my-course-item, .content:btn:first").css("display", "none");
+									$(".my-course-item, .content.btn:first").css("display", "none");
 								}
 						</script>
 					</div>
@@ -96,7 +96,7 @@
 							<a href="#" class="nav-link">Keep Shopping</a>
 						</div>
 						<script>
-							var numInCart = {{ this.user.cart.length }}
+							const numInCart = "{{ this.user.cart.length }}"
 							if (numInCart > 0) {
 								$(".my-empty-cart:first").css("display", "none");
 								$(".sum-price:first").html("$" + sumPrice);

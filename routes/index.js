@@ -5,6 +5,7 @@ const {getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses, getCategoryC
 const AuthService = require('../service/auth.service')
 const CourseService = require("../service/course.service");
 const UserService = require("../service/user.service");
+const UserRole = require("../constant/UserRole");
 const {getAllInstructor} = require('../service/user.service');
 
 router.get('/auth', (req, res) => {
@@ -28,34 +29,54 @@ router.get('/user/is-username-available', async (req, res) => {
     }
 })
 
-router.post('/signin', async (req, res) => {
+router.get('/user/is-email-available', async (req, res) => {
+    const email = req.query.email;
+    console.log(email);
+    const user = await UserService.findByEmail(email);
+    console.log(user);
+    if (user) {
+        res.json(false);
+    } else {
+        res.json(true);
+    }
+})
 
+router.post('/signin', async (req, res) => {
     console.log('request.body', req.body);
     const {username, password} = req.body;
 
     const token = await AuthService.login(username, password);
     console.log('token: ', token);
     if (token != null) {
-        res.cookie('token', token, {httpOnly: true})
+        res.cookie('token', token, {httpOnly: true, sameSite: 'lax'})
 
-        res.redirect('/')
+        res.redirect('/');
     } else {
-        res.send({statusCode: 501})
+        res.render('pages/auth', {
+            layout: 'blank',
+            css: ['auth'],
+            status: 'error',
+            message: 'Username or password is not correct!'
+        })
     }
 })
 
 router.post('/signup', async (req, res) => {
     const user = req.body;
     console.log(user);
+    user.roleId = UserRole.Student;
     AuthService.signup(user);
     res.render('pages/auth', {
         layout: 'blank',
         css: ['auth'],
+        status: 'success',
+        message: 'Sign up successfully!'
     })
 })
 
 router.get('/logout', async (req, res) => {
     res.clearCookie('token');
+    delete res.locals.user;
     res.redirect('/');
 })
 

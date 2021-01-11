@@ -23,7 +23,6 @@ module.exports = {
             throw err;
         }
     },
-
     async getSubCategoriesByCategory(categoryid) {
         try{
             const categories = await Category.findAll({
@@ -103,6 +102,14 @@ module.exports = {
         catch(err){
             throw err;
         }
+    },
+    async findCategoryLink(categoryId, subCategoryId) {
+       const link = await CategoryLink.findOne({
+            where: {
+                categoryId,
+                subCategoryId
+            }
+        });
+       return link.toJSON();
     }
-
 }
