@@ -1,7 +1,8 @@
 const { Op } = require('sequelize');
 const Course = require('../models/course');
+const User = require('../models/user');
+const UserCourse = require('../models/user-course');
 const Instructor = require('../models/instructor');
-const User = require('../models/user')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const util = require('util')
@@ -40,8 +41,6 @@ async function updatePassword(userId, oldPass, newPass) {
         return null
     }
 }
-const User = require('../models/user');
-const UserCourse = require('../models/user-course');
 
 module.exports = {
     async findByUsername(username) {

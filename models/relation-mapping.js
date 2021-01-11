@@ -54,9 +54,8 @@ Course.hasMany(UserCourse);
 UserCourse.belongsTo(Course);
 
 User.hasMany(UserCourse);
-UserCourse.hasMany(User);
+UserCourse.belongsTo(User);
 
-/*Invoice Relation*/
 Coupon.hasMany(Invoice);
 Invoice.belongsTo(Coupon);
 
@@ -69,13 +68,14 @@ Invoice.belongsTo(PaymentType);
 User.hasMany(Invoice);
 Invoice.belongsTo(User);
 
-/*Invoice.hasMany(InvoiceCourse, {as: 'courses'});
-InvoiceCourse.belongsTo(Invoice);
-Course.hasMany(InvoiceCourse, {as: 'invoices'});
-InvoiceCourse.belongsTo(Course);*/
+// Invoice.hasMany(InvoiceCourse, {as: 'courses'});
+// InvoiceCourse.belongsTo(Invoice);
+// Course.hasMany(InvoiceCourse, {as: 'invoices'});
+// InvoiceCourse.belongsTo(Course);
 
 Invoice.belongsToMany(Course, {through: InvoiceCourse});
 Course.belongsToMany(Invoice, {through: InvoiceCourse});
+
 
 
 

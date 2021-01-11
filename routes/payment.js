@@ -4,7 +4,7 @@ var router = express.Router();
 
 router.get('/', async (req, res) => {
 
-    var userUnPaymentInvoice = await getUnPaymentInvoice(14);
+    var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
 
     if(userUnPaymentInvoice === null) {
         res.render('pages/cart', {

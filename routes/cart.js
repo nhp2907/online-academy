@@ -6,7 +6,7 @@ const { getUnPaymentInvoice, updateInvoice } = require("../service/invoice.servi
 
 router.get('/', async (req, res) => {
 
-    var userUnPaymentInvoice = await getUnPaymentInvoice(12);
+    var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
 
     if(userUnPaymentInvoice === null) {
         res.render('pages/cart', {
