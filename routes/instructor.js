@@ -27,7 +27,7 @@ router.use((req, res, next) => {
         res.redirect('/auth')
     } else if (res.locals.user && res.locals.user.roleId !== UserRole.Instructor) {
         console.log('pass checking roleId')
-        res.redirect('/error/401') ;
+        res.redirect('/error/401');
     } else {
         next();
     }
@@ -78,10 +78,12 @@ router.post('/course', upload.single('image'), async (req, res, next) => {
  */
 router.get('/edit-course/:id', async (req, res) => {
     const id = req.params.id
+    // should use Promise.all();
     res.render('pages/instructor/edit-course', {
-        css: ['add-course'],
+        css: ['edit-course'],
         user: res.locals.user,
         course: await CourseService.findById(id),
+        courseChapters: await CourseService.getCourseChapter(id),
         categories: await CategoryService.getAllCategories(),
         levels: await CourseService.getAllLevel()
     })
@@ -92,6 +94,10 @@ router.get('/edit-course/:id', async (req, res) => {
  */
 router.post('/edit-course', upload.single('image'), async (req, res, next) => {
     const course = req.body;
+    const check = CourseService.checkCourseBeLongToInstructor(course.id, res.locals.user.id);
+    if (!check) {
+        res.redirect('error/401');
+    }
     const file = req.file;
     console.log('req.body', req.body)
     const categoryLink = await CategoryService.findCategoryLink(course.categoryId, course.subCategoryId);
@@ -117,9 +123,55 @@ router.delete('/course', (req, res, next) => {
 
 })
 
-
-router.get('/account', (req, res, next) => {
+router.get('/profile', (req, res, next) => {
 
 })
+
+router.post('/course/:courseId/add-chapter', (req, res) => {
+    const chapter = req.body;
+    const courseId = req.params.courseId;
+    chapter.courseId = courseId;
+    CourseService.addChapter(chapter)
+        .then(r => console.log(r))
+        .catch(er => console.log(err));
+    res.redirect(`/instructor/edit-course/${courseId}`);
+})
+
+router.post('/course/:courseId/chapter/:courseChapterId/add-lesion',
+    upload.fields([{name: 'video', maxCount: 1}, {name: 'documents', maxCount: 10}]),
+    async (req, res) => {
+        console.log(req.files);
+        const lesion = req.body;
+        lesion.courseChapterId = req.params.courseChapterId;
+        const newLesion = await CourseService.addLesion(lesion);
+        res.redirect(`/instructor/edit-course/${req.params.courseId}`);
+    }
+)
+
+router.post('/course/:courseId/chapter/:courseChapterId/update-lesion',
+    upload.fields([{name: 'video', maxCount: 1}, {name: 'documents', maxCount: 10}]),
+    async (req, res) => {
+        console.log(req.files);
+        console.log(req.body);
+        const lesion = req.body;
+        lesion.courseChapterId = req.params.courseChapterId;
+        const newLesion = await CourseService.updateLesion(lesion);
+        res.redirect(`/instructor/edit-course/${req.params.courseId}`);
+    }
+)
+
+router.delete('/course/:courseId/chapter/:courseChapterId/lesion/:lesionId',
+    async (req, res) => {
+        CourseService.deleteLesion(req.params.lesionId)
+            .then(r => res.json(true))
+            .catch(err => res.json(false));
+    })
+
+router.delete('/course/:courseId/chapter/:chapterId',
+    async (req, res) => {
+        CourseService.deleteChapter(req.params.chapterId)
+            .then(r => res.json(true))
+            .catch(err => res.json(false));
+    })
 
 module.exports = router;

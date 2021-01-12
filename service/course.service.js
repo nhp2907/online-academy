@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const Course = require('../models/course');
 const CourseChapter = require("../models/course-chapter");
 const Instructor = require("../models/instructor");
@@ -387,28 +389,25 @@ const findByInstructorId = async (instructorId) => {
 }
 
 const getCourseChapter = async (courseid) => {
-    try{
+    try {
         const courseChapters = await CourseChapter.findAll({
-            attributes: ['id','title'],
             where: {
                 courseId: courseid,
             },
             include: {
                 model: CourseChapterSection,
-                as: 'sections',
-                attributes: ['id','title','length']
+                as: 'sections'
             }
         });
         console.log(courseChapters.map(course => course.toJSON()));
         return courseChapters.map(course => course.toJSON());
-    }
-    catch (err){
+    } catch (err) {
         throw err;
     }
 }
 
 const getSectionVideo = async (sectionid) => {
-    try{
+    try {
         const sectionVideo = await CourseChapterSection.findOne({
             attributes: ['urlVideo'],
             where: {
@@ -417,10 +416,51 @@ const getSectionVideo = async (sectionid) => {
         });
         console.log(sectionVideo.toJSON())
         return sectionVideo.toJSON();
-    }
-    catch (err){
+    } catch (err) {
         throw err;
     }
+}
+
+const checkCourseBeLongToInstructor = async (courseId, instructorId) => {
+    const courses = await Course.findOne({
+        where: {
+            instructorId
+        }
+    })
+
+    return courses != null && courses != undefined;
+}
+
+async function addChapter(chapter) {
+    const newChapter = await CourseChapter.create(chapter);
+    return newChapter.toJSON();
+}
+
+async function addLesion(lesion) {
+    const newLesion = await CourseChapterSection.create(lesion);
+    return newLesion.toJSON();
+}
+
+async function updateLesion(lesion) {
+    const savedLesion = await CourseChapterSection.findByPk(lesion.id);
+
+    for (const [key, value] of Object.entries(lesion)) {
+        savedLesion[key] = value;
+    }
+    const updatedLesion = await savedLesion.save();
+    return updatedLesion.toJSON();
+}
+
+async function deleteLesion(id) {
+    const lesion = await CourseChapterSection.findByPk(id);
+    fs.rmSync(`public/` + lesion.urlVideo, {
+        force: true,
+    });
+    return await  lesion.destroy();
+}
+async function deleteChapter(id) {
+    const lesion = await CourseChapter.findByPk(id);
+    return await  lesion.destroy();
 }
 
 module.exports = {
@@ -435,7 +475,12 @@ module.exports = {
     getPopularCategoryCourses,
     getAllLevel,
     findByInstructorId,
-    getPopularCategoryCourses,
     getCourseChapter,
-    getSectionVideo
+    getSectionVideo,
+    checkCourseBeLongToInstructor,
+    addChapter,
+    addLesion,
+    updateLesion,
+    deleteLesion,
+    deleteChapter,
 }

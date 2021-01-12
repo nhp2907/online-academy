@@ -41,6 +41,9 @@ router.post('/update-basic-info', async (req, res) => {
 
 router.post('/update-avatar', upload.single('avatar'), async (req, res) => {
     const file = req.file;
+    if (!file) {
+        res.redirect('/user/me')
+    }
     console.log(file)
     const oldPath = res.locals.user.image;
     const user = await UserService.updateBasicInfo({
@@ -66,9 +69,19 @@ router.post('/update-password', async (req, res) => {
     console.log('update password new token: ', token);
     if (token != null) {
         res.cookie('token', token, {httpOnly: true, sameSite: 'lax'})
-        res.redirect('/user/me');
+        res.render('pages/profile', {
+            css: ['profile'],
+            user: res.locals.user,
+            status: 'success',
+            message: 'Change password successfully!'
+        })
     } else {
-        res.send({statusCode: 501})
+        res.render('pages/profile', {
+            css: ['profile'],
+            user: res.locals.user,
+            status: 'error',
+            message: 'Password is not correct!'
+        })
     }
 })
 
