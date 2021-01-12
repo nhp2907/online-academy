@@ -9,7 +9,6 @@ const { getAllInstructor, getById, getAllUserCourses } = require('../service/use
 const { getUnPaymentInvoice } = require('../service/invoice.service');
 const UserService = require("../service/user.service");
 const UserRole = require("../constant/UserRole");
-const {getAllInstructor} = require('../service/user.service');
 const {getSubCategoriesByCategory} = require("../service/category.service");
 const {getPopularSubCategoriesByCategory} = require("../service/category.service");
 const {getMostEnrollCategories} = require("../service/category.service");
