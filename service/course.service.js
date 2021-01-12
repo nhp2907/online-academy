@@ -456,11 +456,17 @@ async function deleteLesion(id) {
     fs.rmSync(`public/` + lesion.urlVideo, {
         force: true,
     });
-    return await  lesion.destroy();
+    return await lesion.destroy();
 }
+
 async function deleteChapter(id) {
     const lesion = await CourseChapter.findByPk(id);
-    return await  lesion.destroy();
+    return await lesion.destroy();
+}
+
+async function findLesionById(id) {
+    const lesion = await CourseChapterSection.findByPk(id);
+    return lesion.toJSON();
 }
 
 module.exports = {
@@ -483,4 +489,5 @@ module.exports = {
     updateLesion,
     deleteLesion,
     deleteChapter,
+    findLesionById,
 }

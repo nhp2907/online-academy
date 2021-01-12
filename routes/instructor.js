@@ -9,6 +9,7 @@ const CategoryService = require('../service/category.service')
 const multer = require('multer')
 const UserRole = require("../constant/UserRole");
 const PRODUCT_IMAGE_PATH = "public/assets/images/products/";
+const PRODUCT_VIDEO_PATH = "public/assets/videos/courses/";
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -19,7 +20,17 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + ext)
     }
 })
+const courseVideoStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, PRODUCT_VIDEO_PATH)
+    },
+    filename: function (req, file, cb) {
+        let ext = file.originalname.substring(file.originalname.lastIndexOf('.'), file.originalname.length);
+        cb(null, Date.now() + ext)
+    }
+})
 const upload = multer({storage: storage});
+const videoUpload = multer({storage: courseVideoStorage})
 
 router.use((req, res, next) => {
     const user = res.locals.user;
@@ -68,7 +79,7 @@ router.post('/course', upload.single('image'), async (req, res, next) => {
     course.instructorId = res.locals.user.id;
     course.advancementId = 4;
     course.image = 'assets/images/products/' + file.filename;
-    const savedCourse = await CourseService.save(course);
+    await CourseService.save(course);
 
     res.redirect('/instructor')
 })
@@ -92,7 +103,7 @@ router.get('/edit-course/:id', async (req, res) => {
 /**
  * edit course
  */
-router.post('/edit-course', upload.single('image'), async (req, res, next) => {
+router.post('/edit-course', upload.single('image'), async (req, res) => {
     const course = req.body;
     const check = CourseService.checkCourseBeLongToInstructor(course.id, res.locals.user.id);
     if (!check) {
@@ -111,23 +122,22 @@ router.post('/edit-course', upload.single('image'), async (req, res, next) => {
         });
         course.image = 'assets/images/products/' + file.filename;
     }
-    const savedCourse = await CourseService.update(course);
+    await CourseService.update(course);
 
     res.redirect('/instructor')
 })
 
 /**
- * delete course
+ * instructor profile
  */
-router.delete('/course', (req, res, next) => {
+router.get('/profile', (req, res) => {
 
 })
 
-router.get('/profile', (req, res, next) => {
-
-})
-
-router.post('/course/:courseId/add-chapter', (req, res) => {
+/**
+ * add chapter
+ */
+router.post('/course/:courseId/add-chapter', (req) => {
     const chapter = req.body;
     const courseId = req.params.courseId;
     chapter.courseId = courseId;
@@ -137,29 +147,52 @@ router.post('/course/:courseId/add-chapter', (req, res) => {
     res.redirect(`/instructor/edit-course/${courseId}`);
 })
 
+/**
+ * add lesion
+ */
 router.post('/course/:courseId/chapter/:courseChapterId/add-lesion',
-    upload.fields([{name: 'video', maxCount: 1}, {name: 'documents', maxCount: 10}]),
+    videoUpload.fields([{name: 'video', maxCount: 1}, {name: 'documents', maxCount: 10}]),
     async (req, res) => {
-        console.log(req.files);
+        const files = req.files;
         const lesion = req.body;
+        console.log(files);
+
         lesion.courseChapterId = req.params.courseChapterId;
+        lesion.urlVideo = 'public/assets/videos/courses/' + files.video[0].filename;
         const newLesion = await CourseService.addLesion(lesion);
+
         res.redirect(`/instructor/edit-course/${req.params.courseId}`);
     }
 )
 
+/**
+ * update lesion
+ */
 router.post('/course/:courseId/chapter/:courseChapterId/update-lesion',
-    upload.fields([{name: 'video', maxCount: 1}, {name: 'documents', maxCount: 10}]),
+    videoUpload.fields([{name: 'video', maxCount: 1}, {name: 'documents', maxCount: 10}]),
     async (req, res) => {
-        console.log(req.files);
+        const file = req.files;
         console.log(req.body);
         const lesion = req.body;
         lesion.courseChapterId = req.params.courseChapterId;
+        lesion.urlVideo = 'public/assets/videos/courses/' + file.video[0].filename;
+
+        const oldLesion = CourseService.findLesionById(lesion.id);
+        const oldVideoUrl = oldLesion.urlVideo;
+
         const newLesion = await CourseService.updateLesion(lesion);
+
+        fs.rmSync(`public/` + oldVideoUrl, {
+            force: true,
+        });
+
         res.redirect(`/instructor/edit-course/${req.params.courseId}`);
     }
 )
 
+/**
+ * delete lesion
+ */
 router.delete('/course/:courseId/chapter/:courseChapterId/lesion/:lesionId',
     async (req, res) => {
         CourseService.deleteLesion(req.params.lesionId)
@@ -167,6 +200,9 @@ router.delete('/course/:courseId/chapter/:courseChapterId/lesion/:lesionId',
             .catch(err => res.json(false));
     })
 
+/**
+ * delete chapter
+ */
 router.delete('/course/:courseId/chapter/:chapterId',
     async (req, res) => {
         CourseService.deleteChapter(req.params.chapterId)
