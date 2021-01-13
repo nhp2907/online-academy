@@ -1,0 +1,56 @@
+<section class="user-learning">
+    <div class="fixed-user-info">
+        <div class="user-avatar">
+            <img src="https://dvkhfbm6djrbs.cloudfront.net/5acc7360f161b700446f8349/5c2dd8a2f96d4d000caaeeda/logo_mycourses.png" alt="">
+            <img src="https://graph.facebook.com/539920009811517/picture" alt="">
+            <p>{{this.user.firstName}} {{this.user.lastName}}</p>
+            <p>Học viên</p>
+        </div>
+        <hr/>
+        <div class="user-choice">
+            <button><i class="fas fa-chevron-circle-right"></i>Khóa học của tôi</button>
+            <button><i class="fas fa-chevron-circle-right"></i>Danh sách yêu thích</button>
+            <button><i class="fas fa-user-circle"></i>Thông tin cá nhân</button>
+            <button><i class="fab fa-yelp"></i>Hỗ trợ</button>
+        </div>
+    </div>
+    <div class="user-courses">
+        <div class="course-info">
+            <p>Khóa học của tôi</p>
+            <input type="text" placeholder="Tìm kiếm theo tiêu đề">
+            <button>Tìm kiếm</button>
+        </div>
+        <div class="basic-course">
+            <div class="basic-content">
+                {{#each this.userCourses}}
+                    <a href={{this.id}} class="basic-item"><div>
+                        <img class="course-img" src="../../../{{this.image}}" alt={{this.name}}>
+                        <p>{{this.name}}</p>
+                        <p class="user-name"><span>{{this.instructor.basicInfo.firstName}} {{this.instructor.basicInfo.lastName}}</span></p>
+                        <p><span>{{this.rating}}</span><span class="star-rating"></span></p>
+                        <script>
+                            $(".star-rating").starRating({
+                                initialRating: {{this.rating}},
+                                strokeColor: '#EB8A2F',
+                                strokeWidth: 10,
+                                starSize: 15,
+                                readOnly: true
+                            });
+                        </script>
+                    </div></a>
+                {{/each}}
+            </div>
+            <script>
+				$('.user-learning .basic-item').map(function(index){
+					var seoCourseLink = $(this).children('div:first').children('p:first').text().toLowerCase().replace(/\ /g, '-');
+					var courseId = $(this).attr('href');
+					$(this).attr('href', '/courses/' + seoCourseLink + '/' + courseId + '/lecture/1');
+                    console.log($(this).attr('href'));
+				});
+            </script>
+        </div>
+    </div>
+    <script>
+
+    </script>
+</section>

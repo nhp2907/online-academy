@@ -3,7 +3,11 @@ $leftSideWidthPercent: 60%;
 .course-detail {
   position: relative;
   display: flex;
-
+  button{
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
   .wrapper {
     flex: 1;
 
@@ -196,7 +200,11 @@ $leftSideWidthPercent: 60%;
         }
       }
     }
-
+    .course-description-wrapper {
+      margin-left: $marginPercent;
+      margin-top: 20px;
+      width: $leftSideWidthPercent;
+    }
     .frequently-bought-wrapper {
       margin-left: $marginPercent;
       margin-top: 20px;

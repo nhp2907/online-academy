@@ -1,6 +1,6 @@
 <nav class="nav">
 	<div class="left-sight">
-		<a href=""><img src="https://assets.data.world/assets/logo-horiz-white.4ce1e77312620581d5a1c421c845b488.svg"
+		<a href="/"><img src="https://assets.data.world/assets/logo-horiz-white.4ce1e77312620581d5a1c421c845b488.svg"
 				alt=""></a>
 	</div>
 	<div class="center">
@@ -21,8 +21,8 @@
 						<a href="#" class="content-btn nav-link">Learn More</a>
 					</div>
 				</div>
-				<a href="#" class="nav-link">Sign Up</a>
-				<a href="#" class="nav-link">Sign In</a>
+				<a href="auth" class="nav-link">Sign Up</a>
+				<a href="auth" class="nav-link">Sign In</a>
 			</div>
 		{{else}}
 			<script>
@@ -35,38 +35,24 @@
 				<div class="my-learning">
 					<a href="#" class="nav-link">My learning</a>
 					<div class="my-learning-dropdown-content">
-						{{#each this.user.course}}
-							<a href="#"><div class="my-course-item">
-								<img src={{this.img}} alt="" />
-								<p>{{this.name}}</p>
-								<p class="start-learning">Start Learning</p>
-								<progress max='100' value = '0'></progress>
-							</div></a>
-							<hr/>
-							<script>
-								var courseProcess = {{this.progress}}
-								var temp = ".start-learning:eq(" + i + ")"; 
-								if(courseProcess > 0){
-									$(temp).next().val(courseProcess);
-									$(temp).css("display","none");
-								}else{
-									$(temp).next().css("display", "none");
-								}
-								i++;
-							</script>
-						{{/each}}
-						<a href="#" class="content-btn nav-link">Go To My Learning</a>
-						<div class="my-empty-course">
-							<p>Start learning from over 130,000 courses today.</p>
-							<a href="#" class="content-btn nav-link">Browse Now</a>
-						</div>
+						{{#if this.userCourses}}
+							{{#each this.userCourses}}
+								<a href="#"><div class="my-course-item">
+									<img src="../../{{this.image}}" alt="" />
+									<p>{{this.name}}</p>
+									<p class="start-learning">Start Learning</p>
+									<progress max='100' value = '0'></progress>
+								</div></a>
+								<hr/>
+							{{/each}}
+							<a href="/my-courses/learning" class="content-btn nav-link">Go To My Learning</a>
+						{{else}}
+							<div class="my-empty-course">
+								<p>Start learning from over 130,000 courses today.</p>
+								<a href="#" class="content-btn nav-link">Browse Now</a>
+							</div>
+						{{/if}}
 						<script>
-							var numInCourse = {{ this.user.course.length }}
-								if (numInCourse > 0) {
-									$('.my-empty-course:first').css("display", "none");
-								} else {
-									$(".my-course-item, .content:btn:first").css("display", "none");
-								}
 						</script>
 					</div>
 				</div>
@@ -74,37 +60,34 @@
 					<div class="amount-in-cart">{{this.user.cart.length}}</div>
 					<a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i></a>
 					<div class="my-cart-content">
-						{{#each this.user.cart}}
-							<a href="#"><div class="my-cart-item">
-								<img src={{this.img}} alt="" />
-								<p>{{this.name}}</p>
-								<p>{{this.author}}</p>
-								<p><span>${{this.price}}&nbsp;&nbsp;</span><span>${{this.pre_price}}</span></p>
-							</div></a>
-							<hr/>
+						{{#if this.userUnPaymentInvoice}}
+							{{#each this.userUnPaymentInvoice.courses}}
+								<a href="#"><div class="my-cart-item">
+									<img src="../../{{this.image}}" alt="" />
+									<p>{{this.name}}</p>
+									<p>{{this.author}}</p>
+									<p><span>$ {{this.price}}&nbsp;&nbsp;</span><span>$ {{this.prePrice}}</span></p>
+								</div></a>
+								<hr/>
+								<script>
+									sumPrice += {{ this.price }}
+									sumPrePrice += {{ this.prePrice }}
+								</script>
+							{{/each}}
+							<div class="my-cart-sum">
+								<p><span class="sum-price">$</span>&nbsp;&nbsp;<span class="sum-pre-price">$</span></p></span>
+								<a href="/cart" class="content-btn nav-link">Go To Cart</a>
+							</div>
 							<script>
-								sumPrice += {{ this.price }}
-								sumPrePrice += {{ this.pre_price }}
-							</script>
-						{{/each}}
-						<div class="my-cart-sum">
-							<p><span class="sum-price">$</span>&nbsp;&nbsp;<span class="sum-pre-price">$</span></p></span>
-							<a href="#" class="content-btn nav-link">Go To Cart</a>
-						</div>
-						<div class="my-empty-cart">
-							<p>Your Cart Is Empty</p>
-							<a href="#" class="nav-link">Keep Shopping</a>
-						</div>
-						<script>
-							var numInCart = {{ this.user.cart.length }}
-							if (numInCart > 0) {
-								$(".my-empty-cart:first").css("display", "none");
 								$(".sum-price:first").html("$" + sumPrice);
 								$(".sum-pre-price:first").html("$" + sumPrePrice);
-							} else {
-								$(".my-cart-item, .my-cart-sum").css("display", "none");
-							}
-						</script>
+							</script>
+						{{else}}
+							<div class="my-empty-cart">
+								<p>Your Cart Is Empty</p>
+								<a href="#" class="nav-link">Keep Shopping</a>
+							</div>
+						{{/if}}
 					</div>
 				</div>
 				<div class="my-notification">
@@ -130,13 +113,13 @@
 					<div class="my-profile-content">
 						<div>
 							<p>TT</p>
-							<p><span class="first-name">{{this.user.first_name}} </span><span class="last-name">{{this.user.last_name}}</span></p>
+							<p><span class="first-name">{{this.user.firstName}} </span><span class="last-name">{{this.user.lastName}}</span></p>
 							<p>{{this.user.email}}</p>
 						</div>
 						<hr/>
 						<div>
-							<a href="#">My Learning</a>
-							<a href="#">My Cart</a>
+							<a href="/my-courses/learning">My Learning</a>
+							<a href="/cart">My Cart</a>
 							<a href="#">Instructor Dashboard</a>
 						</div>
 						<hr />
@@ -159,7 +142,7 @@
 						<hr />
 						<div>
 							<a href="#">Help</a>
-							<a href="#" id="log-out-btn">Log Out</a>
+							<a href="/logout" id="log-out-btn">Log Out</a>
 						</div>
 					</div>
 				</div>

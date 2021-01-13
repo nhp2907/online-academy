@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const Course = require('../models/course');
 const CourseChapter = require("../models/course-chapter");
 const Instructor = require("../models/instructor");
@@ -10,19 +12,36 @@ const CategoryLink = require('../models/category-link');
 const Level = require('../models/level');
 const SubCategory = require('../models/sub-category');
 const Category = require('../models/category');
+const UserCourse = require('../models/user-course');
+
+const save = async (course) => {
+    const savedCourse = await Course.create(course);
+    return savedCourse.toJSON();
+}
+
+const update = async (course) => {
+    const savedCourse = await Course.findByPk(course.id);
+
+    for (const [key, value] of Object.entries(course)) {
+        savedCourse[key] = value;
+    }
+    const updatedCourse = await savedCourse.save();
+    return updatedCourse.toJSON();
+
+}
 
 const getPagination = (page, size) => {
-    const limit = size ? +size : 5;
+    const limit = size ? + size : 5;
     const offset = 0 + (page - 1) * limit;
-    return {limit, offset};
+    return { limit, offset };
 };
 
 const getPagingData = (data, page, limit) => {
-    const {count: totalItems} = data;
-    const currentPage = page ? +page : 0;
+    const { count: totalItems } = data;
+    const currentPage = page ? + page : 0;
     const totalPages = Math.ceil(totalItems / limit);
-
-    return {totalItems, totalPages, currentPage};
+  
+    return { totalItems, totalPages, currentPage };
 };
 
 const findAll = async () => {
@@ -49,10 +68,10 @@ const findAll = async () => {
     return courses.map(c => c.toJSON());
 }
 
-const findById = async (courseId) => {
-    const courseEntities = await Course.findOne({
+const findById = async (id) => {
+    const course = await Course.findOne({
         where: {
-            id: courseId
+            id
         },
         include: [{
             model: CourseChapter,
@@ -70,28 +89,27 @@ const findById = async (courseId) => {
             }
         }, {
             model: CourseReview,
-            as: 'reviews',
-            include: {
-                model  : User,
-                as: "user"
-            },
-            limit: 10,
+            as: 'reviews'
+        }, {
+            model: CategoryLink,
+            as: 'categoryLink'
         }]
     });
-    return courseEntities.toJSON();
-
+    return course.toJSON();
 }
 
-const findByCategory = (category, {page, limit}) => {
+const findByCategory = (category) => {
     return [];
 }
 
 const findByAuthor = (author) => {
     return [];
 }
+
 const search = (criteria) => {
     return [];
 }
+
 const getTopCoursesInWeek = async () => {
     try {
         const topCoursesInWeek = await Course.findAll({
@@ -225,8 +243,7 @@ const getMostRatingCourses = async () => {
 
 const getCategoryCourses = async (categoryid, page, size, duration, rating, level, price, order, topic) => {
     try {
-        const {limit, offset} = getPagination(page, size);
-        console.log(categoryid);
+        const { limit, offset } = getPagination(page, size);
         const categoryCourses = await Course.findAndCountAll({
             attributes: ['id', 'name', 'headline', 'image', 'price', 'rating', 'numReview', 'numLecture', 'numStudentEnroll', 'estimateContentLength'],
             limit,
@@ -253,12 +270,12 @@ const getCategoryCourses = async (categoryid, page, size, duration, rating, leve
                 model: Instructor,
                 as: 'instructor',
                 attributes: ['id'],
-                include: {
-                    model: User,
-                    as: 'basicInfo',
-                    attributes: ['id', 'firstName', 'lastName']
-                }
-            },
+                    include: {
+                        model: User,
+                        as: 'basicInfo',
+                        attributes: ['id', 'firstName', 'lastName']
+                    }
+                },
                 {
                     model: Advancement,
                     as: 'advancement',
@@ -350,14 +367,125 @@ const getPopularCategoryCourses = async (categoryid) => {
     }
 }
 
+const getAllLevel = async () => {
+    const levels = await Level.findAll();
+    return levels.map(l => l.toJSON());
+}
+
+const findByInstructorId = async (instructorId) => {
+    const courses = await Course.findAll({
+        where: {
+            instructorId
+        }
+    })
+    const st = courses.map(c => c.toJSON());
+
+    console.log(st);
+
+    return st;
+}
+
+const getCourseChapter = async (courseid) => {
+    try {
+        const courseChapters = await CourseChapter.findAll({
+            where: {
+                courseId: courseid,
+            },
+            include: {
+                model: CourseChapterSection,
+                as: 'sections'
+            }
+        });
+        console.log(courseChapters.map(course => course.toJSON()));
+        return courseChapters.map(course => course.toJSON());
+    } catch (err) {
+        throw err;
+    }
+}
+
+const getSectionVideo = async (sectionid) => {
+    try {
+        const sectionVideo = await CourseChapterSection.findOne({
+            attributes: ['urlVideo'],
+            where: {
+                id: sectionid,
+            }
+        });
+        console.log(sectionVideo.toJSON())
+        return sectionVideo.toJSON();
+    } catch (err) {
+        throw err;
+    }
+}
+
+const checkCourseBeLongToInstructor = async (courseId, instructorId) => {
+    const courses = await Course.findOne({
+        where: {
+            instructorId
+        }
+    })
+
+    return courses != null && courses != undefined;
+}
+
+async function addChapter(chapter) {
+    const newChapter = await CourseChapter.create(chapter);
+    return newChapter.toJSON();
+}
+
+async function addLesion(lesion) {
+    const newLesion = await CourseChapterSection.create(lesion);
+    return newLesion.toJSON();
+}
+
+async function updateLesion(lesion) {
+    const savedLesion = await CourseChapterSection.findByPk(lesion.id);
+
+    for (const [key, value] of Object.entries(lesion)) {
+        savedLesion[key] = value;
+    }
+    const updatedLesion = await savedLesion.save();
+    return updatedLesion.toJSON();
+}
+
+async function deleteLesion(id) {
+    const lesion = await CourseChapterSection.findByPk(id);
+    fs.rmSync(`public/` + lesion.urlVideo, {
+        force: true,
+    });
+    return await lesion.destroy();
+}
+
+async function deleteChapter(id) {
+    const lesion = await CourseChapter.findByPk(id);
+    return await lesion.destroy();
+}
+
+async function findLesionById(id) {
+    const lesion = await CourseChapterSection.findByPk(id);
+    return lesion.toJSON();
+}
+
 module.exports = {
+    save,
+    update,
     findById,
     findAll,
-    findByCategory,
-    search,
-    getTopCoursesInWeek,
+    search, getTopCoursesInWeek,
     getNewestCourses,
     getMostEnrollCourses,
     getCategoryCourses,
-    getPopularCategoryCourses
+    getPopularCategoryCourses,
+    getAllLevel,
+    findByInstructorId,
+    getCourseChapter,
+    getSectionVideo,
+    checkCourseBeLongToInstructor,
+    addChapter,
+    addLesion,
+    updateLesion,
+    deleteLesion,
+    deleteChapter,
+    findLesionById,
+    getSectionVideo,
 }

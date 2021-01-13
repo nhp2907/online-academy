@@ -1,6 +1,10 @@
 .course-detail {
   position: relative;
   display: flex; }
+  .course-detail button {
+    cursor: pointer;
+    border: none;
+    outline: none; }
   .course-detail .wrapper {
     flex: 1; }
     .course-detail .wrapper .basic-info-wrapper {
@@ -116,6 +120,10 @@
                 color: #25a55e; }
             .course-detail .wrapper .course-content-wrapper .course-content .chapter .chapter-content .section .time {
               margin-right: 10px; }
+    .course-detail .wrapper .course-description-wrapper {
+      margin-left: 7%;
+      margin-top: 20px;
+      width: 60%; }
     .course-detail .wrapper .frequently-bought-wrapper {
       margin-left: 7%;
       margin-top: 20px;

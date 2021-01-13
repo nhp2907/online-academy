@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt');
 const UserService = require("./user.service");
+const UserRole = require("../constant/UserRole");
 
 /**
  * Verify authentication middleware
@@ -9,33 +10,32 @@ const UserService = require("./user.service");
  * @param next
  */
 const verifyJwt = (req, res, next) => {
-    const privateRoute = ['teacher', 'admin', 'student']
-
-    if (req.originalUrl.startsWith('/teacher')
-        || req.originalUrl.startsWith('/admin')
-        || req.originalUrl.startsWith('/student')) {
-        const token = req.header('Authentication').split(' ')[1];
-        jwt.verify(token, process.env.JWT_SERET_KEY, async (err, decoded) => {
+    console.log(req.originalUrl)
+    const token = req.cookies.token;
+    req.session.returnTo = req.originalUrl;
+    if (req.originalUrl === '/logout' || !token) {
+        next();
+    } else {
+        jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {
             if (err) {
-                throw new err;
+                res.redirect('/');
             }
+
             const user = await UserService.findByUsername(decoded.username);
-            res.locals.user = user;
+            delete user.password;
+            res.locals.user = user.toJSON();
             next();
         })
-    } else {
-        next();
     }
 }
 
 /**
- * Hash password and save user with the hashedPassword
  * @param user
  */
 const signup = (user) => {
     bcrypt.hash(user.password, 10, (err, hashedPassword) => {
         user.password = hashedPassword;
-        UserService.save(user);
+        UserService.save(user).then(() => console.log('Signup Save account successfully'));
     })
 }
 
@@ -52,6 +52,8 @@ const login = async (username, password) => {
             if (bcrypt.compareSync(password, user.password)) {
                 return jwt.sign({username}, process.env.JWT_SECRET_KEY);
             }
+            return null;
+        } else {
             return null;
         }
     } catch (err) {
