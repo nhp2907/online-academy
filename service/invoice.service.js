@@ -3,9 +3,11 @@ const Coupon = require('../models/coupon');
 const Course = require('../models/course');
 const Instructor = require('../models/instructor');
 const Invoice = require('../models/invoice');
+const InvoiceCourse = require('../models/invoice-course');
 const InvoiceStatus = require('../models/invoice-status');
 const PaymentType = require('../models/payment-type');
 const User = require('../models/user');
+const UserCourse = require('../models/user-course');
 
 module.exports = {
     async getUnPaymentInvoice(userid) {
@@ -75,4 +77,47 @@ module.exports = {
         if(updateResult === null) return null;
         return updateResult;
     },
+
+    async createNewInvoice(userid){
+        try{
+            const invoice =  await Invoice.build({
+                userId: userid
+            }).save();
+            return invoice.toJSON();
+        }catch(error){
+            throw error;
+        }
+        
+    },
+
+    async addCourseInvoice(invoiceid, courseid){
+        
+        const courseInvoice = await InvoiceCourse.create({
+                invoiceId: invoiceid,
+                courseId: courseid
+            });
+        if(courseInvoice == null) return null;
+        return courseInvoice.toJSON();
+    },
+
+    async addCourseUser(userid, courseid){
+        
+        const userCourse = await UserCourse.create({
+                userId: userid,
+                courseId: courseid
+            });
+        if(userCourse == null) return null;
+        return userCourse.toJSON();
+    },
+
+    async getInvoiceCourses(invoiceid){
+        
+        const userCourses = await InvoiceCourse.findAll({
+            attributes: ['courseId'],
+            where: {
+                invoiceId: invoiceid
+            }
+        });
+        return userCourses.map(invoiceCourse => invoiceCourse.toJSON());
+    }
 }

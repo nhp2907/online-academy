@@ -121,10 +121,10 @@
 			<button type="button" class="slick-btn prev"><i class="fas fa-chevron-left"></i></button>
 			<div class="basic-content">
 				{{#each this.topCoursesInWeek}}
-					<a href="#">
+					<a href={{this.id}}>
 						<div class="basic-item">
 							<img class="course-img" src={{this.image}} alt={{this.name}}>
-							<p>{{this.name}}</p>
+							<p class="c-name">{{this.name}}</p>
 							<p>{{this.instructor.basicInfo.Name}} {{this.instructor.basicInfo.lastName}}</p>
 							<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}}
 								)</span></p>
@@ -152,10 +152,10 @@
 			<button type="button" class="slick-btn prev"><i class="fas fa-chevron-left"></i></button>
 			<div class="basic-content">
 				{{#each this.newestCourses}}
-					<a href="#">
+					<a href={{this.id}}>
 						<div class="basic-item">
 							<img class="course-img" src={{this.image}} alt={{this.name}}>
-							<p>{{this.name}}</p>
+							<p class="c-name">{{this.name}}</p>
 							<p><span>{{this.instructor.basicInfo.Name}} {{this.instructor.basicInfo.lastName}}</span>
 							</p>
 							<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}}
@@ -184,10 +184,10 @@
 			<button type="button" class="slick-btn prev"><i class="fas fa-chevron-left"></i></button>
 			<div class="basic-content">
 				{{#each this.mostEnrollCourses}}
-					<a href="#">
+					<a href={{this.id}}>
 						<div class="basic-item">
 							<img class="course-img" src={{this.image}} alt={{this.name}}>
-							<p>{{this.name}}</p>
+							<p class="c-name">{{this.name}}</p>
 							<p><span>{{this.instructor.basicInfo.Name}} {{this.instructor.basicInfo.lastName}}</span>
 							</p>
 							<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}}
@@ -348,5 +348,9 @@
 		$(document).ready(function () {
 			localStorage.setItem('token', {{user.token}});
 		})
+		$('.basic-item').click(function(){
+			var seoCourseLink = $(this).children('.c-name').html().toLowerCase().replace(/\ /g, '-');
+			$(this).parent().attr('href', '/courses/' + seoCourseLink + '/' + $(this).parent().attr('href'))
+        });
 	</script>
 </div>

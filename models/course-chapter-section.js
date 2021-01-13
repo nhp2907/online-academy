@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('./db');
 
-const CourseChapterSection = sequelize.define('course', {
+const CourseChapterSection = sequelize.define('courseChapterSection', {
     id : {
         primaryKey: true,
         type: DataTypes.INTEGER

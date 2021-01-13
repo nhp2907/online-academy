@@ -91,7 +91,7 @@ nav {
             text-align: center;
             margin-bottom: 15px; }
           nav .right-sight .before-sign-in .my-teach .my-teach-content a {
-            background: #2896a9;
+            background: #F92C71;
             text-align: center;
             border: none;
             border-radius: 5px;
@@ -142,7 +142,7 @@ nav {
               color: green;
               font-weight: bold; }
           nav .right-sight .after-sign-in .my-learning .my-learning-dropdown-content .content-btn {
-            background: #2896a9;
+            background: #F92C71;
             text-align: center;
             border: none;
             border-radius: 5px;
@@ -159,7 +159,7 @@ nav {
             text-align: center;
             margin-bottom: 15px; }
           nav .right-sight .after-sign-in .my-learning .my-learning-dropdown-content .my-empty-course a {
-            background: #2896a9;
+            background: #F92C71;
             text-align: center;
             border: none;
             border-radius: 5px;
@@ -224,7 +224,7 @@ nav {
               text-decoration: line-through;
               color: grey; }
           nav .right-sight .after-sign-in .my-cart .my-cart-content .my-cart-sum a {
-            background: #2896a9;
+            background: #F92C71;
             text-align: center;
             border: none;
             border-radius: 5px;

@@ -28,9 +28,9 @@
 		<a href="#" style="color:#A541B5">Courses to get you started</a>
 		<div class="basic-content">
 			{{#each this.popularCategoryCourses}}
-				<a href="#"><div class="basic-item">
+				<a href={{this.id}}><div class="basic-item">
 					<img class="course-img" src="../../{{this.image}}" alt={{this.name}}>
-					<p>{{this.name}}</p>
+					<p class="c-name">{{this.name}}</p>
 					<p>{{this.instructor.basicInfo.firstName}} {{this.instructor.basicInfo.lastName}}</p>
 					<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}})</span></p>
 					<p><span>$ {{this.price}}</span><span>$ {{this.prePrice}}</span></p>
@@ -47,6 +47,12 @@
 				</div></a>
 			{{/each}}
 		</div>
+        <script>
+            $('.basic-item').click(function(){
+                var seoCourseLink = $(this).children('.c-name').html().toLowerCase().replace(/\ /g, '-');
+                $(this).parent().attr('href', '/courses/' + seoCourseLink + '/' + $(this).parent().attr('href'))
+            });
+        </script>
 	</div>
     <div class="topic-recommend">
         <P class="headline">Popular topics</P>
@@ -256,10 +262,10 @@
             </div>
             <div class="category-detail-content">
                 {{#each this.categoryCourses}}
-                    <a href="#"><div class="course-item">
+                    <a href={{this.id}}><div class="course-item">
                         <img src="../../{{this.image}}" alt="image">
                         <div class="course-info">
-                            <p>{{this.name}}</p>
+                            <p class="c-name">{{this.name}}</p>
                             <p>{{this.headline}}</p>
                             <p>{{this.instructor.basicInfo.firstName}} {{this.instructor.basicInfo.lastName}}</p>
                             <p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}})</span></p>
@@ -300,6 +306,10 @@
                         else if(advancementVal == "Best Choice"){
                             $(this).css("background-color","#17BCCF");
                         }
+                    });
+                    $('.course-item').click(function(){
+                        var seoCourseLink = $(this).children('.course-info').children('.c-name').html().toLowerCase().replace(/\ /g, '-');
+                        $(this).parent().attr('href', '/courses/' + seoCourseLink + '/' + $(this).parent().attr('href'))
                     });
                 </script>
             </div>

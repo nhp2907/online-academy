@@ -10,6 +10,7 @@ const CategoryLink = require('../models/category-link');
 const Level = require('../models/level');
 const SubCategory = require('../models/sub-category');
 const Category = require('../models/category');
+const UserCourse = require('../models/user-course');
 
 const getPagination = (page, size) => {
     const limit = size ? + size : 5;
@@ -56,10 +57,10 @@ const findById = async (id) => {
         include: [{
             model: CourseChapter,
             as: 'chapters',
-            include: {
-                model: CourseChapterSection,
-                as: 'sections'
-            }
+            // include: {
+            //     model: CourseChapterSection,
+            //     as: 'sections'
+            // }
         }, {
             model: Instructor,
             as: 'instructor',
@@ -216,7 +217,7 @@ const getMostRatingCourses = async () => {
 const getCategoryCourses = async (categoryid, page, size, duration, rating, level, price, order, topic) => {
     try {
         const { limit, offset } = getPagination(page, size);
-        console.log(categoryid);
+        console.log("bbbbbbb",categoryid);
         const categoryCourses = await Course.findAndCountAll({
             attributes: ['id', 'name', 'headline', 'image', 'price', 'rating', 'numReview', 'numLecture', 'numStudentEnroll', 'estimateContentLength'],
             limit,
@@ -386,5 +387,5 @@ module.exports = {
     getCategoryCourses,
     getPopularCategoryCourses,
     getCourseChapter,
-    getSectionVideo
+    getSectionVideo,
 }

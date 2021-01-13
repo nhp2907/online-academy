@@ -367,4 +367,22 @@
 			</form>
 		</div>
 	</div>
+	<script>
+		$('.add-to-cart').click(function(){
+			$.ajax({
+				type: "POST",
+				url: '/cart/create-new/invoice',
+				dataType: 'json',
+				data: {
+					courseId: "{{this.course.id}}"
+				},
+				success: function (invoice) {
+					alert("Add this course to art Successfully");
+				},
+				error: function(error){
+					console.log(error);
+				}
+			});
+		})
+	</script>
 </div>

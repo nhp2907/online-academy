@@ -175,13 +175,18 @@
             <div class="payment-success template">
                 <img src="https://image.shutterstock.com/image-vector/thank-you-colorful-vector-mixed-260nw-1623314314.jpg" alt="">
                 <p class="result-text">Bạn đã đăng ký và thanh toán khóa học thành công <br/> Thông tin chi tiết sẽ hiển thị ở phần lịch sử đơn hàng</p>
-                <button>Nhấn vào đây để vào trang danh sách khóa học của bạn</button>
+                <button type="button">Nhấn vào đây để vào trang danh sách khóa học của bạn</button>
             </div>
             <div class="payment-fail template">
                 <img src="https://previews.123rf.com/images/goodstocker/goodstocker1807/goodstocker180700304/114773249-nerdy-guy-with-disconnected-cable-in-his-hands-text-warning-message-sorry-something-went-wrong-oops-.jpg" alt="">
                 <p>Oops, có chuyện gì đó không ổn đã xảy ra, chúng tôi sẽ điều tra nó ngay lập tức <br/> Nếu tài khoản bạn bị trừ tiền, hãy báo cho chúng tôi biết</p>
                 <button>Nhấn vào đây để vào trang hỗ trợ</button>
             </div>
+            <script>
+                $('.payment-result .payment-success button').click(function(){
+                    location.href = "/my-courses/learning";
+                })
+            </script>
         </div>
         <script>
             if({{this.code}} === 0) {

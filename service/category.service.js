@@ -10,14 +10,87 @@ module.exports = {
     async getAllCategories() {
         try{
             const categories = await Category.findAll({
-                attributes: ['id','name','logo','image'],
                 include: {
                     model: SubCategory,
                     as: 'subCategories',
-                    attributes: ['id','name']
                 },
             });
             return categories.map(category => category.toJSON());
+        }
+        catch(err){
+            throw err;
+        }
+    },
+
+    async createNewCategory(categoryname, categorylogo, categoryimg) {
+        try{
+            const category = await Category.create({
+                name: categoryname, 
+                logo: categorylogo, 
+                status: 1, 
+                image: "assets/images/categories/web-development.jpg"
+            });
+            return category.toJSON();
+        }
+        catch(err){
+            throw err;
+        }
+    },
+
+    async createNewSubCategory(subcategoryname, categoryid) {
+        try{
+            const subCategory = await SubCategory.create({
+                name: subcategoryname, 
+                status: 1, 
+            });
+            const categoryLink = await CategoryLink.create({
+                categoryId: categoryid,
+                subCategoryId: subCategory.toJSON().id
+            });
+            return subCategory.toJSON();
+        }
+        catch(err){
+            throw err;
+        }
+    },
+
+
+    async updateCategory(categoryid, categoryname, categorylogo) {
+        try{
+            var updateParams = {};
+            if(categoryname !== null) updateParams['name'] = categoryname;
+            if(categorylogo !== null) updateParams['logo'] = categorylogo;
+            console.log(updateParams);
+            const updateResult = await Category.update(
+                updateParams,
+                { 
+                    where: { 
+                        id: categoryid
+                    } 
+                }
+            );
+            console.log(updateResult);
+            if(updateResult === null) return null;
+            return updateResult;
+        }
+        catch(err){
+            throw err;
+        }
+    },
+
+    async getCategoryById(categoryid) {
+        console.log("blasdfsdaf",categoryid);
+        try{
+            const category = await Category.findOne({
+                where: {
+                    id: categoryid
+                },
+                include: {
+                    model: SubCategory,
+                    as: 'subCategories',
+                },
+            });
+            return category.toJSON();
         }
         catch(err){
             throw err;

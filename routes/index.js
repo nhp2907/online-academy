@@ -67,6 +67,11 @@ router.get('/logout', async (req, res) => {
 
 router.get('/', async (req, res) => {
     const user = res.locals.user
+    if(res.locals.user) {
+        var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
+        var userCourses = await getAllUserCourses(res.locals.user.id);
+        if(userCourses.length == 0) userCourses = null;
+    }
     res.render('pages/home', {
         css: ['home', 'star-rating-svg', 'slick', 'slick-theme'],
         user,
@@ -75,7 +80,9 @@ router.get('/', async (req, res) => {
         topCoursesInWeek: await getTopCoursesInWeek(),
         newestCourses: await getNewestCourses(),
         mostEnrollCourses: await getMostEnrollCourses(),
-        instructors: await getAllInstructor()
+        instructors: await getAllInstructor(),
+        userUnPaymentInvoice,
+        userCourses
     });
 
 })
@@ -144,28 +151,37 @@ function setFilter(requestPage, requestRating, requestDuration, requestPrice, re
 }
 
 router.get('/collection/*/', async (req, res) => {
-
+    //if(res.locals.user) {
+        const userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
+        const userCourses = await getAllUserCourses(res.locals.user.id);
+        //if(userCourses.length == 0) userCourses = null;
+    /*}*/
+    console.log(req.query);
     const {page, rating, duration, price, level, order, topic} = setFilter(req.query.page, req.query.rating, req.query.duration, req.query.price, req.query.level, req.query.order, req.query.topic);
 
     const {pageCount: {totalItems, totalPages, currentPage}, categorycourses: categoryCourses} = await getCategoryCourses(req.query.id, page, size = 5, duration, rating, level, price, order, topic);
-
     res.render('pages/category-detail', {
         css: ['category-detail', 'star-rating-svg'],
-        user: null,
-        categories: await getAllCategories(),
+        user: res.locals.user,
         totalItems, totalPages, currentPage, categoryCourses,
+        categories: await getAllCategories(),
         popularCategoryCourses: await getPopularCategoryCourses(req.query.id),
         popularSubCategories: await getPopularSubCategoriesByCategory(req.query.id),
-        subcategoriesByCategory: await getSubCategoriesByCategory(req.query.id)
+        subcategoriesByCategory: await getSubCategoriesByCategory(req.query.id),
+        //userUnPaymentInvoice,
+        //userCourses
     });
 });
 
 router.get('/courses/*/:courseid/lecture/:sectionid', async (req, res) => {
+    if(res.locals.user) var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
+    console.log(res.locals.user);
     res.render('pages/course-learning', {
         css: ['course-learning', 'star-rating-svg'],
         user: null,
         courseChapters: await getCourseChapter(req.params.courseid),
-        sectionVideo: await getSectionVideo(req.params.sectionid)
+        sectionVideo: await getSectionVideo(req.params.sectionid),
+        userUnPaymentInvoice
     });
 })
 
@@ -192,14 +208,23 @@ router.get('/courses', (req, res) => {
     })
 })
 
-router.get('/courses/:id', async (req, res) => {
-    const reqId = 1;
+router.get('/courses/*/:id', async (req, res) => {
+    //if(!res.locals.user) res.redirect('/auth');
+    const reqId = req.params.id;
+    if(res.locals.user) {
+        var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
+        var userCourses = await getAllUserCourses(res.locals.user.id);
+        if(userCourses.length == 0) userCourses = null;
+    }
     try {
         const course = await CourseService.findById(reqId);
         console.log(course);
         res.render('pages/course-detail', {
             css: ['course-detail'],
             course,
+            userUnPaymentInvoice,
+            userCourses,
+            user: res.locals.user
         })
     } catch (error) {
         console.log(error)

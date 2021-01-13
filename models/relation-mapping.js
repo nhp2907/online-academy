@@ -21,13 +21,15 @@ Instructor.hasOne(User, {
     foreignKey: 'id',
 });
 
+User.belongsTo(Instructor, {foreignKey: 'id'});
+
 Course.belongsTo(Instructor);
 Instructor.hasMany(Course);
 CourseChapter.belongsTo(Course);
 Course.hasMany(CourseChapter, {as: 'chapters'});
 
-CourseChapterSection.belongsTo(CourseChapter);
-CourseChapter.hasMany(CourseChapterSection, {as: 'sections' , foreignKey: 'chapterId'});
+//CourseChapter.hasMany(CourseChapterSection, {as: 'sections'});
+//CourseChapterSection.belongsTo(CourseChapter);
 
 CategoryLink.hasMany(Course, {as: 'courses'});
 Course.belongsTo(CategoryLink, {as: "categoryLink", foreignKey: 'categoryLinkId'});
@@ -68,10 +70,10 @@ Invoice.belongsTo(PaymentType);
 User.hasMany(Invoice);
 Invoice.belongsTo(User);
 
-// Invoice.hasMany(InvoiceCourse, {as: 'courses'});
-// InvoiceCourse.belongsTo(Invoice);
-// Course.hasMany(InvoiceCourse, {as: 'invoices'});
-// InvoiceCourse.belongsTo(Course);
+Invoice.hasMany(InvoiceCourse, {as: 'courses'});
+InvoiceCourse.belongsTo(Invoice);
+Course.hasMany(InvoiceCourse, {as: 'invoices'});
+InvoiceCourse.belongsTo(Course);
 
 Invoice.belongsToMany(Course, {through: InvoiceCourse});
 Course.belongsToMany(Invoice, {through: InvoiceCourse});
