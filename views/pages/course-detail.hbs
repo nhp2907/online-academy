@@ -2,7 +2,7 @@
 	<div class="wrapper">
 		<div class="basic-info-wrapper">
 			<div class="basic-info">
-				<img src="https://d3f1iyfxxz8i1e.cloudfront.net/courses/course_image/4680e99833c7.jpg" alt="">
+				<img src="../../{{course.image}}" alt="">
 				<ul>
 					<li>Development<i class="fas fa-chevron-right"></i></li>
 					<li>Data Science<i class="fas fa-chevron-right"></i></li>
@@ -116,7 +116,7 @@
 					<h3 class="name">{{course.instructor.basicInfo.firstName}} {{course.instructor.basicInfo.lastName}}</h3>
 					<span class="short-description">{{course.instructor.shortDescription}}</span>
 					<div class="review-info">
-						<img src="../../{{course.instructor.avatar}}"
+						<img src="../../{{course.instructor.basicInfo.image}}"
 						     alt="">
 						<div class="detail-info-area">
 							<div class="detail">
