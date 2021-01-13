@@ -1,26 +1,32 @@
 var express = require('express');
+const { ready } = require('jquery');
 const { getCouponByCode } = require('../service/coupon.service');
+const { getUserCourses } = require('../service/course.service');
 var router = express.Router();
 
-const { getUnPaymentInvoice, updateInvoice } = require("../service/invoice.service");
+const { getUnPaymentInvoice, updateInvoice, addCourseInvoice, createNewInvoice } = require("../service/invoice.service");
+const { getAllUserCourses } = require('../service/user.service');
 
 router.get('/', async (req, res) => {
 
+    if(!res.locals.user) res.redirect('/auth');
     var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
-
-    if(userUnPaymentInvoice === null) {
-        res.render('pages/cart', {
-            css: ['cart'],
-            code: '',
-            message: 'cant not find cart of user'
-        });
-    }
-    else {
+    var userCourses = await getAllUserCourses(res.locals.user.id);
+    if(userCourses.length == 0) userCourses = null;
+    if(userUnPaymentInvoice !== null && userUnPaymentInvoice.courses.length > 0) {
         res.render('pages/cart', {
             css: ['cart'],
             code: '00',
             message: 'found user cart',
             userUnPaymentInvoice,
+            userCourses,
+        });
+    }
+    else {
+        res.render('pages/cart', {
+            css: ['cart'],
+            code: '',
+            message: 'cant not find cart of user'
         });
     }
 });
@@ -47,6 +53,25 @@ router.post('/to_payment', async (req, res) => {
         res.send({code: '01', message: 'oops, st goes wrong'})
     }
  
+});
+
+router.post('/create-new/invoice', async (req, res) => {
+
+    const courseId = req.body.courseId;
+    //console.log("course id", courseId);
+    const invoice = await getUnPaymentInvoice(res.locals.user.id);
+    //console.log("invoice", invoice);
+    var courseInvoice;
+    if(invoice == null) {
+        const newInvoice = await createNewInvoice(res.locals.user.id);
+        //console.log("new invoice", newInvoice);
+        courseInvoice = await addCourseInvoice(newInvoice.id, courseId);
+    }else{
+        courseInvoice = await addCourseInvoice(invoice.id, courseId);
+    }
+    //console.log("course invoice", courseInvoice);
+    if(courseInvoice !== null) res.send({code: '00'});
+    else res.send({code: '01'});
 });
 
 module.exports = router;

@@ -12,6 +12,7 @@ const CategoryLink = require('../models/category-link');
 const Level = require('../models/level');
 const SubCategory = require('../models/sub-category');
 const Category = require('../models/category');
+const UserCourse = require('../models/user-course');
 
 const save = async (course) => {
     const savedCourse = await Course.create(course);
@@ -30,17 +31,17 @@ const update = async (course) => {
 }
 
 const getPagination = (page, size) => {
-    const limit = size ? +size : 5;
+    const limit = size ? + size : 5;
     const offset = 0 + (page - 1) * limit;
-    return {limit, offset};
+    return { limit, offset };
 };
 
 const getPagingData = (data, page, limit) => {
-    const {count: totalItems} = data;
-    const currentPage = page ? +page : 0;
+    const { count: totalItems } = data;
+    const currentPage = page ? + page : 0;
     const totalPages = Math.ceil(totalItems / limit);
-
-    return {totalItems, totalPages, currentPage};
+  
+    return { totalItems, totalPages, currentPage };
 };
 
 const findAll = async () => {
@@ -242,8 +243,7 @@ const getMostRatingCourses = async () => {
 
 const getCategoryCourses = async (categoryid, page, size, duration, rating, level, price, order, topic) => {
     try {
-        const {limit, offset} = getPagination(page, size);
-        console.log(categoryid);
+        const { limit, offset } = getPagination(page, size);
         const categoryCourses = await Course.findAndCountAll({
             attributes: ['id', 'name', 'headline', 'image', 'price', 'rating', 'numReview', 'numLecture', 'numStudentEnroll', 'estimateContentLength'],
             limit,
@@ -270,12 +270,12 @@ const getCategoryCourses = async (categoryid, page, size, duration, rating, leve
                 model: Instructor,
                 as: 'instructor',
                 attributes: ['id'],
-                include: {
-                    model: User,
-                    as: 'basicInfo',
-                    attributes: ['id', 'firstName', 'lastName']
-                }
-            },
+                    include: {
+                        model: User,
+                        as: 'basicInfo',
+                        attributes: ['id', 'firstName', 'lastName']
+                    }
+                },
                 {
                     model: Advancement,
                     as: 'advancement',
@@ -487,4 +487,5 @@ module.exports = {
     deleteLesion,
     deleteChapter,
     findLesionById,
+    getSectionVideo,
 }

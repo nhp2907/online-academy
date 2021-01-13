@@ -21,6 +21,10 @@ const Category = sequelize.define('Category', {
     image: {
         type: DataTypes.STRING,
         field: 'image'
+    },
+    status: {
+        type: DataTypes.NUMBER,
+        field: 'status'
     }
 }, {
     tableName: 'category',

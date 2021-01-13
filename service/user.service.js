@@ -61,6 +61,21 @@ module.exports = {
         )
         return user;
     },
+
+    async changeRoleUser(userid, roleid) {
+        const user = await User.update(
+            {
+                role_id: roleid
+            },
+            {
+                where: {
+                    id: userid
+                }
+            }
+            )
+        return user;
+    },
+
     async save(user) {
         const savedUser = await User.build({...user}).save();
         return savedUser;
@@ -100,7 +115,7 @@ module.exports = {
             include:[{
                 model: UserCourse,
                 where: {
-                    user_id: userid
+                    userId: userid
                 },
             },{
                 model: Instructor,
@@ -114,5 +129,29 @@ module.exports = {
             }]
         });
         return userCourses.map(userCourse => userCourse.toJSON());
-    }
+    },
+
+    async getAllUser() {
+        const users = await User.findAll({
+            include: {
+                model: Instructor
+            }
+            }
+        )
+        return users.map(user => user.toJSON());
+    },
+
+    async getUserById(userid) {
+        const user = await User.findOne({
+            where: {
+                id: userid
+            },
+            include: {
+                model: Instructor
+            }
+            }
+        )
+        console.log(user);
+        return user.toJSON();
+    },
 }

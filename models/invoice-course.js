@@ -4,7 +4,8 @@ const {DataTypes} = require('sequelize')
 const InvoiceCourse = sequelize.define('invoiceCourse', {
     id : {
         primaryKey: true,
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
     },
 }, {
     tableName: 'invoice_course',

@@ -1,6 +1,10 @@
 .course-detail {
   position: relative;
   display: flex; }
+  .course-detail button {
+    cursor: pointer;
+    border: none;
+    outline: none; }
   .course-detail .wrapper {
     flex: 1; }
     .course-detail .wrapper .basic-info-wrapper {

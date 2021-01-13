@@ -1,24 +1,27 @@
 var express = require('express');
-const { getUnPaymentInvoice, updateInvoice } = require('../service/invoice.service');
+const { getUnPaymentInvoice, updateInvoice, getInvoiceCourses, addCourseUser } = require('../service/invoice.service');
+const { getAllUserCourses } = require('../service/user.service');
 var router = express.Router();
 
 router.get('/', async (req, res) => {
 
     var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
-
-    if(userUnPaymentInvoice === null) {
+    var userCourses = await getAllUserCourses(res.locals.user.id);
+    if(userCourses.length == 0) userCourses = null;
+    if(userUnPaymentInvoice !== null && userUnPaymentInvoice.courses.length > 0) {
+        res.render('pages/payment', {
+            css: ['payment'],
+            code: '',
+            message: 'found user cart',
+            userUnPaymentInvoice,
+            userCourses
+        });
+    }
+    else {
         res.render('pages/cart', {
             css: ['cart'],
             code: '',
             message: 'cant not find cart of user'
-        });
-    }
-    else {
-        res.render('pages/payment', {
-            css: ['payment'],
-            code: '00',
-            message: 'found user cart',
-            userUnPaymentInvoice,
         });
     }
 });
@@ -27,11 +30,17 @@ router.post('/payment_success', async (req, res) => {
     var paymentType = req.body.type;
     var orderDate = req.body.orderDate;
     var invoiceId = req.body.invoiceId;
-    var invoiceStatus = req.body.status;
+    var invoiceStatus = 3;
 
     var resultUpdate = await updateInvoice(invoiceid = invoiceId, orderdate = orderDate, refunddate = null, invoicestatus = invoiceStatus, user = null, paymenttype = paymentType, coupon = null);
 
     if(resultUpdate > 0) {
+        var invoiceCourses = await getInvoiceCourses(invoiceId);
+        console.log(invoiceCourses);
+        for(var i = 0; i < invoiceCourses.length; i++){
+            var userCourse = await addCourseUser(res.locals.user.id, invoiceCourses[i].courseId);
+            if(userCourse == null) res.send({code: '01', message: 'create payment fail'});
+        }
         res.send({code: '00', message: 'create payment success'});
     }else{
         res.send({code: '01', message: 'create payment fail'});

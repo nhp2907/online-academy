@@ -5,12 +5,17 @@ const sequelize = require('./db');
 const Invoice = sequelize.define('invoice', {
     id: {
         primaryKey: true,
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
     },
     totalPrice: DataTypes.FLOAT,
     orderDate: DataTypes.DATE,
     paidDate: DataTypes.DATE,
     refundDate: DataTypes.DATE,
+    userId: {
+        type: DataTypes.INTEGER,
+        defaultValue: null
+    }
 }, {
     underscored: true,
     tableName: 'invoice',

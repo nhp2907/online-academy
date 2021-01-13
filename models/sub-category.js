@@ -13,6 +13,10 @@ const SubCategory = sequelize.define('SubCategory', {
     name: {
         type: DataTypes.STRING,
         field: 'name'
+    },
+    status: {
+        type: DataTypes.NUMBER,
+        field: 'status'
     }
 }, {
     tableName: 'sub_category',
