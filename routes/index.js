@@ -235,9 +235,10 @@ router.get('/courses', (req, res) => {
 
 router.get('/courses/*/:id', async (req, res) => {
     const reqId = req.params.id;
+    console.log('reqId', reqId);
     if (res.locals.user) {
-        const userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
-        let userCourses = await getAllUserCourses(res.locals.user.id);
+        var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
+        var userCourses = await getAllUserCourses(res.locals.user.id);
         if (userCourses.length === 0) userCourses = null;
     }
     try {
