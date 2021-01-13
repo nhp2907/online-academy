@@ -58,7 +58,7 @@ router.get('/', async (req, res) => {
 /**
  * render add-course view
  */
-router.get("/add-course", async (req, res) => {
+router.get("/course/add-course", async (req, res) => {
     res.render('pages/instructor/add-course', {
         css: ['add-course'],
         user: res.locals.user,
@@ -105,6 +105,7 @@ router.get('/edit-course/:id', async (req, res) => {
  */
 router.post('/edit-course', upload.single('image'), async (req, res) => {
     const course = req.body;
+    console.log('course', course);
     const check = CourseService.checkCourseBeLongToInstructor(course.id, res.locals.user.id);
     if (!check) {
         res.redirect('error/401');

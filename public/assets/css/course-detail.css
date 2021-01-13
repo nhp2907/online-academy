@@ -116,6 +116,10 @@
                 color: #25a55e; }
             .course-detail .wrapper .course-content-wrapper .course-content .chapter .chapter-content .section .time {
               margin-right: 10px; }
+    .course-detail .wrapper .course-description-wrapper {
+      margin-left: 7%;
+      margin-top: 20px;
+      width: 60%; }
     .course-detail .wrapper .frequently-bought-wrapper {
       margin-left: 7%;
       margin-top: 20px;

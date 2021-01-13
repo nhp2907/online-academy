@@ -215,7 +215,7 @@ router.get('/courses', (req, res) => {
 })
 
 router.get('/courses/:id', async (req, res) => {
-    const reqId = 1;
+    const reqId = req.params.id;
     try {
         const course = await CourseService.findById(reqId);
         console.log(course);

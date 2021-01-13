@@ -19,7 +19,8 @@
 					<li>({{course.numReview}} ratings)</li>
 					<li>{{course.numStudentEnroll}} students</li>
 				</ul>
-				<span>Created by <a id="instructorLink" href="">{{course.instructor.basicInfo.firstName}} {{course.instructor.basicInfo.lastName}}</a></span>
+				<span>Created by <a id="instructorLink"
+				                    href="">{{course.instructor.basicInfo.firstName}} {{course.instructor.basicInfo.lastName}}</a></span>
 
 				<ul>
 					<li><i class="fab fa-yahoo"></i>Last updated {{course.updatedDate}}</li>
@@ -96,6 +97,58 @@
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div class="course-description-wrapper">
+			<div class="course-description" id="course-description">
+				<script>
+					const innerHtml = "{{course.description}}";
+					console.log(innerHtml);
+					$('.course-description').html('{{course.description}}');
+					// document.getElementById('course-description').innerHTML = `<a href="/">home</a>`;
+				</script>
+			</div>
+		</div>
+		<div class="instructor-info-wrapper">
+			<h2>Instructor</h2>
+			<div class="instructor-info">
+				<div class="info">
+					<h3 class="name">{{course.instructor.basicInfo.firstName}} {{course.instructor.basicInfo.lastName}}</h3>
+					<span class="short-description">{{course.instructor.shortDescription}}</span>
+					<div class="review-info">
+						<img src="{{course.instructor.avatar}}"
+						     alt="">
+						<div class="detail-info-area">
+							<div class="detail">
+								<div class="icon">
+									<i class="fas fa-star"></i>
+								</div>
+								<span>{{course.instructor.rating}} Instructor Rating</span>
+							</div>
+							<div class="detail">
+								<div class="icon">
+									<i class="fas fa-award"></i>
+								</div>
+								<span>{{course.instructor.numReview}} Reviews</span>
+							</div>
+							<div class="detail">
+								<div class="icon">
+									<i class="fas fa-user-friends"></i>
+								</div>
+								<span>{{course.instructor.numStudentEnroll}} Students</span>
+							</div>
+							<div class="detail">
+								<div class="icon">
+									<i class="fas fa-play-circle"></i>
+								</div>
+								<span>31 Courses</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p>
+					&nbsp;{{course.instructor.description}}
+				</p>
 			</div>
 		</div>
 		<div class="frequently-bought-wrapper">
@@ -188,48 +241,6 @@
 						<i class="fas fa-heart"></i>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="instructor-info-wrapper">
-			<h2>Instructor</h2>
-			<div class="instructor-info">
-				<div class="info">
-					<h3 class="name">{{course.instructor.basicInfo.firstName}} {{course.instructor.basicInfo.lastName}}</h3>
-					<span class="short-description">{{course.instructor.shortDescription}}</span>
-					<div class="review-info">
-						<img src="{{course.instructor.avatar}}"
-						     alt="">
-						<div class="detail-info-area">
-							<div class="detail">
-								<div class="icon">
-									<i class="fas fa-star"></i>
-								</div>
-								<span>{{course.instructor.rating}} Instructor Rating</span>
-							</div>
-							<div class="detail">
-								<div class="icon">
-									<i class="fas fa-award"></i>
-								</div>
-								<span>{{course.instructor.numReview}} Reviews</span>
-							</div>
-							<div class="detail">
-								<div class="icon">
-									<i class="fas fa-user-friends"></i>
-								</div>
-								<span>{{course.instructor.numStudentEnroll}} Students</span>
-							</div>
-							<div class="detail">
-								<div class="icon">
-									<i class="fas fa-play-circle"></i>
-								</div>
-								<span>31 Courses</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<p>
-					&nbsp;{{course.instructor.description}}
-				</p>
 			</div>
 		</div>
 		<div class="student-feedback-wrapper">
@@ -344,7 +355,6 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
 	<div class="buy-info">
 		<img src="https://1.bp.blogspot.com/-Lgl4flwEc1k/XnM-GUJPJ2I/AAAAAAAAALo/BmVVDI8BLuEhTzrGy8Cw0wz2RydH_HEdgCPcBGAYYCw/s1600/IMG_20200318_214527_250.jpg"
@@ -363,7 +373,7 @@
 				<label>
 					<input type="text" placeholder="Enter coupon">
 				</label>
-				<input  type="submit" class="coupon-apply-btn" value="Enter"/>
+				<input type="submit" class="coupon-apply-btn" value="Enter"/>
 			</form>
 		</div>
 	</div>

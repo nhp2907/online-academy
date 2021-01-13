@@ -94,10 +94,7 @@ const findById = async (id) => {
             as: 'categoryLink'
         }]
     });
-    console.log(course);
-    const st = course.toJSON();
-    console.log(st)
-    return st;
+    return course.toJSON();
 }
 
 const findByCategory = (category) => {

@@ -222,6 +222,17 @@
 							</script>
 						</div>
 					</div>
+					<textarea id="editor" name="description" style="height: 400px" placeholder="Course description"></textarea>
+					<script src="https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js"></script>
+					<script>
+						ClassicEditor.create( document.querySelector( '#editor' )    )
+								.then( editor => {
+									console.log( editor );
+								} )
+								.catch( error => {
+									console.error( error );
+								} );
+					</script>
 					<div class="form-group" style="width: 50%">
 						<div class="form-control">
 							<label for="">Price</label>
@@ -259,6 +270,7 @@
 		</div>
 		<div class="empty" style="height: 100px;"></div>
 	</div>
+	<script src="https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js"></script>
 	<!--	show modal-->
 	<script>
 		const modal = $('.modal')
