@@ -274,12 +274,12 @@
         border: 1px solid grey; }
         .category-detail .all-course .all-course-content .category-detail-content hr:first-child {
           margin-top: 0px; }
-      .category-detail .all-course .all-course-content .category-detail-content a:first-child() {
+      .category-detail .all-course .all-course-content .category-detail-content a:first-child {
         font-size: 25px;
         font-weight: 900;
         margin-bottom: 20px;
         font-weight: bold; }
-        .category-detail .all-course .all-course-content .category-detail-content a:first-child():hover {
+        .category-detail .all-course .all-course-content .category-detail-content a:first-child:hover {
           filter: brightness(110%); }
       .category-detail .all-course .all-course-content .category-detail-content .course-item {
         display: grid;

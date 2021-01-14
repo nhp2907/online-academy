@@ -80,7 +80,4 @@ InvoiceCourse.belongsTo(Course);
 Invoice.belongsToMany(Course, {through: InvoiceCourse});
 Course.belongsToMany(Invoice, {through: InvoiceCourse});
 
-
-
-
-
+CourseReview.belongsTo(User, {as: 'user'});

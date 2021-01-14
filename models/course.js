@@ -1,5 +1,6 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('./db');
+const moment = require('moment');
 
 const Course = sequelize.define('course', {
     id: {
@@ -21,7 +22,12 @@ const Course = sequelize.define('course', {
     estimateContentLength: DataTypes.STRING,
     numStudentEnroll: DataTypes.INTEGER,
     createdDate: DataTypes.DATE,
-    updatedDate: DataTypes.DATE,
+    updatedDate: {
+        type: DataTypes.DATE,
+        get() {
+            return moment(this.getDataValue('updatedDate')).format('DD/MM/yyyy h:mm:ss');
+        }
+    },
     status: DataTypes.STRING,
 }, {
     underscored: true,

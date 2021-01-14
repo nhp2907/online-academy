@@ -89,10 +89,10 @@ router.get('/logout', async (req, res) => {
 
 router.get('/', async (req, res) => {
     const user = res.locals.user
-    if(res.locals.user) {
+    if (res.locals.user) {
         var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
         var userCourses = await getAllUserCourses(res.locals.user.id);
-        if(userCourses.length == 0) userCourses = null;
+        if (userCourses.length == 0) userCourses = null;
     }
     res.render('pages/home', {
         css: ['home', 'star-rating-svg', 'slick', 'slick-theme'],
@@ -234,19 +234,34 @@ router.get('/courses', (req, res) => {
 })
 
 router.get('/courses/*/:id', async (req, res) => {
-    const reqId = req.params.id;
-    console.log('reqId', reqId);
+    const courseId = req.params.id;
+    console.log('reqId', courseId);
     if (res.locals.user) {
         var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
         var userCourses = await getAllUserCourses(res.locals.user.id);
         if (userCourses.length === 0) userCourses = null;
     }
     try {
-        const course = await CourseService.findById(reqId);
+        const totalReviews = await CourseService.countRating(courseId);
+        const ratingCount = await Promise.all([
+            CourseService.countRating(courseId, 1),
+            CourseService.countRating(courseId, 2),
+            CourseService.countRating(courseId, 3),
+            CourseService.countRating(courseId, 4),
+            CourseService.countRating(courseId, 5)
+        ])
+
+        const [course, relatedCourses] = await Promise.all([
+            CourseService.findById(courseId),
+            CourseService.getRelatedCourses(courseId)
+        ]);
+        course.reviewPercentage = ratingCount.map(c => Math.round(c*100/totalReviews));
         console.log(course);
+        console.log(relatedCourses)
         res.render('pages/course-detail', {
-            css: ['course-detail'],
+            css: ['course-detail', 'star-rating-svg'],
             course,
+            relatedCourses,
             userUnPaymentInvoice,
             userCourses,
             user: res.locals.user

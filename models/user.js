@@ -1,3 +1,4 @@
+const moment = require('moment')
 const sequelize = require('./db')
 const {DataTypes} = require('sequelize');
 const Role = require('./role');
@@ -63,8 +64,18 @@ const User = sequelize.define('User', {
         field: 'role_id',
         defaultValue: 3,
     },
-    createdDate: DataTypes.DATE,
-    updatedDate: DataTypes.DATE,
+    createdDate: {
+        type: DataTypes.DATE,
+        get() {
+            return moment(this.getDataValue('updatedDate')).format('DD/MM/yyyy HH:mm');
+        }
+    },
+    updatedDate:  {
+        type: DataTypes.DATE,
+        get() {
+            return moment(this.getDataValue('updatedDate')).format('DD/MM/yyyy h:mm:ss');
+        }
+    },
 }, {
     tableName: 'user',
     underscored: true,

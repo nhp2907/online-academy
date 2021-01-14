@@ -132,8 +132,9 @@
         margin-left: 20px;
         width: 100%; }
         .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course {
-          display: flex;
-          justify-content: space-between;
+          display: grid;
+          grid-template-columns: 15% 50% 10% 10% 10% 5%;
+          justify-content: center;
           align-items: center;
           padding: 10px 0;
           border-bottom: 1px solid rgba(196, 189, 189, 0.7); }
@@ -141,17 +142,18 @@
             width: 100px;
             height: 60px; }
           .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .info h2 {
-            font-size: 20px; }
+            font-size: 18px; }
           .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .info .other-info {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center; }
             .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .info .other-info button {
               background-color: orange;
               border: none;
               padding: 5px;
               border-radius: 5px;
-              font-weight: bold; }
+              font-weight: bold;
+              margin-right: 10px; }
             .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .info .other-info i {
               font-size: 5px;
               align-self: center; }
@@ -160,8 +162,10 @@
             .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .info .other-info span:last-child {
               color: #949494;
               font-weight: 100; }
-          .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .rating i {
-            color: #ffbf00; }
+          .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .rating {
+            justify-self: center; }
+            .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .rating i {
+              color: #ffbf00; }
           .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .wish {
             border-radius: 50%;
             background-color: red;
@@ -258,6 +262,11 @@
       width: 60%; }
       .course-detail .wrapper .review-wrapper .reviews {
         margin-left: 20px; }
+        .course-detail .wrapper .review-wrapper .reviews .search-area form input {
+          outline: none;
+          border: 1px solid gray;
+          border-radius: 3px;
+          padding: 10px; }
         .course-detail .wrapper .review-wrapper .reviews .review {
           padding: 20px 0;
           display: flex;

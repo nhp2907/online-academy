@@ -1,14 +1,14 @@
 <nav class="nav">
 	<div class="left-sight">
 		<a href="/"><img src="https://assets.data.world/assets/logo-horiz-white.4ce1e77312620581d5a1c421c845b488.svg"
-				alt=""></a>
+		                 alt=""></a>
 	</div>
 	<div class="center">
 		<i class="fas fa-search"></i>
 		<form action="">
 			<input type="text" placeholder="Search for anything"
-				onfocus="$(this).parent().parent().css('filter', 'brightness(120%)')"
-				onfocusout="$(this).parent().parent().css('filter', 'brightness(100%)')">
+			       onfocus="$(this).parent().parent().css('filter', 'brightness(120%)')"
+			       onfocusout="$(this).parent().parent().css('filter', 'brightness(100%)')">
 		</form>
 	</div>
 	<div class="right-sight">
@@ -31,18 +31,20 @@
 				var i = 0;
 			</script>
 			<div class="after-sign-in">
-				<a href="#" class="nav-link">Instructor</a>
+				<a href="/instructor" class="nav-link">Instructor</a>
 				<div class="my-learning">
 					<a href="#" class="nav-link">My learning</a>
 					<div class="my-learning-dropdown-content">
 						{{#if this.userCourses}}
 							{{#each this.userCourses}}
-								<a href="#"><div class="my-course-item">
-									<img src="../../{{this.image}}" alt="" />
-									<p>{{this.name}}</p>
-									<p class="start-learning">Start Learning</p>
-									<progress max='100' value = '0'></progress>
-								</div></a>
+								<a href="#">
+									<div class="my-course-item">
+										<img src="../../{{this.image}}" alt=""/>
+										<p>{{this.name}}</p>
+										<p class="start-learning">Start Learning</p>
+										<progress max='100' value='0'></progress>
+									</div>
+								</a>
 								<hr/>
 							{{/each}}
 							<a href="/my-courses/learning" class="content-btn nav-link">Go To My Learning</a>
@@ -62,20 +64,23 @@
 					<div class="my-cart-content">
 						{{#if this.userUnPaymentInvoice}}
 							{{#each this.userUnPaymentInvoice.courses}}
-								<a href="#"><div class="my-cart-item">
-									<img src="../../{{this.image}}" alt="" />
-									<p>{{this.name}}</p>
-									<p>{{this.author}}</p>
-									<p><span>$ {{this.price}}&nbsp;&nbsp;</span><span>$ {{this.prePrice}}</span></p>
-								</div></a>
+								<a href="#">
+									<div class="my-cart-item">
+										<img src="../../{{this.image}}" alt=""/>
+										<p>{{this.name}}</p>
+										<p>{{this.author}}</p>
+										<p><span>$ {{this.price}}&nbsp;&nbsp;</span><span>$ {{this.prePrice}}</span></p>
+									</div>
+								</a>
 								<hr/>
 								<script>
 									sumPrice += {{ this.price }}
-									sumPrePrice += {{ this.prePrice }}
+											sumPrePrice += {{ this.prePrice }}
 								</script>
 							{{/each}}
 							<div class="my-cart-sum">
-								<p><span class="sum-price">$</span>&nbsp;&nbsp;<span class="sum-pre-price">$</span></p></span>
+								<p><span class="sum-price">$</span>&nbsp;&nbsp;<span class="sum-pre-price">$</span>
+								</p></span>
 								<a href="/cart" class="content-btn nav-link">Go To Cart</a>
 							</div>
 							<script>
@@ -97,7 +102,7 @@
 						<div class="my-introduce-notification">
 							<span>Notification</span>
 							<a href="#">Settings</a>
-							<button>Instructor</button>
+							<button><a href="/instructor">Instructor</a></button>
 							<button>Student</button>
 						</div>
 						<div class="my-notification-item">
@@ -113,7 +118,8 @@
 					<div class="my-profile-content">
 						<div>
 							<p>TT</p>
-							<p><span class="first-name">{{this.user.firstName}} </span><span class="last-name">{{this.user.lastName}}</span></p>
+							<p><span class="first-name">{{this.user.firstName}} </span><span
+									class="last-name">{{this.user.lastName}}</span></p>
 							<p>{{this.user.email}}</p>
 						</div>
 						<hr/>
@@ -122,24 +128,24 @@
 							<a href="/cart">My Cart</a>
 							<a href="#">Instructor Dashboard</a>
 						</div>
-						<hr />
+						<hr/>
 						<div>
 							<a href="#">Notifications</a>
 							<a href="#">Messages</a>
 						</div>
-						<hr />
+						<hr/>
 						<div>
 							<a href="#">Account Settings</a>
 							<a href="#">Payment Methods</a>
 							<a href="#">Udemy Credits</a>
 							<a href="#">Purchase History</a>
 						</div>
-						<hr />
+						<hr/>
 						<div>
 							<a href="#">Public Profile</a>
 							<a href="#">Edit Profile</a>
 						</div>
-						<hr />
+						<hr/>
 						<div>
 							<a href="#">Help</a>
 							<a href="/logout" id="log-out-btn">Log Out</a>
@@ -150,7 +156,7 @@
 		{{/unless}}
 	</div>
 	<script>
-		$("#log-out-btn").click(function(){
+		$("#log-out-btn").click(function () {
 			location.reload();
 		});
 	</script>

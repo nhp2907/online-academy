@@ -31,17 +31,17 @@ const update = async (course) => {
 }
 
 const getPagination = (page, size) => {
-    const limit = size ? + size : 5;
+    const limit = size ? +size : 5;
     const offset = 0 + (page - 1) * limit;
-    return { limit, offset };
+    return {limit, offset};
 };
 
 const getPagingData = (data, page, limit) => {
-    const { count: totalItems } = data;
-    const currentPage = page ? + page : 0;
+    const {count: totalItems} = data;
+    const currentPage = page ? +page : 0;
     const totalPages = Math.ceil(totalItems / limit);
-  
-    return { totalItems, totalPages, currentPage };
+
+    return {totalItems, totalPages, currentPage};
 };
 
 const findAll = async () => {
@@ -68,6 +68,18 @@ const findAll = async () => {
     return courses.map(c => c.toJSON());
 }
 
+const countRating = async (courseId, rating) => {
+    const where = {
+        courseId
+    }
+    if (rating) {
+        where.rating = rating;
+    }
+    return await CourseReview.count({
+        where
+    })
+}
+
 const findById = async (id) => {
     const course = await Course.findOne({
         where: {
@@ -89,12 +101,21 @@ const findById = async (id) => {
             }
         }, {
             model: CourseReview,
-            as: 'reviews'
+            as: 'reviews',
+            include: {
+                model: User,
+                as: 'user'
+            },
+            limit: 10,
         }, {
             model: CategoryLink,
             as: 'categoryLink'
+        }, {
+            model: Advancement,
+            as: 'advancement'
         }]
     });
+
     return course.toJSON();
 }
 
@@ -243,7 +264,7 @@ const getMostRatingCourses = async () => {
 
 const getCategoryCourses = async (categoryid, page, size, duration, rating, level, price, order, topic) => {
     try {
-        const { limit, offset } = getPagination(page, size);
+        const {limit, offset} = getPagination(page, size);
         const categoryCourses = await Course.findAndCountAll({
             attributes: ['id', 'name', 'headline', 'image', 'price', 'rating', 'numReview', 'numLecture', 'numStudentEnroll', 'estimateContentLength'],
             limit,
@@ -270,12 +291,12 @@ const getCategoryCourses = async (categoryid, page, size, duration, rating, leve
                 model: Instructor,
                 as: 'instructor',
                 attributes: ['id'],
-                    include: {
-                        model: User,
-                        as: 'basicInfo',
-                        attributes: ['id', 'firstName', 'lastName']
-                    }
-                },
+                include: {
+                    model: User,
+                    as: 'basicInfo',
+                    attributes: ['id', 'firstName', 'lastName']
+                }
+            },
                 {
                     model: Advancement,
                     as: 'advancement',
@@ -466,6 +487,27 @@ async function findLesionById(id) {
     return lesion.toJSON();
 }
 
+async function getRelatedCourses(courseId) {
+    const course = await  Course.findByPk(courseId);
+    const categoryLink = await CategoryLink.findOne({
+        where: {
+            id: course.categoryLinkId
+        }
+    });
+    const courses = await Course.findAll({
+        where: {
+            categoryLinkId: categoryLink.id,
+        },
+        include: [{
+            model: Advancement,
+            as: 'advancement'
+        }],
+        limit: 5,
+    })
+
+    return courses.map(c => c.toJSON());
+}
+
 module.exports = {
     save,
     update,
@@ -488,4 +530,6 @@ module.exports = {
     deleteChapter,
     findLesionById,
     getSectionVideo,
+    countRating,
+    getRelatedCourses,
 }
