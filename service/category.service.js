@@ -16,19 +16,19 @@ module.exports = {
                     require: true,
                 }
             });
-            console.log(categories.map(category => category.toJSON()));
             return categories.map(category => category.toJSON());
         }
         catch(err){
             throw err;
         }
     },
+
     async createNewCategory(categoryname, categorylogo, categoryimg) {
         try{
             const category = await Category.create({
-                name: categoryname, 
-                logo: categorylogo, 
-                status: 1, 
+                name: categoryname,
+                logo: categorylogo,
+                status: 1,
                 image: "assets/images/categories/web-development.jpg"
             });
             return category.toJSON();
@@ -37,11 +37,12 @@ module.exports = {
             throw err;
         }
     },
+
     async createNewSubCategory(subcategoryname, categoryid) {
         try{
             const subCategory = await SubCategory.create({
-                name: subcategoryname, 
-                status: 1, 
+                name: subcategoryname,
+                status: 1,
             });
             const categoryLink = await CategoryLink.create({
                 categoryId: categoryid,
@@ -53,6 +54,8 @@ module.exports = {
             throw err;
         }
     },
+
+
     async updateCategory(categoryid, categoryname, categorylogo) {
         try{
             var updateParams = {};
@@ -61,10 +64,10 @@ module.exports = {
             console.log(updateParams);
             const updateResult = await Category.update(
                 updateParams,
-                { 
-                    where: { 
+                {
+                    where: {
                         id: categoryid
-                    } 
+                    }
                 }
             );
             console.log(updateResult);
@@ -75,6 +78,7 @@ module.exports = {
             throw err;
         }
     },
+
     async getCategoryById(categoryid) {
         console.log("blasdfsdaf",categoryid);
         try{
@@ -93,6 +97,7 @@ module.exports = {
             throw err;
         }
     },
+
     async getSubCategoriesByCategory(categoryid) {
         try{
             const categories = await Category.findAll({
@@ -190,7 +195,16 @@ module.exports = {
         catch (err){
             throw err;
         }
+    },
+    async findCategoryLink(categoryId, subCategoryId) {
+       const link = await CategoryLink.findOne({
+            where: {
+                categoryId,
+                subCategoryId
+            }
+        });
+       return link.toJSON();
     }
-    
+
 
 }

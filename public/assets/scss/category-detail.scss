@@ -331,7 +331,7 @@
                     }
                 }
                 a{
-                    &:first-child(){
+                    &:first-child{
                         @include headlineInfo();
                     }
                 }

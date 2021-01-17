@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router();
 const Category = require('../models/category')
-const user = {};
-const { getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses, getCategoryCourses, getPopularCategoryCourses, getCourseChapter, getSectionVideo} = require('../service/course.service');
+const {getTopCoursesInWeek, getNewestCourses, getMostEnrollCourses, getCategoryCourses, getPopularCategoryCourses, getCourseChapter, getSectionVideo} = require('../service/course.service');
 const AuthService = require('../service/auth.service')
 const CourseService = require("../service/course.service");
-const { getAllInstructor, getById, getAllUserCourses } = require('../service/user.service');
-const { getUnPaymentInvoice } = require('../service/invoice.service');
+const {getAllInstructor, getById, getAllUserCourses} = require('../service/user.service');
+const {getUnPaymentInvoice} = require('../service/invoice.service');
 const UserService = require("../service/user.service");
+const UserRole = require("../constant/UserRole");
 const {getSubCategoriesByCategory} = require("../service/category.service");
 const {getPopularSubCategoriesByCategory} = require("../service/category.service");
 const {getMostEnrollCategories} = require("../service/category.service");
@@ -34,6 +34,18 @@ router.get('/user/is-username-available', async (req, res) => {
     }
 })
 
+router.get('/user/is-email-available', async (req, res) => {
+    const email = req.query.email;
+    console.log(email);
+    const user = await UserService.findByEmail(email);
+    console.log(user);
+    if (user) {
+        res.json(false);
+    } else {
+        res.json(true);
+    }
+})
+
 router.post('/signin', async (req, res) => {
 
     console.log('request.body', req.body);
@@ -42,38 +54,48 @@ router.post('/signin', async (req, res) => {
     const token = await AuthService.login(username, password);
     console.log('token: ', token);
     if (token != null) {
-        res.cookie('token', token, {httpOnly: true})
+        res.cookie('token', token, {httpOnly: true, sameSite: 'lax'})
 
-        res.redirect('/')
+        res.redirect('/');
     } else {
-        res.send({statusCode: 501})
+        res.render('pages/auth', {
+            layout: 'blank',
+            css: ['auth'],
+            status: 'error',
+            message: 'Username or password is not correct!'
+        })
     }
 })
 
 router.post('/signup', async (req, res) => {
     const user = req.body;
     console.log(user);
+    user.roleId = UserRole.Student;
     AuthService.signup(user);
     res.render('pages/auth', {
         layout: 'blank',
         css: ['auth'],
+        status: 'success',
+        message: 'Sign up successfully!'
     })
 })
 
 router.get('/logout', async (req, res) => {
     res.clearCookie('token');
+    delete res.locals.user;
     res.redirect('/');
 })
 
 router.get('/', async (req, res) => {
+    const user = res.locals.user;
     if(res.locals.user) {
         var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
         var userCourses = await getAllUserCourses(res.locals.user.id, type = 2);
         if(userCourses.length == 0) userCourses = null;
-        var user = res.locals.user;
     }
     res.render('pages/home', {
         css: ['home', 'star-rating-svg', 'slick', 'slick-theme'],
+        user,
         categories: await getAllCategories(),
         topEnrollCategories: await getMostEnrollCategories(),
         topCoursesInWeek: await getTopCoursesInWeek(),
@@ -81,8 +103,7 @@ router.get('/', async (req, res) => {
         mostEnrollCourses: await getMostEnrollCourses(),
         instructors: await getAllInstructor(),
         userUnPaymentInvoice,
-        userCourses,
-        user,
+        userCourses
     });
 })
 
@@ -167,8 +188,8 @@ router.get('/collection/*/', async (req, res) => {
         popularCategoryCourses: await getPopularCategoryCourses(req.query.id),
         popularSubCategories: await getPopularSubCategoriesByCategory(req.query.id),
         subcategoriesByCategory: await getSubCategoriesByCategory(req.query.id),
-        userUnPaymentInvoice,
-        userCourses
+        //userUnPaymentInvoice,
+        //userCourses
     });
 });
 
@@ -183,8 +204,6 @@ router.get('/courses/*/:courseid/lecture/:sectionid', async (req, res) => {
         userUnPaymentInvoice
     });
 })
-
-
 
 router.get('/instructor/:id', async (req, res) => {
     const instructor = await getById(req.params.id);
@@ -201,20 +220,34 @@ router.get('/courses', (req, res) => {
 })
 
 router.get('/courses/*/:id', async (req, res) => {
-    //if(!res.locals.user) res.redirect('/auth');
-    const reqId = req.params.id;
-    if(res.locals.user) {
+    const courseId = req.params.id;
+    console.log('reqId', courseId);
+    if (res.locals.user) {
         var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
         var userCourses = await getAllUserCourses(res.locals.user.id, type = 2);
         if(userCourses.length == 0) userCourses = null;
     }
     try {
-        const course = await CourseService.findById(reqId);
+        const totalReviews = await CourseService.countRating(courseId);
+        const ratingCount = await Promise.all([
+            CourseService.countRating(courseId, 1),
+            CourseService.countRating(courseId, 2),
+            CourseService.countRating(courseId, 3),
+            CourseService.countRating(courseId, 4),
+            CourseService.countRating(courseId, 5)
+        ])
+
+        const [course, relatedCourses] = await Promise.all([
+            CourseService.findById(courseId),
+            CourseService.getRelatedCourses(courseId)
+        ]);
+        course.reviewPercentage = ratingCount.map(c => Math.round(c*100/totalReviews));
         console.log(course);
         res.render('pages/course-detail', {
-            css: ['course-detail'],
             categories: await getAllCategories(),
+            css: ['course-detail', 'star-rating-svg'],
             course,
+            relatedCourses,
             userUnPaymentInvoice,
             userCourses,
             user: res.locals.user

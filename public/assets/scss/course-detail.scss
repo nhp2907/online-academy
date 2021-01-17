@@ -200,7 +200,11 @@ $leftSideWidthPercent: 60%;
         }
       }
     }
-
+    .course-description-wrapper {
+      margin-left: $marginPercent;
+      margin-top: 20px;
+      width: $leftSideWidthPercent;
+    }
     .frequently-bought-wrapper {
       margin-left: $marginPercent;
       margin-top: 20px;
@@ -211,8 +215,9 @@ $leftSideWidthPercent: 60%;
         width: 100%;
 
         .course {
-          display: flex;
-          justify-content: space-between;
+          display: grid;
+          grid-template-columns: 15% 50% 10% 10% 10% 5%;
+          justify-content: center;
           align-items: center;
           padding: 10px 0;
           border-bottom: 1px solid rgba(196, 189, 189, 0.7);
@@ -224,12 +229,12 @@ $leftSideWidthPercent: 60%;
 
           .info {
             h2 {
-              font-size: 20px;
+              font-size: 18px;
             }
 
             .other-info {
               display: flex;
-              justify-content: space-between;
+              justify-content: flex-start;
               align-items: center;
 
               button {
@@ -238,6 +243,7 @@ $leftSideWidthPercent: 60%;
                 padding: 5px;
                 border-radius: 5px;
                 font-weight: bold;
+                margin-right: 10px;
               }
 
               i {
@@ -260,6 +266,7 @@ $leftSideWidthPercent: 60%;
           }
 
           .rating {
+            justify-self: center;
             span {
 
             }
@@ -398,7 +405,7 @@ $leftSideWidthPercent: 60%;
           }
 
           .processes {
-            width: 350px;
+            width: 450px;
 
             .process {
               display: flex;
@@ -411,7 +418,6 @@ $leftSideWidthPercent: 60%;
 
               .bar {
                 height: 15px;
-                width: 60%;
                 background-color: darkorange;
               }
             }
@@ -427,7 +433,16 @@ $leftSideWidthPercent: 60%;
 
       .reviews {
         margin-left: 20px;
-
+        .search-area {
+          form {
+              input {
+                outline: none;
+                border: 1px solid gray;
+                border-radius: 3px;
+                padding: 10px;
+              }
+          }
+        }
         .review {
           padding: 20px 0;
           display: flex;
@@ -442,10 +457,12 @@ $leftSideWidthPercent: 60%;
           }
 
           .main {
+            flex: 1;
             .name {
               display: flex;
               justify-content: space-between;
               align-items: center;
+              width: 100%;
 
               h2 {
                 font-size: 20px;
@@ -464,13 +481,13 @@ $leftSideWidthPercent: 60%;
               justify-content: flex-start;
               margin: 10px 0;
 
-              .stars {
-                margin-right: 20px;
-
-                i {
-                  color: orange;
-                }
-              }
+              //.stars {
+              //  margin-right: 20px;
+              //
+              //  i {
+              //    color: orange;
+              //  }
+              //}
             }
           }
         }

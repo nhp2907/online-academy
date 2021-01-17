@@ -120,6 +120,10 @@
                 color: #25a55e; }
             .course-detail .wrapper .course-content-wrapper .course-content .chapter .chapter-content .section .time {
               margin-right: 10px; }
+    .course-detail .wrapper .course-description-wrapper {
+      margin-left: 7%;
+      margin-top: 20px;
+      width: 60%; }
     .course-detail .wrapper .frequently-bought-wrapper {
       margin-left: 7%;
       margin-top: 20px;
@@ -128,8 +132,9 @@
         margin-left: 20px;
         width: 100%; }
         .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course {
-          display: flex;
-          justify-content: space-between;
+          display: grid;
+          grid-template-columns: 15% 50% 10% 10% 10% 5%;
+          justify-content: center;
           align-items: center;
           padding: 10px 0;
           border-bottom: 1px solid rgba(196, 189, 189, 0.7); }
@@ -137,17 +142,18 @@
             width: 100px;
             height: 60px; }
           .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .info h2 {
-            font-size: 20px; }
+            font-size: 18px; }
           .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .info .other-info {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center; }
             .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .info .other-info button {
               background-color: orange;
               border: none;
               padding: 5px;
               border-radius: 5px;
-              font-weight: bold; }
+              font-weight: bold;
+              margin-right: 10px; }
             .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .info .other-info i {
               font-size: 5px;
               align-self: center; }
@@ -156,8 +162,10 @@
             .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .info .other-info span:last-child {
               color: #949494;
               font-weight: 100; }
-          .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .rating i {
-            color: #ffbf00; }
+          .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .rating {
+            justify-self: center; }
+            .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .rating i {
+              color: #ffbf00; }
           .course-detail .wrapper .frequently-bought-wrapper .frequently-bought .course .wish {
             border-radius: 50%;
             background-color: red;
@@ -238,7 +246,7 @@
             .course-detail .wrapper .student-feedback-wrapper .student-feedback .rating-area .number-area .total i {
               color: black; }
           .course-detail .wrapper .student-feedback-wrapper .student-feedback .rating-area .processes {
-            width: 350px; }
+            width: 450px; }
             .course-detail .wrapper .student-feedback-wrapper .student-feedback .rating-area .processes .process {
               display: flex;
               align-items: center;
@@ -247,7 +255,6 @@
                 margin-right: 10px; }
               .course-detail .wrapper .student-feedback-wrapper .student-feedback .rating-area .processes .process .bar {
                 height: 15px;
-                width: 60%;
                 background-color: darkorange; }
     .course-detail .wrapper .review-wrapper {
       margin-left: 7%;
@@ -255,6 +262,11 @@
       width: 60%; }
       .course-detail .wrapper .review-wrapper .reviews {
         margin-left: 20px; }
+        .course-detail .wrapper .review-wrapper .reviews .search-area form input {
+          outline: none;
+          border: 1px solid gray;
+          border-radius: 3px;
+          padding: 10px; }
         .course-detail .wrapper .review-wrapper .reviews .review {
           padding: 20px 0;
           display: flex;
@@ -265,23 +277,22 @@
             height: 40px;
             border-radius: 50%;
             margin-right: 20px; }
-          .course-detail .wrapper .review-wrapper .reviews .review .main .name {
-            display: flex;
-            justify-content: space-between;
-            align-items: center; }
-            .course-detail .wrapper .review-wrapper .reviews .review .main .name h2 {
-              font-size: 20px; }
-            .course-detail .wrapper .review-wrapper .reviews .review .main .name .like-dislike i {
-              padding: 5px;
-              color: gray; }
-          .course-detail .wrapper .review-wrapper .reviews .review .main .rating {
-            display: flex;
-            justify-content: flex-start;
-            margin: 10px 0; }
-            .course-detail .wrapper .review-wrapper .reviews .review .main .rating .stars {
-              margin-right: 20px; }
-              .course-detail .wrapper .review-wrapper .reviews .review .main .rating .stars i {
-                color: orange; }
+          .course-detail .wrapper .review-wrapper .reviews .review .main {
+            flex: 1; }
+            .course-detail .wrapper .review-wrapper .reviews .review .main .name {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              width: 100%; }
+              .course-detail .wrapper .review-wrapper .reviews .review .main .name h2 {
+                font-size: 20px; }
+              .course-detail .wrapper .review-wrapper .reviews .review .main .name .like-dislike i {
+                padding: 5px;
+                color: gray; }
+            .course-detail .wrapper .review-wrapper .reviews .review .main .rating {
+              display: flex;
+              justify-content: flex-start;
+              margin: 10px 0; }
   .course-detail .buy-info {
     position: fixed;
     top: 80px;

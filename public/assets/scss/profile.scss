@@ -43,23 +43,23 @@
   }
 
   .avatar {
-    img {
-      width: 250px;
-      height: 250px;
-      border-radius: 5px;
-      object-fit: cover;
-    }
 
     .img {
       width: 250px;
       position: relative;
 
       .inputLabel {
-        align-self: flex-end;
-
         label {
-          padding: 5px 0;
-          margin: 5px 0;
+          img {
+            width: 250px;
+            height: 250px;
+            border-radius: 5px;
+            object-fit: cover;
+            &:hover {
+              cursor: pointer;
+              filter: brightness(80%);
+            }
+          }
           width: 100%;
           color: white;
           background-color: #3A589E;

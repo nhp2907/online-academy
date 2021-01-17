@@ -71,7 +71,8 @@ input {
           display: grid;
           grid-template-columns: 15% 85%;
           padding: 0 0.4rem;
-          position: relative; }
+          position: relative;
+          overflow: hidden; }
           .container .forms-container .signin-signup form .input-field i {
             text-align: center;
             line-height: 55px;
@@ -79,7 +80,7 @@ input {
             transition: 0.5s;
             font-size: 1.1rem; }
           .container .forms-container .signin-signup form .input-field input {
-            background: none;
+            background-color: #F0F0F0;
             outline: none;
             border: none;
             line-height: 1;
@@ -89,6 +90,13 @@ input {
             .container .forms-container .signin-signup form .input-field input::placeholder {
               color: #aaa;
               font-weight: 500; }
+            .container .forms-container .signin-signup form .input-field input:-webkit-autofill {
+              -webkit-box-shadow: 200px 200px 100px #F0F0F0 inset;
+              box-shadow: 200px 200px 100px #F0F0F0 inset; }
+            .container .forms-container .signin-signup form .input-field input:-webkit-autofill::first-line {
+              font-family: "Poppins", sans-serif;
+              font-size: 1.1rem;
+              font-weight: 600; }
         .container .forms-container .signin-signup form p {
           padding: 0.7rem 0;
           font-size: 1rem; }

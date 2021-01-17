@@ -41,11 +41,13 @@
 					</a>
 				</div>
 			</form>
-			<form action="/signup" method="POST" id="sign-up-form" class="sign-up-form">
+			<form action="/signup" name="signUpForm" method="POST" id="sign-up-form" class="sign-up-form"
+			      autocomplete="asldfa">
 				<h2 class="title">Sign up</h2>
 				<div class="input-field">
 					<i class="fas fa-user"></i>
-					<input type="text" placeholder="Username" name="username" id="signUpUsernameInput"/>
+					<input type="text" placeholder="Username" name="username" id="signUpUsernameInput"
+					       autocomplete="none"/>
 				</div>
 				<div class="input-field">
 					<i class="fas fa-envelope"></i>
@@ -53,16 +55,20 @@
 				</div>
 				<div class="input-field">
 					<i class="fas fa-user"></i>
-					<input type="text" placeholder="Name" name="name"/>
+					<input type="text" placeholder="First name" name="firstName"/>
+				</div>
+				<div class="input-field">
+					<i class="fas fa-user"></i>
+					<input type="text" placeholder="Last name" name="lastName"/>
 				</div>
 				<div class="input-field">
 					<i class="fas fa-lock"></i>
-					<input type="password" placeholder="Password" name="password"/>
+					<input type="password" placeholder="Password" name="password" id="signUpPasswordInput"/>
 				</div>
 
 				<div class="input-field">
 					<i class="fas fa-lock"></i>
-					<input type="password" placeholder="Confirm password"/>
+					<input type="password" placeholder="Confirm password" name="confirmPassword"/>
 				</div>
 
 				<input type="submit" class="btn" value="Sign up"/>
@@ -112,28 +118,81 @@
 		</div>
 	</div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+	const validateSignIn = () => {
+
+	}
+	const validateSignUp = () => {
+		const username = $('#signUpUsernameInput').val();
+		if (username.length < 5) {
+			return 'Username must have at least 5 characters!';
+		}
+
+		if ((signUpForm.firstName.value + signUpForm.lastName.value).length <= 0) {
+			return 'Name can not be empty!'
+		}
+		if (signUpForm.password.value != signUpForm.confirmPassword.value) {
+			return 'Password does not match';
+		}
+		return false;
+	}
+
 	$('#sign-up-form').on('submit', (e) => {
 		console.log('before form submit');
 		e.preventDefault();
+
 		// validate input
-		const username = $('#signUpUsernameInput').val();
-		if (username.length === 0) {
-			alert("Invalid data");
+		const validateSignUpMessage = validateSignUp()
+		if (validateSignUpMessage) {
+			Swal.fire({
+				icon: 'error',
+				title: 'Invalid input data',
+				text: validateSignUpMessage
+			})
 			return;
 		}
-		// validate username
+
+		const username = $('#signUpUsernameInput').val();
+		const email = signUpForm.email.value;
 		$.getJSON(`user/is-username-available?username=${username}`, (data) => {
 			console.log(data);
-			if (data) {
-				$('#sign-up-form').off('submit').submit();
+			if (!data) {
+				Swal.fire({
+					icon: 'error',
+					title: 'Invalid input data',
+					text: 'Username is already exist!'
+				})
 			} else {
-				alert("Username already exist");
+				$.getJSON(`user/is-email-available?email=${email}`, (data) => {
+					if (!data) {
+						Swal.fire({
+							icon: 'error',
+							title: 'Invalid input data',
+							text: 'Email is already exist!'
+						})
+					} else {
+						$('#sign-up-form').off('submit').submit();
+					}
+				});
 			}
 		})
+
+	})
+	$('document').ready((e) => {
+		$('#signUpUsernameInput').val("");
+		$('#signUpPasswordInput').val("");
 	})
 
+	const status = "{{this.status}}";
+	const message = "{{this.message}}"
+	if (status)  {
+		Swal.fire({
+			icon: status,
+			title: message
+		})
+	}
 </script>
 <script src="assets/js/signin-signup.js"></script>
 </body>

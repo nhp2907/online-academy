@@ -6,6 +6,7 @@ const CourseChapterSection = sequelize.define('courseChapterSection', {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
+    courseChapterId: DataTypes.INTEGER,
     description: DataTypes.STRING,
     title: DataTypes.STRING,
     urlVideo: DataTypes.STRING,
