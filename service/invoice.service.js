@@ -64,7 +64,7 @@ module.exports = {
         if(user !== null) updateParams['userId'] = user;
         if(paymenttype !== null) updateParams['paymentTypeId'] = paymenttype;
         if(coupon !== null) updateParams['couponId'] = coupon;
-        console.log(updateParams);
+
         const updateResult = await Invoice.update(
             updateParams,
             { 
@@ -73,7 +73,6 @@ module.exports = {
                 } 
             }
         );
-        console.log(updateResult);
         if(updateResult === null) return null;
         return updateResult;
     },

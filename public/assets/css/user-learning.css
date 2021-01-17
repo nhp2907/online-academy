@@ -8,10 +8,11 @@
   display: none; }
 
 .user-learning {
-  flex: 1;
+  width: 100vw;
+  height: 100vw;
+  background-color: #F9FAFC;
   position: relative;
-  width: 80%;
-  margin: 50px auto; }
+  padding: 50px 13.5% 50px 12.5%; }
   .user-learning a {
     display: block;
     color: black;
@@ -21,13 +22,12 @@
     outline: none;
     cursor: pointer; }
   .user-learning .fixed-user-info {
-    background-color: #F4F4F4;
     height: 100%;
     width: 280px;
     position: fixed;
     z-index: 1;
     top: 50px;
-    bottom: 20px;
+    bottom: 50px;
     left: 153px;
     overflow-x: hidden;
     display: flex;
@@ -59,59 +59,67 @@
       flex-direction: column;
       width: 90%;
       margin: 0px auto; }
-      .user-learning .fixed-user-info .user-choice button {
+      .user-learning .fixed-user-info .user-choice button, .user-learning .fixed-user-info .user-choice a {
         display: block;
         text-align: left;
         width: 100%;
         color: #666984;
         background-color: transparent;
-        padding: 10px 0px;
+        padding: 10px 5px;
         font-size: 17px;
         margin: 5px 0px;
         display: flex;
         align-items: center; }
-        .user-learning .fixed-user-info .user-choice button i {
+        .user-learning .fixed-user-info .user-choice button i, .user-learning .fixed-user-info .user-choice a i {
           flex-basis: 11%;
           font-size: 20px; }
-        .user-learning .fixed-user-info .user-choice button:hover {
+        .user-learning .fixed-user-info .user-choice button:hover, .user-learning .fixed-user-info .user-choice a:hover {
           color: black;
           background-color: #d3d4d8; }
   .user-learning .user-courses {
-    margin-left: 330px; }
+    margin-left: 300px; }
     .user-learning .user-courses .course-info p {
       font-size: 25px;
-      font-weight: bold; }
-    .user-learning .user-courses .course-info input {
-      margin-top: 20px;
-      margin-right: 20px;
-      background-color: #ECEDF1;
-      padding: 20px;
-      width: 50%;
-      border: none;
-      border-radius: 5px;
-      outline: none; }
-    .user-learning .user-courses .course-info button {
-      background-color: #FFFFFF;
-      padding: 15px;
-      font-size: 16px;
-      border: 1px solid #d1cbcb;
-      border-radius: 5px; }
-      .user-learning .user-courses .course-info button:hover {
-        filter: brightness(80%); }
+      font-weight: bold;
+      padding-bottom: 20px; }
+    .user-learning .user-courses .course-info form {
+      display: flex; }
+      .user-learning .user-courses .course-info form input {
+        background-color: #ECEDF1;
+        padding: 15px;
+        flex-basis: 80%;
+        border: none;
+        outline: none;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px; }
+      .user-learning .user-courses .course-info form .search-btn {
+        background-color: #FFFFFF;
+        padding: 15px;
+        margin: 0px;
+        flex-basis: 20%;
+        font-size: 16px;
+        border: 1px solid #d1cbcb;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        transition: 0.3s; }
+        .user-learning .user-courses .course-info form .search-btn:hover {
+          filter: brightness(80%); }
     .user-learning .user-courses .basic-course {
       padding: 20px 0px; }
       .user-learning .user-courses .basic-course .basic-content {
         display: grid;
-        grid-template-columns: 30% 30% 30%;
+        grid-template-columns: 31% 31% 31%;
         grid-row-gap: 30px;
         justify-content: space-between; }
         .user-learning .user-courses .basic-course .basic-content .basic-item {
+          border: 1px solid  #eceaea;
           background-color: white;
           transition: 0.3s;
           border-radius: 5px;
           padding-bottom: 5px;
           position: relative;
-          height: 300px; }
+          height: 300px;
+          position: relative; }
           .user-learning .user-courses .basic-course .basic-content .basic-item p {
             display: flex;
             justify-content: flex-start;
@@ -165,3 +173,115 @@
             top: 10px;
             left: 10px;
             font-weight: bold; }
+          .user-learning .user-courses .basic-course .basic-content .basic-item .nav-btn {
+            display: none;
+            position: absolute;
+            bottom: 0px;
+            width: 100%; }
+            .user-learning .user-courses .basic-course .basic-content .basic-item .nav-btn button {
+              display: block;
+              width: 50%;
+              padding: 10px;
+              color: white; }
+              .user-learning .user-courses .basic-course .basic-content .basic-item .nav-btn button:hover {
+                filter: brightness(90%); }
+            .user-learning .user-courses .basic-course .basic-content .basic-item .nav-btn .detail-btn {
+              background-color: #00C0EF; }
+            .user-learning .user-courses .basic-course .basic-content .basic-item .nav-btn .remove-btn {
+              background-color: #DD4B39; }
+            .user-learning .user-courses .basic-course .basic-content .basic-item .nav-btn .review-btn {
+              background-color: #00A65A; }
+            .user-learning .user-courses .basic-course .basic-content .basic-item .nav-btn .learn-btn {
+              background-color: #F39C12; }
+  .user-learning .confirm-notification {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    transform: translateX(-50%);
+    color: white;
+    z-index: 1;
+    width: 600px; }
+    .user-learning .confirm-notification .headline {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px; }
+      .user-learning .confirm-notification .headline .headline-text {
+        font-weight: 500;
+        font-size: 18px; }
+      .user-learning .confirm-notification .headline .close-btn {
+        color: #b8b4b4;
+        background-color: transparent;
+        transition: 0.3s; }
+        .user-learning .confirm-notification .headline .close-btn:hover {
+          color: white; }
+    .user-learning .confirm-notification .info {
+      padding: 15px;
+      height: 70px; }
+    .user-learning .confirm-notification .confirm {
+      padding: 15px;
+      display: flex;
+      justify-content: space-between; }
+      .user-learning .confirm-notification .confirm button {
+        border: 1px solid white;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: transparent;
+        color: white; }
+        .user-learning .confirm-notification .confirm button:hover {
+          filter: brightness(80%); }
+  .user-learning .notification-danger {
+    background-color: #D33724; }
+    .user-learning .notification-danger .info {
+      background-color: #DD4B39; }
+  .user-learning .notification-success {
+    background-color: #008D4C; }
+    .user-learning .notification-success .info {
+      background-color: #00A65A; }
+  .user-learning .notification-info {
+    background-color: #00A7D0; }
+    .user-learning .notification-info .info {
+      background-color: #00C0EF; }
+  .user-learning .notification-default {
+    background-color: #FFFFFF; }
+    .user-learning .notification-default .info {
+      background-color: #FFFFFF; }
+  .user-learning .review {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    transform: translateX(-50%);
+    z-index: 1;
+    width: 600px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px; }
+    .user-learning .review .review-content {
+      padding: 20px; }
+      .user-learning .review .review-content p {
+        padding: 10px 0px;
+        text-align: center; }
+        .user-learning .review .review-content p:first-child {
+          font-size: 30px;
+          font-weight: bold; }
+        .user-learning .review .review-content p:nth-child(3) {
+          font-size: 17px; }
+      .user-learning .review .review-content textarea {
+        background-color: #EDEDED;
+        width: 100%;
+        padding: 10px;
+        margin: 20px 0px;
+        border-radius: 5px; }
+      .user-learning .review .review-content textarea::placeholder {
+        font-size: 17px; }
+      .user-learning .review .review-content button {
+        background-color: #DF322F;
+        color: white;
+        border-radius: 5px;
+        padding: 15px 40px;
+        display: block;
+        margin: 0px auto;
+        font-size: 17px; }
+        .user-learning .review .review-content button:hover {
+          filter: brightness(80%); }

@@ -38,6 +38,7 @@ app.use('/admin', require('./routes/admin'));
 app.use('/test', require('./routes/test'));
 app.use('/cart', require('./routes/cart'));
 app.use('/cart/payment', require('./routes/payment'));
+app.use('/my-courses', require('./routes/my-course'));
 
 const PORT = process.env.PORT || 5000;
 

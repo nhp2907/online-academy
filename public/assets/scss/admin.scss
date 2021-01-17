@@ -161,18 +161,23 @@
         td{
             height: auto;
             cursor: pointer;
+            padding: 5px;
             &:last-child{
                 display: grid;
-                grid-template-columns: 30% 30% 30%;
-                min-width: 150px;
+                grid-template-columns: auto auto auto;
+                //width: 150px;
                 justify-content: space-between;
+                grid-column-gap: 5px;
+                align-items: center;
+                border-bottom: none;
                 button{
-                    //width: 40px;
+                    display: flex;
+                    justify-content: center;
+                    width: 50px;
                     padding: 5px;
                     font-size: 11px;
                     border-radius: 5px;
                     color: white;
-                    text-align: center;
                     &:hover{
                         filter: brightness(90%);
                     }
@@ -259,9 +264,9 @@
                 background-color: #FFFFFF;
                 padding: 0px 10px;
                 .dt-item{
-                    display: flex;
+                    display: grid;
+                    grid-template-columns: 30% 70%;
                     align-items: center;
-                    justify-content: space-between;  
                     border-bottom: 1px solid #CCCCCC;
                     font-size: 14px;
                     height: auto;
@@ -274,6 +279,7 @@
                         }
                         &:last-child{
                             color: #3C8DBC;
+                            text-align: right;
                         }
                     }
                     &:last-child{
@@ -287,6 +293,7 @@
                     padding: 8px;
                     color: white;
                     border-radius: 5px;
+                    grid-column: 1/3;
                     &:hover{
                         filter: brightness(90%);
                     }
@@ -435,6 +442,31 @@
                     }
                 }
             }
+            .course-dashboard{
+                display: none;
+                padding: 20px 0px;
+                border: 1px solid black;
+                .course-dashboard-nav{
+                    select{
+                        background-color: #00A65A;;
+                    }
+                    .add-btn{
+                        button{
+                            background-color: #00A65A;
+
+                        }
+                    }
+                }
+                .course-dashboard-content{
+                    border: 1px solid black;
+                    overflow-x: auto;
+                    table{
+                        th{
+                            background-color: #00A65A;
+                        }
+                    }
+                }
+            }
             .user-dashboard{
                 display: none;
                 padding: 20px 0px;
@@ -446,6 +478,7 @@
                     .add-btn{
                         button{
                             background-color:  #F39C12;
+
                         }
                     }
                 }
@@ -470,6 +503,7 @@
                                     width: 100%;
                                     display: block;
                                     margin: 10px auto;
+                                    grid-column: 1 / 3;
                                 }
                             }
                         }
@@ -481,8 +515,26 @@
                             }
                             td{
                                 &:last-child{
-                                    grid-template-columns: 48% 48%;
-                                    min-width: 80px;
+                                    grid-template-columns: auto auto;
+                                    grid-column-gap: 5px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .course-detail{
+                .course-detail-content{
+                    grid-template-columns: 49% 49%;
+                    justify-content: space-between;
+                    .course-block{
+                        .dt-item{
+                            &:first-child{
+                                img{
+                                    width: 100%;
+                                    display: block;
+                                    margin: 10px auto;
+                                    grid-column: 1 / 3;
                                 }
                             }
                         }
@@ -498,12 +550,90 @@
                                     width: 100%;
                                     display: block;
                                     margin: 10px auto;
+                                    grid-column: 1 / 3;
                                 }
                             }
                         }
                     }
                 }
             }
+        }
+    }
+    .confirm-notification{
+        display: none;
+        position: absolute;
+        left: 50%;
+        top: 10%;
+        transform: translateX(-50%);
+        color: white;
+        z-index: 1;
+        width: 600px;
+        .headline{
+          display: flex;
+          justify-content: space-between;
+          padding: 15px;
+          .headline-text{
+            font-weight: 500;
+            font-size: 18px;
+          }
+          .close-btn{
+            color: #b8b4b4;
+            background-color: transparent;
+            transition: 0.3s;
+            &:hover{
+              color: white;
+            }
+          }
+        }
+        .info{
+          padding: 15px;
+          height: 70px;
+        }
+        .confirm{
+          padding: 15px;
+          display: flex;
+          justify-content: space-between;
+          button{
+            border: 1px solid white;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: transparent;
+            color: white;
+            &:hover{
+              filter: brightness(80%);
+            }
+          }
+        }
+      }
+    .notification-danger{
+    background-color: #D33724;
+    .info{
+        background-color: #DD4B39;
+    }
+    }
+    .notification-success{
+    background-color: #008D4C;
+    .info{
+        background-color: #00A65A;
+    }
+    }
+    .notification-info{
+    background-color: #00A7D0;
+    .info{
+        background-color: #00C0EF;
+    }
+    }
+    .notification-warning{
+        background-color: #DB8B0B;
+        .info{
+            background-color: #F39C12;
+        }
+    }
+    .notification-default{
+        color: black;
+        background-color:#FFFFFF;
+        .info{
+            background-color:#FFFFFF;
         }
     }
 }

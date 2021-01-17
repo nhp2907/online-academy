@@ -534,6 +534,9 @@ $leftSideWidthPercent: 60%;
       background-color: #EC5252;
       color: white;
       border-radius: 5px;
+      &:hover{
+        filter: brightness(90%);
+      }
     }
 
     .buy-now {

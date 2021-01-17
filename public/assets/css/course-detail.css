@@ -323,6 +323,8 @@
       background-color: #EC5252;
       color: white;
       border-radius: 5px; }
+      .course-detail .buy-info .add-to-cart:hover {
+        filter: brightness(90%); }
     .course-detail .buy-info .buy-now {
       background-color: white;
       color: green;

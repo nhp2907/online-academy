@@ -45,7 +45,7 @@
                 <script>
                     var sumPrice = 0;
                     $('.course-list-item .price').map(function(){
-                        sumPrice += +$(this).children('p').html().replace('$','');
+                        sumPrice += +$(this).children('p:first').html().replace('$','');
                     });
                     $('.summary-price .price').children('p:first').children('span:last').html(sumPrice + " $");
                     $('.summary-price .price').children('p:last').children('span:last').html(sumPrice + " $");
@@ -120,7 +120,8 @@
                     url: '/cart/to_payment',
                     dataType: 'json',
                     data: {
-                        coupon: couponId
+                        coupon: couponId,
+                        invoiceId: "{{this.userUnPaymentInvoice.id}}"
                     },
                     success: function (data) {
                         if(data.code === '00')

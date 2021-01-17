@@ -17,10 +17,12 @@ const Course = sequelize.define('course', {
     rating: DataTypes.FLOAT,
     numReview: DataTypes.FLOAT,
     numLecture:  DataTypes.FLOAT,
+    status: DataTypes.STRING,
     estimateContentLength: DataTypes.STRING,
     numStudentEnroll: DataTypes.INTEGER,
     createdDate: DataTypes.DATE,
     updatedDate: DataTypes.DATE,
+
 }, {
     underscored: true,
     tableName: 'course',

@@ -10,6 +10,10 @@ const CourseReview = sequelize.define('courseReview', {
     rating: DataTypes.INTEGER,
     createdDate: DataTypes.DATE,
     updatedDate: DataTypes.DATE,
+    userId: {
+        type: DataTypes.INTEGER,
+        defaultValue: null
+    },
 }, {
     underscored: true,
     timestamps: true,

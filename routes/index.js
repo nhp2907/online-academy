@@ -66,15 +66,14 @@ router.get('/logout', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-    const user = res.locals.user
     if(res.locals.user) {
         var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
-        var userCourses = await getAllUserCourses(res.locals.user.id);
+        var userCourses = await getAllUserCourses(res.locals.user.id, type = 2);
         if(userCourses.length == 0) userCourses = null;
+        var user = res.locals.user;
     }
     res.render('pages/home', {
         css: ['home', 'star-rating-svg', 'slick', 'slick-theme'],
-        user,
         categories: await getAllCategories(),
         topEnrollCategories: await getMostEnrollCategories(),
         topCoursesInWeek: await getTopCoursesInWeek(),
@@ -82,9 +81,9 @@ router.get('/', async (req, res) => {
         mostEnrollCourses: await getMostEnrollCourses(),
         instructors: await getAllInstructor(),
         userUnPaymentInvoice,
-        userCourses
+        userCourses,
+        user,
     });
-
 })
 
 function setFilter(requestPage, requestRating, requestDuration, requestPrice, requestLevel, requestOrder, requestTopic) {
@@ -129,9 +128,10 @@ function setFilter(requestPage, requestRating, requestDuration, requestPrice, re
         if (requestPrice.includes("free")) {
             price[0] = 0;
             price[1] = 0;
-        } else {
-            price1[0] = 1;
-            price1[1] = 999;
+        }
+        if(requestPrice.includes("paid")){
+            price[0] = 1;
+            price[1] = 999;
         }
     }
     var level = [];
@@ -151,12 +151,11 @@ function setFilter(requestPage, requestRating, requestDuration, requestPrice, re
 }
 
 router.get('/collection/*/', async (req, res) => {
-    //if(res.locals.user) {
-        const userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
-        const userCourses = await getAllUserCourses(res.locals.user.id);
-        //if(userCourses.length == 0) userCourses = null;
-    /*}*/
-    console.log(req.query);
+    if(res.locals.user) {
+        var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
+        var userCourses = await getAllUserCourses(res.locals.user.id, type = 2);
+        if(userCourses.length == 0) userCourses = null;
+    }
     const {page, rating, duration, price, level, order, topic} = setFilter(req.query.page, req.query.rating, req.query.duration, req.query.price, req.query.level, req.query.order, req.query.topic);
 
     const {pageCount: {totalItems, totalPages, currentPage}, categorycourses: categoryCourses} = await getCategoryCourses(req.query.id, page, size = 5, duration, rating, level, price, order, topic);
@@ -168,8 +167,8 @@ router.get('/collection/*/', async (req, res) => {
         popularCategoryCourses: await getPopularCategoryCourses(req.query.id),
         popularSubCategories: await getPopularSubCategoriesByCategory(req.query.id),
         subcategoriesByCategory: await getSubCategoriesByCategory(req.query.id),
-        //userUnPaymentInvoice,
-        //userCourses
+        userUnPaymentInvoice,
+        userCourses
     });
 });
 
@@ -185,14 +184,7 @@ router.get('/courses/*/:courseid/lecture/:sectionid', async (req, res) => {
     });
 })
 
-router.get('/my-courses/learning', async (req, res) => {
 
-    res.render('pages/user-learning', {
-        css: ['user-learning', 'star-rating-svg'],
-        user: null,
-        userCourses: await getAllUserCourses((res.locals.user.id))
-    });
-})
 
 router.get('/instructor/:id', async (req, res) => {
     const instructor = await getById(req.params.id);
@@ -213,7 +205,7 @@ router.get('/courses/*/:id', async (req, res) => {
     const reqId = req.params.id;
     if(res.locals.user) {
         var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
-        var userCourses = await getAllUserCourses(res.locals.user.id);
+        var userCourses = await getAllUserCourses(res.locals.user.id, type = 2);
         if(userCourses.length == 0) userCourses = null;
     }
     try {
@@ -221,6 +213,7 @@ router.get('/courses/*/:id', async (req, res) => {
         console.log(course);
         res.render('pages/course-detail', {
             css: ['course-detail'],
+            categories: await getAllCategories(),
             course,
             userUnPaymentInvoice,
             userCourses,

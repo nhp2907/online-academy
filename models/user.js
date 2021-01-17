@@ -1,5 +1,5 @@
 const sequelize = require('./db')
-const {DataTypes} = require('sequelize');
+const {DataTypes, NUMBER} = require('sequelize');
 const Role = require('./role');
 const Instructor = require('./instructor');
 
@@ -59,10 +59,9 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING
     },
     roleId: {
-        type: DataTypes.INTEGER,
-        field: 'role_id',
-        defaultValue: 3,
+        type: DataTypes.NUMBER,
     },
+    status: DataTypes.NUMBER,
     createdDate: DataTypes.DATE,
     updatedDate: DataTypes.DATE,
 }, {

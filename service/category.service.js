@@ -13,15 +13,16 @@ module.exports = {
                 include: {
                     model: SubCategory,
                     as: 'subCategories',
-                },
+                    require: true,
+                }
             });
+            console.log(categories.map(category => category.toJSON()));
             return categories.map(category => category.toJSON());
         }
         catch(err){
             throw err;
         }
     },
-
     async createNewCategory(categoryname, categorylogo, categoryimg) {
         try{
             const category = await Category.create({
@@ -36,7 +37,6 @@ module.exports = {
             throw err;
         }
     },
-
     async createNewSubCategory(subcategoryname, categoryid) {
         try{
             const subCategory = await SubCategory.create({
@@ -53,8 +53,6 @@ module.exports = {
             throw err;
         }
     },
-
-
     async updateCategory(categoryid, categoryname, categorylogo) {
         try{
             var updateParams = {};
@@ -77,7 +75,6 @@ module.exports = {
             throw err;
         }
     },
-
     async getCategoryById(categoryid) {
         console.log("blasdfsdaf",categoryid);
         try{
@@ -96,7 +93,6 @@ module.exports = {
             throw err;
         }
     },
-
     async getSubCategoriesByCategory(categoryid) {
         try{
             const categories = await Category.findAll({
@@ -140,7 +136,7 @@ module.exports = {
                     attributes: ['id','name'],
                 }]
             });
-            return mostEnrollCategories.map(category => category.toJSON()).slice(0, 10);
+            return mostEnrollCategories.map(category => category.toJSON()).slice(0, 5);
         }
         catch(err){
             throw err;
@@ -175,6 +171,26 @@ module.exports = {
         catch(err){
             throw err;
         }
+    },
+    async changeStatusCategory(categoryid, status) {
+        try{
+            console.log("param", categoryid, status);
+            const updateResult = await Category.update(
+                {
+                    status: status
+                },
+                {
+                where: {
+                    id: categoryid
+                }
+            });
+            if(updateResult === null) return null;
+            return updateResult;
+        }
+        catch (err){
+            throw err;
+        }
     }
+    
 
 }
