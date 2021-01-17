@@ -43,11 +43,29 @@
 
   .content {
     .basic-info-wrapper {
-      display: none;
 
       .info {
         width: 60%;
+        .header {
+          display: flex;
+          justify-content: space-between;
+          button {
+            margin-top: 10px;
+            margin-left: 40px;
+            color: white;
+            border: none;
+            outline: none;
+            border-radius: 3px;
+            padding: 7px 10px;
+            background-color: #d0383f;
+            font-weight: bold;
 
+            &:hover {
+              cursor: pointer;
+              filter: brightness(80%);
+            }
+          }
+        }
         .imageInputLabel {
           &:hover {
             cursor: pointer;
@@ -72,6 +90,7 @@
     }
 
     .add-course-content-wrapper {
+      display: none;
       .add-course-content {
         .add-button {
           padding: 5px 10px;
@@ -270,6 +289,31 @@
 
           }
         }
+      }
+    }
+
+    .public-course-wrapper {
+      display: none;
+      button {
+        margin-top: 10px;
+        margin-left: 40px;
+        color: whitesmoke;
+        border: none;
+        outline: none;
+        border-radius: 3px;
+        padding: 7px 10px;
+        background-color: #00A65A;
+
+        &:hover {
+          cursor: pointer;
+          filter: brightness(80%);
+        }
+      }
+      .bade {
+        padding: 10px;
+        background-color: #15b56c;
+        color: whitesmoke;
+        border-radius: 5px;
       }
     }
   }

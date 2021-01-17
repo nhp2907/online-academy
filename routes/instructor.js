@@ -138,7 +138,7 @@ router.get('/profile', (req, res) => {
 /**
  * add chapter
  */
-router.post('/course/:courseId/add-chapter', (req) => {
+router.post('/course/:courseId/add-chapter', (req, res) => {
     const chapter = req.body;
     const courseId = req.params.courseId;
     chapter.courseId = courseId;
@@ -156,10 +156,11 @@ router.post('/course/:courseId/chapter/:courseChapterId/add-lesion',
     async (req, res) => {
         const files = req.files;
         const lesion = req.body;
-        console.log(files);
 
         lesion.courseChapterId = req.params.courseChapterId;
-        lesion.urlVideo = 'public/assets/videos/courses/' + files.video[0].filename;
+        if (files.video) {
+            lesion.urlVideo = 'public/assets/videos/courses/' + files.video[0].filename;
+        }
         const newLesion = await CourseService.addLesion(lesion);
 
         res.redirect(`/instructor/edit-course/${req.params.courseId}`);
@@ -206,9 +207,29 @@ router.delete('/course/:courseId/chapter/:courseChapterId/lesion/:lesionId',
  */
 router.delete('/course/:courseId/chapter/:chapterId',
     async (req, res) => {
+        console.log(req.params.chapterId);
         CourseService.deleteChapter(req.params.chapterId)
             .then(r => res.json(true))
             .catch(err => res.json(false));
+    })
+
+router.post('/course/:courseId/public',
+    (req, res) => {
+        const courseId = req.params.courseId;
+        CourseService.publicCourse(courseId)
+            .then(r => console.log(r));
+        res.redirect('/instructor')
+    })
+router.delete('/course/:id',
+    (req, res) => {
+        CourseService.deleteCourse(req.params.id)
+            .then(r => res.json(true))
+            .catch(r => {
+                console.log(r)
+                res.json(false);
+            });
+
+
     })
 
 module.exports = router;

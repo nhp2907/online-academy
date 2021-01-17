@@ -478,8 +478,17 @@ async function deleteLesion(id) {
 }
 
 async function deleteChapter(id) {
-    const lesion = await CourseChapter.findByPk(id);
-    return await lesion.destroy();
+    console.log('delete')
+    const chapter = await CourseChapter.findByPk(id);
+    // select lesson belong to chapter. delete lesson first
+    const lesson = await CourseChapterSection.findAll({
+        where: {
+            courseChapterId: id
+        }
+    });
+    const temp = await Promise.all(lesson.map(e => e.destroy()));
+    console.log(temp)
+    return await chapter.destroy();
 }
 
 async function findLesionById(id) {
@@ -488,7 +497,7 @@ async function findLesionById(id) {
 }
 
 async function getRelatedCourses(courseId) {
-    const course = await  Course.findByPk(courseId);
+    const course = await Course.findByPk(courseId);
     const categoryLink = await CategoryLink.findOne({
         where: {
             id: course.categoryLinkId
@@ -506,6 +515,32 @@ async function getRelatedCourses(courseId) {
     })
 
     return courses.map(c => c.toJSON());
+}
+
+async function publicCourse(courseId) {
+    return await Course.update({status: 1}, {
+        where: {
+            id: courseId
+        }
+    })
+}
+
+async function deleteCourse(courseId) {
+    const course = await Course.findByPk(courseId);
+    const chapters = await CourseChapter.findAll({
+        where: {
+            courseId: course.id
+        }
+    })
+    console.log(chapters.length);
+
+    const deleteResult = Promise.all(chapters.map(c => CourseChapterSection.destroy({
+        where: {
+            courseChapterId: c.id
+        }
+    })))
+    const deleteChapter = await Promise.all(chapters.map(c => c.destroy()));
+    return await course.destroy();
 }
 
 module.exports = {
@@ -532,4 +567,6 @@ module.exports = {
     getSectionVideo,
     countRating,
     getRelatedCourses,
+    publicCourse,
+    deleteCourse,
 }
