@@ -315,6 +315,26 @@ nav {
           right: 0;
           top: 38px;
           background-color: #EEF1F2; }
+          nav .right-sight .after-sign-in .my-profile .my-profile-content .user-logo {
+            padding: 10px;
+            border-radius: 3px;
+            justify-content: space-between;
+            display: flex;
+            align-items: center; }
+            nav .right-sight .after-sign-in .my-profile .my-profile-content .user-logo img {
+              width: 70px;
+              height: 70px;
+              border-radius: 50%; }
+            nav .right-sight .after-sign-in .my-profile .my-profile-content .user-logo .text span {
+              color: #dd5050;
+              font-size: 18px;
+              font-weight: bold; }
+            nav .right-sight .after-sign-in .my-profile .my-profile-content .user-logo .text p {
+              font-size: 16px;
+              font-weight: 300; }
+            nav .right-sight .after-sign-in .my-profile .my-profile-content .user-logo:hover {
+              filter: brightness(90%);
+              background-color: #e0e0e0; }
           nav .right-sight .after-sign-in .my-profile .my-profile-content a {
             color: black;
             padding: 5px; }
