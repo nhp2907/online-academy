@@ -30,8 +30,6 @@ Course.hasMany(CourseChapter, {as: 'chapters'});
 
 CourseChapterSection.belongsTo(CourseChapter);
 CourseChapter.hasMany(CourseChapterSection, {as: 'sections' , foreignKey: 'courseChapterId'});
-//CourseChapter.hasMany(CourseChapterSection, {as: 'sections'});
-//CourseChapterSection.belongsTo(CourseChapter);
 
 CategoryLink.hasMany(Course, {as: 'courses'});
 Course.belongsTo(CategoryLink, {as: "categoryLink", foreignKey: 'categoryLinkId'});

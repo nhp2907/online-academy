@@ -117,7 +117,6 @@ const findById = async (id) => {
         }, {
             model: Advancement,
             as: 'advancement'
-            as: 'reviews'
         },{
             model: CategoryLink,
             as: 'categoryLink',
@@ -535,7 +534,7 @@ module.exports = {
     getCourseChapter,
     getSectionVideo,
     changeStatusCourse,
-    checkExsistCategoryCourses
+    checkExsistCategoryCourses,
     checkCourseBeLongToInstructor,
     addChapter,
     addLesion,

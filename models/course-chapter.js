@@ -6,6 +6,7 @@ const CourseChapter = sequelize.define('courseChapter', {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
+    courseId: DataTypes.INTEGER,
     count: DataTypes.INTEGER,
     title: DataTypes.STRING,
     createdDate: DataTypes.DATE,

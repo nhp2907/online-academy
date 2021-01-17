@@ -51,7 +51,7 @@ router.post('/to_payment', async (req, res) => {
 
     var invoiceId = req.body.invoiceId;
 
-    var updateResult = await updateInvoice(2, orderDate = null, refunddate = null, invoiceStatus = null, user = null, paymenttype = null, couponid = couponId);
+    var updateResult = await updateInvoice(invoiceId, orderDate = null, refunddate = null, invoiceStatus = null, user = null, paymenttype = null, couponid = couponId);
 
     if(updateResult !== null) {     
         res.send({code: '00', paymentLink: 'http://localhost:5000/cart/payment'})

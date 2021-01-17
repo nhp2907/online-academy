@@ -6,7 +6,7 @@ const user = {};
 
 router.get('/learning', async (req, res) => {
     if(!res.locals.user) res.redirect('/auth');
-    console.log(await getAllUserCourses(res.locals.user.id, type = 2));
+
     res.render('pages/user-learning', {
         css: ['user-learning', 'star-rating-svg'],
         user: null,
@@ -17,7 +17,7 @@ router.get('/learning', async (req, res) => {
 
 router.get('/following', async (req, res) => {
     if(!res.locals.user) res.redirect('auth');
-    console.log(await getAllUserCourses(res.locals.user.id, type = 1));
+
     res.render('pages/user-learning', {
         css: ['user-learning', 'star-rating-svg'],
         user: null,

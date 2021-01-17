@@ -57,7 +57,6 @@ module.exports = {
 
     async updateInvoice(invoiceid, orderdate, refunddate, invoicestatus, user, paymenttype, coupon) {
         var updateParams = {};
-        console.log(invoiceid, coupon);
         if(orderdate !== null) updateParams['orderDate'] = orderdate;
         if(refunddate !== null) updateParams['refundDate'] = refunddate;
         if(invoicestatus !== null) updateParams['invoiceStatusId'] = invoicestatus;
