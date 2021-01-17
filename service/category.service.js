@@ -13,7 +13,8 @@ module.exports = {
                 include: {
                     model: SubCategory,
                     as: 'subCategories',
-                },
+                    require: true,
+                }
             });
             return categories.map(category => category.toJSON());
         }
@@ -140,7 +141,7 @@ module.exports = {
                     attributes: ['id','name'],
                 }]
             });
-            return mostEnrollCategories.map(category => category.toJSON()).slice(0, 10);
+            return mostEnrollCategories.map(category => category.toJSON()).slice(0, 5);
         }
         catch(err){
             throw err;
@@ -176,6 +177,25 @@ module.exports = {
             throw err;
         }
     },
+    async changeStatusCategory(categoryid, status) {
+        try{
+            console.log("param", categoryid, status);
+            const updateResult = await Category.update(
+                {
+                    status: status
+                },
+                {
+                where: {
+                    id: categoryid
+                }
+            });
+            if(updateResult === null) return null;
+            return updateResult;
+        }
+        catch (err){
+            throw err;
+        }
+    },
     async findCategoryLink(categoryId, subCategoryId) {
        const link = await CategoryLink.findOne({
             where: {
@@ -185,5 +205,6 @@ module.exports = {
         });
        return link.toJSON();
     }
+
 
 }

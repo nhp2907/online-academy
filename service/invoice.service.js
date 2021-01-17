@@ -57,14 +57,13 @@ module.exports = {
 
     async updateInvoice(invoiceid, orderdate, refunddate, invoicestatus, user, paymenttype, coupon) {
         var updateParams = {};
-        console.log(invoiceid, coupon);
         if(orderdate !== null) updateParams['orderDate'] = orderdate;
         if(refunddate !== null) updateParams['refundDate'] = refunddate;
         if(invoicestatus !== null) updateParams['invoiceStatusId'] = invoicestatus;
         if(user !== null) updateParams['userId'] = user;
         if(paymenttype !== null) updateParams['paymentTypeId'] = paymenttype;
         if(coupon !== null) updateParams['couponId'] = coupon;
-        console.log(updateParams);
+
         const updateResult = await Invoice.update(
             updateParams,
             { 
@@ -73,7 +72,6 @@ module.exports = {
                 } 
             }
         );
-        console.log(updateResult);
         if(updateResult === null) return null;
         return updateResult;
     },

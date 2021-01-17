@@ -30,8 +30,6 @@ Course.hasMany(CourseChapter, {as: 'chapters'});
 
 CourseChapterSection.belongsTo(CourseChapter);
 CourseChapter.hasMany(CourseChapterSection, {as: 'sections' , foreignKey: 'courseChapterId'});
-//CourseChapter.hasMany(CourseChapterSection, {as: 'sections'});
-//CourseChapterSection.belongsTo(CourseChapter);
 
 CategoryLink.hasMany(Course, {as: 'courses'});
 Course.belongsTo(CategoryLink, {as: "categoryLink", foreignKey: 'categoryLinkId'});
@@ -42,9 +40,11 @@ Course.belongsTo(Level, {as: "level", foreignKey: "levelId"});
 Advancement.hasMany(Course, {as: 'courses'});
 Course.belongsTo(Advancement, {as: "advancement", foreignKey: "advancementId"});
 
-Course.hasMany(CourseReview, {
-    as: 'reviews'
-});
+Course.hasMany(CourseReview, {as: 'reviews'});
+CourseReview.belongsTo(Course);
+
+User.hasMany(CourseReview, {as: 'reviews'});
+CourseReview.belongsTo(User);
 
 SubCategory.belongsToMany(Category, {through: CategoryLink,as: 'categories', foreignKey: 'subCategoryId'});
 Category.belongsToMany(SubCategory, {through: CategoryLink,as: 'subCategories', foreignKey: 'categoryId'});

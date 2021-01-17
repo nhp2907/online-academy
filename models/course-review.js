@@ -7,9 +7,12 @@ const CourseReview = sequelize.define('courseReview', {
         primaryKey: true,
         type: DataTypes.INTEGER
     },
-    userId: DataTypes.INTEGER,
     content: DataTypes.STRING,
     rating: DataTypes.INTEGER,
+    userId: {
+        type: DataTypes.INTEGER,
+        defaultValue: null
+    },
     createdDate: {
         type: DataTypes.DATE,
         get() {

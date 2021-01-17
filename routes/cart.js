@@ -10,9 +10,13 @@ const { getAllUserCourses } = require('../service/user.service');
 router.get('/', async (req, res) => {
 
     if(!res.locals.user) res.redirect('/auth');
+
     var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
-    var userCourses = await getAllUserCourses(res.locals.user.id);
+
+    var userCourses = await getAllUserCourses(res.locals.user.id, type = 2);
+
     if(userCourses.length == 0) userCourses = null;
+
     if(userUnPaymentInvoice !== null && userUnPaymentInvoice.courses.length > 0) {
         res.render('pages/cart', {
             css: ['cart'],
@@ -45,7 +49,9 @@ router.post('/to_payment', async (req, res) => {
 
     var couponId = req.body.coupon;
 
-    var updateResult = await updateInvoice(2, orderDate = null, refunddate = null, invoiceStatus = null, user = null, paymenttype = null, couponid = couponId);
+    var invoiceId = req.body.invoiceId;
+
+    var updateResult = await updateInvoice(invoiceId, orderDate = null, refunddate = null, invoiceStatus = null, user = null, paymenttype = null, couponid = couponId);
 
     if(updateResult !== null) {     
         res.send({code: '00', paymentLink: 'http://localhost:5000/cart/payment'})
@@ -57,21 +63,22 @@ router.post('/to_payment', async (req, res) => {
 
 router.post('/create-new/invoice', async (req, res) => {
 
-    const courseId = req.body.courseId;
-    //console.log("course id", courseId);
-    const invoice = await getUnPaymentInvoice(res.locals.user.id);
-    //console.log("invoice", invoice);
-    var courseInvoice;
-    if(invoice == null) {
-        const newInvoice = await createNewInvoice(res.locals.user.id);
-        //console.log("new invoice", newInvoice);
-        courseInvoice = await addCourseInvoice(newInvoice.id, courseId);
-    }else{
-        courseInvoice = await addCourseInvoice(invoice.id, courseId);
-    }
-    //console.log("course invoice", courseInvoice);
-    if(courseInvoice !== null) res.send({code: '00'});
-    else res.send({code: '01'});
+    if(res.locals.user){
+        const courseId = req.body.courseId;
+
+        const invoice = await getUnPaymentInvoice(res.locals.user.id);
+
+        var courseInvoice;
+        if(invoice == null) {
+            const newInvoice = await createNewInvoice(res.locals.user.id);
+
+            courseInvoice = await addCourseInvoice(newInvoice.id, courseId);
+        }else{
+            courseInvoice = await addCourseInvoice(invoice.id, courseId);
+        }
+        if(courseInvoice !== null) res.send({code: '00'});
+        else res.send({code: '01'});
+    }else res.send({code: '02'});
 });
 
 module.exports = router;

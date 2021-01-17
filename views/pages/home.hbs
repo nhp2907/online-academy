@@ -1,5 +1,5 @@
 <div class="main">
-	<div class="category">
+	<div class="category normal">
 		<div class="category-content" id="category-content">
 			<div class="category-item">
 				<a href="#"><i class="fab fa-buffer"></i>Category</a>
@@ -93,7 +93,7 @@
 			</script>
 		</div>
 	</div>
-	<div class="topic-recommend ">
+	<div class="topic-recommend background-change second">
 		<p>Topics recommended for you</p>
 		<div class="topic-recommend-content">
 			{{#each this.topEnrollCategories}}
@@ -115,107 +115,95 @@
 			</script>
 		</div>
 	</div>
-	<div class="basic-course ">
-		<a href="#" style="color:#A541B5">Top Courses This Week</a>
-		<div class="wrap">
-			<button type="button" class="slick-btn prev"><i class="fas fa-chevron-left"></i></button>
-			<div class="basic-content">
-				{{#each this.topCoursesInWeek}}
-					<a href={{this.id}}>
-						<div class="basic-item">
-							<img class="course-img" src={{this.image}} alt={{this.name}}>
-							<p class="c-name">{{this.name}}</p>
-							<p>{{this.instructor.basicInfo.Name}} {{this.instructor.basicInfo.lastName}}</p>
-							<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}}
-								)</span></p>
-							<p><span>$ {{this.price}}</span><span>$ {{this.prePrice}}</span></p>
-							<p><span class="advancement">{{this.advancement.description}}</span></p>
-							<script>
-								$(".star-rating").starRating({
-									initialRating: {{this.rating}},
-									strokeColor: '#EB8A2F',
-									strokeWidth: 10,
-									starSize: 15,
-									readOnly: false
-								});
-							</script>
-						</div>
-					</a>
-				{{/each}}
-			</div>
-			<button type="button" class="slick-btn next"><i class="fas fa-chevron-right"></i></button>
+	<div class="special-course background-change thirth">
+		<p class="headline-content" style="color:#A92107">Top Courses In Week</p>
+		<div class="special-course-content">
+			<a href="" class="content-logo"><div class="course-item">
+				<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtyghwvH5glO_OQGAkr0F6516Wd35lOGQyCQ&usqp=CAU" alt="">
+			</div></a>
+			{{#each this.topCoursesInWeek}}
+				<a href={{this.id}}><div class="course-item">
+					<img class="course-img" src={{this.image}} alt={{this.name}}>
+					<p class="c-name">{{this.name}}</p>
+					<p><span>{{this.instructor.basicInfo.Name}} {{this.instructor.basicInfo.lastName}}</span></p>
+					<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}})</span></p>
+					<p><span>$ {{this.price}}</span><span>$ {{this.prePrice}}</span></p>
+					<p><span class="advancement">{{this.advancement.description}}</span></p>
+					<script>
+						$(".star-rating").starRating({
+							initialRating: {{this.rating}},
+							strokeColor: '#EB8A2F',
+							strokeWidth: 10,
+							starSize: 15,
+							readOnly: true
+						});
+					</script>
+				</div></a>
+			{{/each}}
 		</div>
 	</div>
-	<div class="basic-course ">
-		<a href="#" style="color:#A92107">Newest Courses</a>
-		<div class="wrap">
-			<button type="button" class="slick-btn prev"><i class="fas fa-chevron-left"></i></button>
-			<div class="basic-content">
-				{{#each this.newestCourses}}
-					<a href={{this.id}}>
-						<div class="basic-item">
-							<img class="course-img" src={{this.image}} alt={{this.name}}>
-							<p class="c-name">{{this.name}}</p>
-							<p><span>{{this.instructor.basicInfo.Name}} {{this.instructor.basicInfo.lastName}}</span>
-							</p>
-							<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}}
-								)</span></p>
-							<p><span>$ {{this.price}}</span><span>$ {{this.prePrice}}</span></p>
-							<p><span class="advancement">{{this.advancement.description}}</span></p>
-							<script>
-								$(".star-rating").starRating({
-									initialRating: {{this.rating}},
-									strokeColor: '#EB8A2F',
-									strokeWidth: 10,
-									starSize: 15,
-									readOnly: true
-								});
-							</script>
-						</div>
-					</a>
-				{{/each}}
-			</div>
-			<button type="button" class="slick-btn next"><i class="fas fa-chevron-right"></i></button>
+	<div class="special-course normal">
+		<p class="headline-content" style="color:#7ED957">Newest Courses</p>
+		<div class="special-course-content">
+			{{#each this.newestCourses}}
+				<a href={{this.id}}>
+					<div class="course-item">
+						<img class="course-img" src={{this.image}} alt={{this.name}}>
+						<p class="c-name">{{this.name}}</p>
+						<p><span>{{this.instructor.basicInfo.Name}} {{this.instructor.basicInfo.lastName}}</span>
+						</p>
+						<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}}
+							)</span></p>
+						<p><span>$ {{this.price}}</span><span>$ {{this.prePrice}}</span></p>
+						<p><span class="advancement">{{this.advancement.description}}</span></p>
+						<script>
+							$(".star-rating").starRating({
+								initialRating: {{this.rating}},
+								strokeColor: '#EB8A2F',
+								strokeWidth: 10,
+								starSize: 15,
+								readOnly: true
+							});
+						</script>
+					</div>
+				</a>
+			{{/each}}
 		</div>
 	</div>
-	<div class="basic-course ">
-		<a href="#" class="headline" style="color: #45D7FF">Most Enroll Courses</a>
-		<div class="wrap">
-			<button type="button" class="slick-btn prev"><i class="fas fa-chevron-left"></i></button>
-			<div class="basic-content">
-				{{#each this.mostEnrollCourses}}
-					<a href={{this.id}}>
-						<div class="basic-item">
-							<img class="course-img" src={{this.image}} alt={{this.name}}>
-							<p class="c-name">{{this.name}}</p>
-							<p><span>{{this.instructor.basicInfo.Name}} {{this.instructor.basicInfo.lastName}}</span>
-							</p>
-							<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}}
-								)</span></p>
-							<p><span>$ {{this.price}}</span><span>$ {{this.prePrice}}</span></p>
-							<p><span class="advancement">{{this.advancement.description}}</span></p>
-							<script>
-								$(".star-rating").starRating({
-									initialRating: {{this.rating}},
-									strokeColor: '#EB8A2F',
-									strokeWidth: 10,
-									starSize: 15,
-									readOnly: true
-								});
-							</script>
-						</div>
-					</a>
-				{{/each}}
-			</div>
-			<button type="button" class="slick-btn next"><i class="fas fa-chevron-right"></i></button>
+	<div class="special-course background-change second">
+		<p class="headline-content" style="color: #45D7FF">Most Enroll Courses</p>
+		<div class="special-course-content">
+			{{#each this.mostEnrollCourses}}
+				<a href={{this.id}}>
+					<div class="course-item">
+						<img class="course-img" src={{this.image}} alt={{this.name}}>
+						<p class="c-name">{{this.name}}</p>
+						<p><span>{{this.instructor.basicInfo.Name}} {{this.instructor.basicInfo.lastName}}</span>
+						</p>
+						<p><span>{{this.rating}}</span><span class="star-rating"></span><span>({{this.numReview}}
+							)</span></p>
+						<p><span>$ {{this.price}}</span><span>$ {{this.prePrice}}</span></p>
+						<p><span class="advancement">{{this.advancement.description}}</span></p>
+						<script>
+							$(".star-rating").starRating({
+								initialRating: {{this.rating}},
+								strokeColor: '#EB8A2F',
+								strokeWidth: 10,
+								starSize: 15,
+								readOnly: true
+							});
+						</script>
+					</div>
+				</a>
+			{{/each}}
 		</div>
 	</div>
-	<div class="personal-recommend">
+	<div class="personal-recommend background-change">
 		<p>Get personal learning recommendations</p>
 		<p>Answer a few questions for your top picks</p>
 		<button type="button">Get Started</button>
 	</div>
-	<div class="introduce-category ">
+	<div class="introduce-category normal">
 		<p>Haven't found the course you're interested in?<br/>Data World has more than 2,000 courses waiting for you to
 			explore</p>
 		<div class="introduce-category-content">
@@ -238,7 +226,7 @@
 			</script>
 		</div>
 	</div>
-	<div class="why-should-learn ">
+	<div class="why-should-learn background-change second">
 		<p>3 REASONS YOU SHOULD LEARN ONLINE AT DATA WORLD</p>
 		<div class="why-should-learn-content">
 			<a href="#" class="why-should-learn-item">
@@ -264,7 +252,7 @@
 			</a>
 		</div>
 	</div>
-	<div class="popular-instructor ">
+	<div class="popular-instructor background-change thirth">
 		<p>POPULAR INSTRUCTOR</p>
 		<div class="wrap">
 			<button type="button" class="slick-btn prev"><i class="fas fa-chevron-left"></i></button>
@@ -278,12 +266,11 @@
 						</div>
 					</a>
 				{{/each}}
-
 			</div>
 			<button type="button" class="slick-btn next"><i class="fas fa-chevron-right"></i></button>
 		</div>
 	</div>
-	<div class="cooperate-tranning ">
+	<div class="cooperate-tranning normal">
 		<p>COOPERATE WITH DATA WORLD TRANNING</p>
 		<div class="cooperate-tranning-content">
 			<img src="https://media-kyna.cdn.vccloud.vn/new-homepage/img/vietnamworks_logo.png" alt="">
@@ -302,32 +289,30 @@
 	</div>
 	<script>
 		$(document).ready(function () {
-
 			$('.prev').click(function () {
 				$(this).next().slick('slickPrev');
 			});
+
 			$('.next').click(function () {
 				$(this).prev().slick('slickNext');
 			});
+
 			$('.popular-instructor-content').slick({
 				dots: false,
 				slidesToShow: 4,
 				slidesToScroll: 1,
 				touchMove: false,
 			});
-			$('.basic-content').slick({
-				dots: false,
-				slidesToShow: 5,
-				slidesToScroll: 1,
-				touchMove: false,
-			});
+
 			var categoryHeight = 0;
 			$('.category .category-item').map(function (index) {
 				if (index == 0) categoryHeight += 0;
 				else categoryHeight += $(this).height();
 			})
 			$('.sub-category-content').height(categoryHeight);
+
 			localStorage.setItem('categoryHeight', categoryHeight);
+			
 			$('.advancement').map(function (index, value) {
 				var advancementVal = value.innerHTML;
 				if (advancementVal == "BestSeller") {
@@ -348,7 +333,7 @@
 		$(document).ready(function () {
 			localStorage.setItem('token', {{user.token}});
 		})
-		$('.basic-item').click(function(){
+		$('.course-item').click(function(){
 			var seoCourseLink = $(this).children('.c-name').html().toLowerCase().replace(/\ /g, '-');
 			$(this).parent().attr('href', '/courses/' + seoCourseLink + '/' + $(this).parent().attr('href'))
         });

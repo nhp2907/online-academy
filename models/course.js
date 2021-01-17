@@ -18,10 +18,13 @@ const Course = sequelize.define('course', {
     description: DataTypes.STRING,
     rating: DataTypes.FLOAT,
     numReview: DataTypes.FLOAT,
+    numLecture:  DataTypes.FLOAT,
+    status: DataTypes.STRING,
     numLecture: DataTypes.FLOAT,
     estimateContentLength: DataTypes.STRING,
     numStudentEnroll: DataTypes.INTEGER,
     createdDate: DataTypes.DATE,
+    updatedDate: DataTypes.DATE,
     updatedDate: {
         type: DataTypes.DATE,
         get() {

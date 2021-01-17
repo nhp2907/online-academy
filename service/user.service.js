@@ -3,6 +3,7 @@ const Course = require('../models/course');
 const User = require('../models/user');
 const UserCourse = require('../models/user-course');
 const Instructor = require('../models/instructor');
+const CourseReview = require('../models/course-review');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const util = require('util')
@@ -63,9 +64,10 @@ module.exports = {
     },
 
     async changeRoleUser(userid, roleid) {
+        console.log("blablabl",userid, roleid);
         const user = await User.update(
             {
-                role_id: roleid
+                roleId: 3
             },
             {
                 where: {
@@ -75,7 +77,6 @@ module.exports = {
             )
         return user;
     },
-
     async save(user) {
         const savedUser = await User.build({...user}).save();
         return savedUser;
@@ -98,7 +99,6 @@ module.exports = {
         const savedUser = await User.build({...user}).save();
         return savedUser;
     },
-
     async getById(userid){
         const instructor = await User.findOne({
             attributes: ['id','image','firstName','lastName'],
@@ -108,14 +108,15 @@ module.exports = {
         });
         return instructor.toJSON();
     },
-
-    async getAllUserCourses(userid){
+    async getAllUserCourses(userid, type){
+        console.log(userid, type)
         const userCourses = await Course.findAll({
             attributes: ['id','name','rating','image'],
             include:[{
                 model: UserCourse,
                 where: {
-                    userId: userid
+                    userId: userid,
+                    type: type
                 },
             },{
                 model: Instructor,
@@ -130,6 +131,29 @@ module.exports = {
         });
         return userCourses.map(userCourse => userCourse.toJSON());
     },
+
+    async deleteUserCourse(userid, courseid, type){
+        const deleteResult = await UserCourse.destroy({
+            where: {
+                userId: userid,
+                courseId: courseid,
+                type: type
+            }
+        });
+        console.log(deleteResult);
+        return deleteResult;
+    },
+
+    async createUserCourseReview(userid, courseid, review = '', rating = 5){
+        const createResult = await CourseReview.create({
+            userId: userid,
+            courseId: courseid,
+            content: review,
+            rating: rating
+        });
+        return createResult;
+    },
+
 
     async getAllUser() {
         const users = await User.findAll({
@@ -154,4 +178,23 @@ module.exports = {
         console.log(user);
         return user.toJSON();
     },
+
+    async changeStatusUser(userid, status) {
+        try{
+            const updateResult = await User.update(
+                {
+                    status: status
+                },
+                {
+                where: {
+                    id: userid
+                }
+            });
+            if(updateResult === null) return null;
+            return updateResult;
+        }
+        catch (err){
+            throw err;
+        }
+    }
 }

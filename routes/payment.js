@@ -6,8 +6,11 @@ var router = express.Router();
 router.get('/', async (req, res) => {
 
     var userUnPaymentInvoice = await getUnPaymentInvoice(res.locals.user.id);
-    var userCourses = await getAllUserCourses(res.locals.user.id);
+
+    var userCourses = await getAllUserCourses(res.locals.user.id, type = 2);
+
     if(userCourses.length == 0) userCourses = null;
+    
     if(userUnPaymentInvoice !== null && userUnPaymentInvoice.courses.length > 0) {
         res.render('pages/payment', {
             css: ['payment'],

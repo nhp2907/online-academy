@@ -8,19 +8,33 @@
     color: black;
     text-decoration: none;
   }
+  button{
+    display: block;
+    border: none;
+    outline: none;
+  }
   @mixin headlineInfo{
     font-size: 25px;
     font-weight: 900;
     margin-bottom: 20px;
     font-weight: bold;
-    &:hover{
-      filter: brightness(110%);
-    }
-}
-  @mixin backgroundChange{
+  }
+  .background-change{
     width: 100vw;
     margin-left: -10vw;
     padding: 20px 13.5% 20px 12.5%;
+  }
+  .normal{
+    padding: 20px 0px;
+  }
+  .first{
+    background-color: #EEF1F2;
+  }
+  .second{
+    background-color: #FFFFFF;
+  }
+  .thirth{
+    background-color: #E6EAEC;
   }
   .slick-list {
     margin: 0 -10px;
@@ -56,15 +70,12 @@
   .wrap{
     position: relative;
   }
-  
   .category{
     display: flex;
     align-content: stretch;
     justify-content: space-between;
-
     font-size: 15px;
-    padding: 20px 0px;
-    max-height: 500px;
+    max-height: 1000px;
     @mixin symbolLink{
       padding: 10px;
       display: grid;
@@ -194,8 +205,6 @@
     }
   }
   .topic-recommend{
-      @include backgroundChange();
-      background-color: white;
       p{
         &:first-child{
           @include headlineInfo();
@@ -211,7 +220,7 @@
           text-align: center;
           border: 1px solid #333D49;
           border-radius: 5px;
-          background-color: #FF5416;
+          background-color: #00C0EF;
           color: white;
           font-size: 18px;
           font-weight: bold;
@@ -222,9 +231,7 @@
         }
       }
   }
-  .basic-course{
-    @include backgroundChange();
-    background-color: #e6eaec;
+  .special-course{
     @mixin courseInfo{
       display: flex;
       justify-content: flex-start;
@@ -234,21 +241,29 @@
         margin-right: 10px;
       }
     }
-    a{
-      &:first-child{
-        @include headlineInfo();
-      }
+    .headline-content{
+      @include headlineInfo();
     }
-    .basic-content{
-      display: flex;
-      flex-wrap: wrap;
-      .basic-item{
+    .special-course-content{
+      display: grid;
+      grid-template-columns: 19% 19% 19% 19% 19%;
+      justify-content: space-between;
+      grid-row-gap: 15px;
+      .content-logo{
+        grid-column: 1 / span 2;
+        pointer-events: none;
+        img{
+          width: 100%;
+        }
+      }
+      .course-item{
         background-color: white;
         transition: 0.3s;
         border-radius: 5px;
         padding-bottom: 5px;
         position: relative;
         height: 300px;
+        border: 1px solid #eceaea;
         .course-img{
           width: 100%;
           border-top-left-radius: 5px;
@@ -316,7 +331,6 @@
   }
   .personal-recommend{
     overflow: hidden;
-    @include backgroundChange();
     padding: 40px 13.5% 40px 12.5%;
     background-image: url('https://img.freepik.com/free-vector/black-dark-3d-low-poly-geometric-background_79145-393.jpg?size=626&ext=jpg');
     background-size: contain;
@@ -346,7 +360,6 @@
     }
   }
   .introduce-category{
-    padding: 20px 0px;
     p{
       &:first-child{
         @include headlineInfo();
@@ -378,14 +391,12 @@
           padding: 10px 0px;
         }
         &:hover{
-          transform: scale(1.1);
+          transform: scale(1.05);
         }
       }
     }
   }
   .why-should-learn{
-    @include backgroundChange();
-    background-color: white;
     p{
       &:first-child{
         @include headlineInfo();
@@ -417,8 +428,6 @@
     }
   }
   .popular-instructor{
-    background-color: #e6eaec;
-    @include backgroundChange();
     p{
       &:first-child{
         @include headlineInfo();
@@ -456,7 +465,6 @@
       }
   }
   .cooperate-tranning{
-    padding: 20px 0px;
     p{
       &:first-child{
         @include headlineInfo();

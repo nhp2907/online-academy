@@ -13,7 +13,7 @@
                     </div>
                     <form action="/admin/check/admin" method="POST">
                         <input type="text" placeholder="Username" id="username">
-                        <input type="text" placeholder="Password" id="password">
+                        <input type="password" placeholder="Password" id="password">
                         <a href="#" class="forgot-password">Forgot your password ?</a>
                         <button type="button">Sign in</button>
                     </form>
@@ -50,7 +50,45 @@
             </script>
         </div>
     {{else}}
+        <div class="confirm-notification">
+            <div class="headline">
+                <p class="headline-text"></p>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="info">
+            </div>
+            <div class="confirm">
+                <button class="denine-btn">Close</button>
+                <button class="accept-btn">Save Changes</button>
+            </div>
+        </div>
         <div class="login">
+            <script>
+                function formatStatus(){
+                    $('.i-status').map(function(){
+                        if($(this).html() == '1') {
+                            $(this).html('Enabled');
+                        }
+                        else $(this).html('Disabled');
+                    });
+                }
+                function setNotification(headline, info, appendclass, type = 1){
+                    $('.confirm-notification').show().addClass(appendclass);
+                    $('.confirm-notification .headline .headline-text').html(headline);
+                    $('.confirm-notification .info').html(info);
+                    $('.close-btn').click(function(){
+                        $('.confirm-notification').hide().removeClass(appendclass)});
+                    $('.denine-btn').click(function(){
+                        $('.confirm-notification').hide().removeClass(appendclass)});
+                    if(type == 2){
+                        $('.accept-btn').hide();
+                    }else{
+                        $('.accept-btn').show();
+                        $('.accept-btn').click(function(){
+                            $('.confirm-notification').hide().removeClass(appendclass)});
+                    }
+                }
+            </script>
             <div class="nav">
                 <div class="logout">
                     <a href="/logout">Logout</a>
@@ -193,6 +231,7 @@
                                 {{/each}}
                             </table>
                             <script>
+
                                 $('.category-dashboard .add-category button').click(function(){
                                     const submitUrl = $('.category-dashboard .add-category form').attr('action');
                                     let name = $('#category-name').val();
@@ -208,16 +247,16 @@
                                             categoryImg: img
                                         },
                                         success: function (category) {
-                                            alert("Add A New Category Successfully");
+                                            setNotification('Add Category', 'Add A New Category Successfully','notification-success', type = 2);
                                             $('.category-table').append('<tr class="main-category-item"><td class="i-id">' + category.id + '</td><td>' + category.name + '</td><td>1200</td><td>8</td><td class="i-status">' + category.status + '</td><td>1/1/2021</td><td>1/1/2021</td><td><button class="info-btn">Info</button><button class="edit-btn">Edit</button><button class="delete-btn">Disable</button></td></tr>');
-                                            formatStatus();
+                                            //formatStatus();
                                         },
                                         error: function(error){
                                             console.log(error);
                                         }
                                     });
                                 });
-
+                                //formatStatus();
                                 $('.category-dashboard .add-sub-category button').click(function(){
                                     const submitUrl = $('.category-dashboard .add-sub-category form').attr('action');
                                     let name = $('#sub-category-name').val();
@@ -231,9 +270,9 @@
                                             categoryId: cateId,
                                         },
                                         success: function (subCategory) {
-                                            alert("Add A New Sub Category Successfully");
+                                            setNotification('Add Sub Category', 'Add A New Sub Category Successfully','notification-success', type = 2);
                                             $('.sub-category-table').append('<tr class="main-category-item"><td class="i-id">' + subCategory.id +'</td><td>' + subCategory.name + '</td><td>1200</td><td>8</td><td class="i-status">' + subCategory.status + '</td><td>1/1/2021</td><td>1/1/2021</td><td><button class="info-btn">Info</button><button class="edit-btn">Edit</button><button class="delete-btn">Disable</button></td></tr>');
-                                            formatStatus();
+                                            //formatStatus();
                                         },
                                         error: function(error){
                                             console.log(error);
@@ -243,15 +282,6 @@
                             </script>                 
                         </div>
                         <script>
-                            function formatStatus(){
-                                $('.i-status').map(function(){
-                                    if($(this).html() === 0) {
-                                        $(this).html('Disable');
-                                        $(this).parent().children('.delete-btn').html('Enable')
-                                    }
-                                    else $(this).html('Enable');
-                                });
-                            }
 
                             $('.category-dashboard-nav .category-type-target').change(function(){
                                 $('.category-dashboard .add-cate').hide();
@@ -282,9 +312,86 @@
                                 }
                             });
 
-                            formatStatus();
-
-                            
+                        </script>
+                    </div>
+                    <div class="course-dashboard ds-dashboard">
+                        <div class="course-dashboard-nav dash-nav">
+                            <p class="dashboard-headline">Courses Collection</p>
+                            <select class="category-sort-target">
+                                <option value="All">All</option>
+                                {{#each this.categories}}
+                                    {{#each this.subCategories}}
+                                        <option value={{this.name}}>{{this.name}}</option>
+                                    {{/each}}
+                                {{/each}}
+                            </select>
+                            <select class="instructor-sort-target">
+                                <option value="All">All</option>
+                                {{#each this.users}}
+                                    {{#if this.instructor}}
+                                        <option value="{{this.firstName}} {{this.lastName}}">{{this.firstName}} {{this.lastName}}</option>
+                                    {{/if}}
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="course-dashboard-content">
+                            <table class="template-table course-table">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Rating</th>
+                                    <th>Num Student Enroll</th>
+                                    <th>Category Name</th>
+                                    <th>Instructor</th>
+                                    <th>Status</th>
+                                    <th>Created Date</th>
+                                    <th>Updated Date</th>
+                                    <th>Action</th>
+                                </tr>
+                                {{#each this.courses}}
+                                    <tr class="course-item">
+                                        <td class="i-id">{{this.id}}</td>
+                                        <td>{{this.name}}</td>
+                                        <td>{{this.price}}</td>
+                                        <td>{{this.rating}}</td>
+                                        <td>{{this.numStudentEnroll}}</td>
+                                        <td class="i-sub-name">{{this.categoryLink.subCategory.name}}</td>
+                                        <td class="i-intructor-name">{{this.instructor.basicInfo.firstName}} {{this.instructor.basicInfo.lastName}}</td>
+                                        <td class="i-status">{{this.status}}</td>
+                                        <td>11/1/2021</td>
+                                        <td>11/1/2021</td>
+                                        <td>
+                                            <button class="info-btn">Info</button>
+                                            <button class="edit-btn">Edit</button>
+                                            <button class="delete-btn">Delete</button>
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                            </table>    
+                        </div>
+                        <script>
+                            $('.category-sort-target').change(function(){
+                                $('.course-table .course-item').show();
+                                let value = this.value
+                                if(value == "All") return false;
+                                $('.instructor-sort-target').val("All");
+                                $('.course-item').map(function(){
+                                    if($(this).children('.i-sub-name').html() != value) $(this).hide();
+                                });
+                            });
+                            $('.instructor-sort-target').change(function(){
+                                $('.course-table .course-item').show();
+                                let value = this.value;
+                                if(value == "All") return false;
+                                $('.category-sort-target').val("All");
+                                $('.course-item').map(function(){
+                                    console.log($(this).children('.i-intructor-name').html());
+                                    if($(this).children('.i-intructor-name').html() != value) $(this).hide();
+                                });
+                            });
+                        
+                            //formatStatus();
                         </script>
                     </div>
                     <div class="user-dashboard ds-dashboard">
@@ -310,6 +417,7 @@
                                     <th>City</th>
                                     <th>UserName</th>
                                     <th>Role</th>
+                                    <th>Status</th>
                                     <th>Created Date</th>
                                     <th>Updated Date</th>
                                     <th>Action</th>
@@ -323,6 +431,7 @@
                                         <td>{{this.city}}</td>
                                         <td>{{this.userName}}</td>
                                         <td class="i-role">{{this.roleId}}</td>
+                                        <td class="i-status">{{this.status}}</td>
                                         <td>{{this.created_date}}</td>
                                         <td>{{this.updated_date}}</td>
                                         <td>
@@ -411,7 +520,7 @@
                                     <button class="edit-btn">Edit this category</button>
                                 </div>
                                 <div class="dt-item">
-                                    <button class="delete-btn">Disable this category</button>
+                                    <button class="delete-btn" idx='0'>Disable this category</button>
                                 </div>
                             </div>
                             <div class="sub-category-block">
@@ -425,6 +534,101 @@
                                         <th>Action</th>
                                     </tr>
                                 </table>             
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-detail dt-dashboard">
+                        <p class="dashboard-headline" style="padding-bottom: 20px;"></p>
+                        <div class="course-detail-content dt-content">
+                            <div class="course-block dt-block">
+                                <div class="dt-item">
+                                    <img class="d-image" src="" alt="">
+                                </div>
+                                <div class="dt-item">
+                                    <p>Id</p>
+                                    <p class="d-id"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Name</p>
+                                    <p class="d-name"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Headline</p>
+                                    <p class="d-headline"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Concurrency</p>
+                                    <p class="d-concurrency"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Price</p>
+                                    <p class="d-price"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Discout</p>
+                                    <p class="d-discount"></p>
+                                </div>
+                            </div>
+                            <div class="course-block dt-block">
+                                <div class="dt-item">
+                                    <p>Language</p>
+                                    <p class="d-language"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Rating</p>
+                                    <p class="d-rating"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Pre Price</p>
+                                    <p class="d-pre-price"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Level</p>
+                                    <p class="d-level"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Advancement</p>
+                                    <p class="d-advancement"></p>
+                                </div>
+                                 <div class="dt-item">
+                                    <p>Num Review</p>
+                                    <p class="d-num-review"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Estimate Content Length</p>
+                                    <p class="d-estimate-content-length"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Number Student Enroll</p>
+                                    <p class="d-num-student-enroll"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Category Name</p>
+                                    <p class="d-category-name"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Instructor Name</p>
+                                    <p class="d-instructor-name"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Num Student Enroll</p>
+                                    <p class="d-num-student-enroll"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Created Date</p>
+                                    <p class="d-created-date">11/1/2021</p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Updated Date</p>
+                                    <p class="d-updated-date">11/1/2021</p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Status</p>
+                                    <p class="d-status"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <button class="delete-btn">Disable this course</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -490,6 +694,10 @@
                                 <div class="dt-item">
                                     <p>Role</p>
                                     <p class="d-role"></p>
+                                </div>
+                                <div class="dt-item">
+                                    <p>Status</p>
+                                    <p class="d-status"></p>
                                 </div>
                                 <div class="dt-item">
                                     <p>Created Date</p>
@@ -564,17 +772,17 @@
                             },
                             success: function (category) {
                                 $('.category-detail .dashboard-headline:first').html(category.name);
-                                $('.d-id').html(category.id);
-                                $('.d-name').html(category.name);
-                                $('.d-img').attr('src','../' + category.image);
+                                $('.category-block .d-id').html(category.id);
+                                $('.category-block .d-name').html(category.name);
+                                $('.category-block .d-img').attr('src','../' + category.image);
                                 if(category.status == 0) {
-                                    $('.d-status').html("Disable");
-                                    $('.category-block .delete-btn').html('Enable this category');
+                                    $('.category-block .d-status').html("Disable");
+                                    $('.category-block .category-block .delete-btn').html('Enable this category');
                                 } 
                                 else $('.d-status').html("Enable");
-                                $('.d-logo').children('i').addClass(category.logo).next().html(category.logo);
-                                $('.d-created-date').html('1/1/2021');
-                                $('.d-updated-date').html('1/1/2021');
+                                $('.category-block .d-logo').children('i').addClass(category.logo).next().html(category.logo);
+                                $('.category-block .d-created-date').html('1/1/2021');
+                                $('.category-block .d-updated-date').html('1/1/2021');
                                 console.log(category.subCategories);
                                 for(let i = 0; i < category.subCategories.length; i++){
                                     $('.sub-category-block .sub-category-table').append('<tr class="main-category-item"><td>' + category.subCategories[i].id + '</td><td class="d-name">' + category.subCategories[i].name + '</td><td>1200</td><td>1/1/2021</td><td>1/1/2021</td><td><button class="edit-btn">Edit</button><button class="delete-btn">Delete</button></td></tr>');
@@ -615,12 +823,16 @@
                                 $('.user-block .d-city').html(user.city);
                                 $('.user-block .d-country').html(user.country);
                                 $('.user-block .d-id').html(user.id);
+                                if(user.status == 0) {
+                                    $('.user-block .d-status').html("Disable");
+                                    $('.user-block .delete-btn').html('Enable this user');
+                                } else $('.user-block .d-status').html("Enable");
                                 if(user.roleId == 2) $('.user-block .d-role').html("Student");
                                 else if(user.roleId == 3) $('.user-block .d-role').html("Instructor");
                                 else if(user.roleId == 4) $('.user-block .d-role').html("Admin");
                                 if(user.instructor) {
                                     $('.instructor-block').show();
-                                    $('.update-btn').css('display','none');
+                                    $('.user-block .update-btn').css('display','none');
                                     $('.instructor-block .d-rating').html(user.instructor.rating);
                                     $('.instructor-block .d-num-review').html(user.instructor.numReview);
                                     $('.instructor-block .d-short-description').html(user.instructor.shortDescription);
@@ -635,10 +847,55 @@
                             }
                         });
                     });
+
+                    $('.course-dashboard .course-table .info-btn').click(function(){
+                        $('.ds-dashboard').hide();
+                        $('.dt-dashboard').hide();
+                        $('.course-detail').show();
+                        $.ajax({
+                            type: "POST",
+                            url: '/admin/look-up/course',
+                            dataType: 'json',
+                            data: {
+                                courseId: $(this).parent().parent().children('.i-id').html()
+                            },
+                            success: function (course) {
+                                if(course.status == 1) $('.course-block .d-status').html("Enabled");
+                                else {
+                                    $('.course-block .d-status').html("Disabled");
+                                     $('.course-block .delete-btn').html("Enable this course");
+                                }
+                                $('.course-detail .dashboard-headline:first').html(course.name);
+                                $('.course-block .d-id').html(course.id);
+                                $('.course-block .d-image').attr('src','../' + course.image);
+                                $('.course-block .d-name').html(course.name);
+                                $('.course-block .d-headline').html(course.headline);
+                                $('.course-block .d-concurrency').html(course.concurrency);
+                                $('.course-block .d-price').html(course.price);
+                                $('.course-block .d-discount').html(course.discount);
+                                $('.course-block .d-language').html(course.language);
+                                $('.course-block .d-username').html(course.username);
+                                $('.course-block .d-rating').html(course.rating);
+                                $('.course-block .d-num-review').html(course.numReview);
+                                $('.course-block .d-num-lecture').html(course.numLecture);
+                                $('.course-block .d-estimate-content-length').html(course.estimateContentLength);
+                                $('.course-block .d-num-student-enroll').html(course.numStudentEnroll);
+                                $('.course-block .d-category-name').html(course.categoryLink.subCategory.name);
+                                $('.course-block .d-instructor-name').html(course.instructor.basicInfo.firstName + " " + course.instructor.basicInfo.lastName);
+                                $('.course-block .d-pre-price').html(course.prePrice);
+                                $('.course-block .d-level').html(course.level.description);
+                                $('.course-block .d-advancement').html(course.advancement.description);
+                            },  
+                            error: function(error){
+                                console.log(error);
+                            }
+                        });
+                    });
                 </script>
             </div>
             <script>
                 $(document).ready(function(){
+                    formatStatus();
                     $('.module-item').map(function(index){
                         $(this).click(function(){
                             $('.ds-dashboard').hide();
@@ -649,9 +906,8 @@
 
                     $('.category-block .edit-btn').click(function(){
                         if($(this).html() == 'Edit this category'){
-                            $('.d-name').attr('contenteditable','true').focus();
-                            $('.d-logo').children('i').next().attr('contenteditable','true');
-                            $('.d-status').attr('contenteditable','true');
+                            $('.category-block .d-name').attr('contenteditable','true').focus();
+                            $('.category-block .d-logo').children('i').next().attr('contenteditable','true');
                             $(this).html('Accept Edit (Only name, logo and status)');
                         }else{
                             $.ajax({
@@ -659,18 +915,17 @@
                                 url: '/admin/update/category',
                                 dataType: 'json',
                                 data: {
-                                    categoryId: $('.d-id').html(),
-                                    name: $('.d-name').html(),
-                                    logo: $('.d-logo').children('i').next().html(),
+                                    categoryId: $('.category-block .d-id').html(),
+                                    name: $('.category-block .d-name').html(),
+                                    logo: $('.category-block  .d-logo').children('i').next().html(),
                                 },
                                 success: function (category) {
-                                    alert("Update Category Information Successfully")
-                                    $('.d-name').html(category.name);
-                                    $('.d-logo').children('i').addClass(category.logo).next().html(category.logo);
-                                    $('.d-name').attr('contenteditable','false');
-                                    $('.d-logo').children('i').next().attr('contenteditable','false');
+                                    setNotification('Edit Category', 'Update Category Information Successfully','notification-success', type = 2);
+                                    $('.category-block .d-name').html(category.name);
+                                    $('.category-block .d-logo').children('i').addClass(category.logo).next().html(category.logo);
                                     $('.category-block .edit-btn').html('Edit this category');
-                                    
+                                    $('.category-block p').attr('contenteditable','false');
+                                    $('.category-block span').attr('contenteditable','false');
                                 },
                                 error: function(error){
                                     console.log(error);
@@ -680,76 +935,176 @@
                     });
 
                     $('.user-block .update-btn').click(function(){
-                        var r = confirm("Are you sure want to make this user to become instructor");
-                        if(r == true){
+                        setNotification('Update User', 'Are you sure want to make this user to become instructor','notification-danger', type = 1);
+                        if($('.accept-btn').click(function(e){
                             $.ajax({
                                 type: "POST",
                                 url: '/admin/change-role/user',
                                 dataType: 'json',
                                 data: {
-                                    userId: $('.d-id').html(),
+                                    userId: $('.user-block .d-id').html(),
                                     roleId: 3
                                 },
                                 success: function (user) {
-                                    alert("Change this user to Instructor role successfully")
-                                    $('.d-role').html("Instructor");
+                                    setNotification('Update User', 'Change this user to Instructor role successfully','notification-success', type = 2);
+                                    $('.user-block .d-role').html("Instructor");
                                 },
                                 error: function(error){
                                     console.log(error);
                                 }
                             });
-                        }
+                        }));;
                     });
-                    $('.category-block .delete-btn').click(function(){
-                        if($(this).html() == "Disable this category"){
-                            var r = confirm("Are you sure want to disable this categroy");
-                            if(r == true){
+
+                    $('.category-block .delete-btn').click(function(e){
+                        if($(this).text() == "Disable this category"){
+                            setNotification('Disable Category', 'Are you sure want to disable this category','notification-danger', type = 1);
+                            if($('.accept-btn').click(function(e){
                                 $.ajax({
                                     type: "POST",
-                                    url: '/admin/disable/category',
+                                    url: '/admin/change-status/category',
                                     dataType: 'json',
                                     data: {
-                                        categoryId: $('.d-id').html(),
+                                        categoryId: $('.category-block .d-id').html(),
+                                        status: 0
                                     },
                                     success: function (data) { 
                                         if(data.code == '01'){
-                                            alert("This Categroy exists courses, so it cannot be disabled")
-                                        }else{
-                                            alert("Disabled this category successfully");
-                                            $('.d-status').html("Disabled");
-                                        }                
+                                            setNotification('Disable Category', 'This category has already contains courses, so it can not be disabled','notification-info', type = 2);
+                                        }
+                                        else{
+                                            setNotification('Disable Category', 'Disable this category successfully','notification-success', type = 2);
+                                            $('.category-block .d-status').html("Disabled");  
+                                            $('.category-block .delete-btn').html('Enable this category'); 
+                                            console.log("ok");
+                                        }
                                     },
                                     error: function(error){
                                         console.log(error);
                                     }
                                 });
-                            }
+                            }));
                         }else{
-                            var r = confirm("Are you sure want to enable this categroy");
-                            if(r == true){
+                            setNotification('Enable Category', 'Are you sure want to enable this category','notification-danger', type = 1);
+                            if($('.accept-btn').click(function(e){
                                 $.ajax({
                                     type: "POST",
-                                    url: '/admin/enable/category',
+                                    url: '/admin/change-status/category',
                                     dataType: 'json',
                                     data: {
-                                        categoryId: $('.d-id').html(),
+                                        categoryId: $('.category-block .d-id').html(),
+                                        status: 1
                                     },
                                     success: function (data) { 
-                                        if(data.code == '00'){
-                                            alert("Enable this category successfully");
-                                            $('.d-status').html("Enabled");
-                                        }                
+                                        setNotification('Enable Category', 'Enable this category successfully','notification-success', type = 2);
+                                        $('.d-status').html("Enabled");       
+                                        $('.category-block .delete-btn').html('Disable this category');     
+                                        console.log("ok1");
                                     },
                                     error: function(error){
                                         console.log(error);
                                     }
                                 });
-                            }
+                            }));
                         }
                     });
-                })
+                
+                    $('.course-block .delete-btn').click(function(){
+                        if($(this).html() == "Disable this course"){
+                            setNotification('Disable Course', 'Are you sure want to disable this course','notification-danger', type = 1);
+                            if($('.accept-btn').click(function(e){
+                                console.log($('.course-block .d-id').html())
+                                $.ajax({
+                                    type: "POST",
+                                    url: '/admin/change-status/course',
+                                    dataType: 'json',
+                                    data: {
+                                        courseId: $('.course-block .d-id').html(),
+                                        status: '0'
+                                    },
+                                    success: function (data) { 
+                                        setNotification('Disable Course', 'Disable this course successfully','notification-success', type = 2);
+                                        $('.course-block .d-status').html("Disabled");
+                                        $('.course-block .delete-btn').html("Enable this course");
+                                    },
+                                    error: function(error){
+                                        console.log(error);
+                                    }
+                                });
+                            }));
+                        }else{
+                            setNotification('Enable Course', 'Are you sure want to enable this course','notification-danger', type = 1);
+                            if($('.accept-btn').click(function(e){
+                                $.ajax({
+                                    type: "POST",
+                                    url: '/admin/change-status/course',
+                                    dataType: 'json',
+                                    data: {
+                                        courseId: $('.course-block .d-id').html(),
+                                        status: '1'
+                                    },
+                                    success: function (data) { 
+                                        setNotification('Enable Course', 'Enable this course successfully','notification-success', type = 2);
+                                        $('.course-block .d-status').html("Enabled");    
+                                        $('.course-block .delete-btn').html("Disable this course");        
+                                    },
+                                    error: function(error){
+                                        console.log(error);
+                                    }
+                                });
+                            }));
+                        }
+                    });
+
+                    $('.user-block .delete-btn').click(function(){
+                        if($(this).html() == "Disable this user"){
+                            setNotification('Disable User', 'Are you sure want to disable this user','notification-danger', type = 1);
+                            if($('.accept-btn').click(function(e){
+                                $.ajax({
+                                    type: "POST",
+                                    url: '/admin/change-status/user',
+                                    dataType: 'json',
+                                    data: {
+                                        userId: $('.user-block .d-id').html(),
+                                        status: 0
+                                    },
+                                    success: function (data) { 
+                                        setNotification('Disable User', 'Disable this user successfully','notification-success', type = 2);
+                                        $('.user-block .d-status').html("Disabled");
+                                        $('.user-block .delete-btn').html("Enable this user");
+                                    },
+                                    error: function(error){
+                                        console.log(error);
+                                    }
+                                });
+                            }));
+                        }else{
+                            setNotification('Enable User', 'Are you sure want to enable this user','notification-danger', type = 1);
+                            if($('.accept-btn').click(function(e){
+                                $.ajax({
+                                    type: "POST",
+                                    url: '/admin/change-status/user',
+                                    dataType: 'json',
+                                    data: {
+                                        userId: $('.user-block .d-id').html(),
+                                        status: 1
+                                    },
+                                    success: function (data) { 
+                                        setNotification('Enable Course', 'Enable this user successfully','notification-success', type = 2);
+                                        $('.user-block .d-status').html("Enabled");    
+                                        $('.user-block .delete-btn').html("Disable this user");        
+                                    },
+                                    error: function(error){
+                                        console.log(error);
+                                    }
+                                });
+                            }));
+                        }
+                    });
+                });
             </script>
         </div>
+
     {{/unless}}
     </div>
 </section>

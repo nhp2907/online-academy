@@ -7,3 +7,5 @@ alter table course_chapter_section change chapter_id course_chapter_id int not n
 alter table course add description nvarchar(1000) null default '';
 alter table course alter column num_lecture set default 0;
 alter table course alter column estimate_content_length set default 0;
+alter table course add description nvarchar(1000) default '' null;
+

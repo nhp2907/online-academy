@@ -63,6 +63,13 @@ const findAll = async () => {
         }, {
             model: CourseReview,
             as: 'reviews'
+        },{
+            model: CategoryLink,
+            as: 'categoryLink',
+            include: {
+                model: SubCategory,
+                as: 'subCategory'
+            }
         }]
     });
     return courses.map(c => c.toJSON());
@@ -108,9 +115,19 @@ const findById = async (id) => {
             },
             limit: 10,
         }, {
+            model: Advancement,
+            as: 'advancement'
+        },{
             model: CategoryLink,
-            as: 'categoryLink'
-        }, {
+            as: 'categoryLink',
+            include: {
+                model: SubCategory,
+                as: 'subCategory'
+            }
+        },{
+            model: Level,
+            as: 'level'
+        },{
             model: Advancement,
             as: 'advancement'
         }]
@@ -119,23 +136,11 @@ const findById = async (id) => {
     return course.toJSON();
 }
 
-const findByCategory = (category) => {
-    return [];
-}
-
-const findByAuthor = (author) => {
-    return [];
-}
-
-const search = (criteria) => {
-    return [];
-}
-
 const getTopCoursesInWeek = async () => {
     try {
         const topCoursesInWeek = await Course.findAll({
             attributes: ['id', 'name', 'headline', 'image', 'price', 'discount', 'prePrice', 'language', 'rating', 'numReview', 'numLecture', 'numStudentEnroll', 'estimateContentLength', 'updated_date'],
-            limit: 10,
+            limit: 3,
             where: {
                 updatedDate: {
                     [Op.gt]: new Date(new Date() - 1000 * 24 * 60 * 3600)
@@ -155,16 +160,20 @@ const getTopCoursesInWeek = async () => {
                     attributes: ['id', 'firstName', 'lastName']
                 }
             },
-                {
-                    model: Advancement,
-                    as: 'advancement',
-                    attributes: ['id', 'description'],
-                    where: {
-                        description: {
-                            [Op.substring]: '%BestSeller%'
-                        }
+            {
+                model: Advancement,
+                as: 'advancement',
+                attributes: ['id', 'description'],
+                where: {
+                    description: {
+                        [Op.substring]: '%BestSeller%'
                     }
-                }]
+                }
+            },{
+                model: Level,
+                as: 'level',
+                attributes: ['id','description'],
+            }]
         });
         return topCoursesInWeek.map(course => course.toJSON());
     } catch (err) {
@@ -231,37 +240,6 @@ const getMostEnrollCourses = async () => {
         throw err;
     }
 }
-
-const getMostRatingCourses = async () => {
-    try {
-        const mostEnrollCourses = await Course.findAll({
-            attributes: ['id', 'name', 'headline', 'image', 'price', 'discount', 'prePrice', 'language', 'rating', 'numReview', 'numLecture', 'numStudentEnroll', 'estimateContentLength', 'updated_date'],
-            limit: 10,
-            order: [
-                ['numStudentEnroll', 'DESC']
-            ],
-            include: [{
-                model: Instructor,
-                as: 'instructor',
-                attributes: ['id'],
-                include: {
-                    model: User,
-                    as: 'basicInfo',
-                    attributes: ['id', 'firstName', 'lastName']
-                }
-            },
-                {
-                    model: Advancement,
-                    as: 'advancement',
-                    attributes: ['id', 'description'],
-                }]
-        });
-        return mostEnrollCourses.map(course => course.toJSON());
-    } catch (err) {
-        throw err;
-    }
-}
-
 const getCategoryCourses = async (categoryid, page, size, duration, rating, level, price, order, topic) => {
     try {
         const {limit, offset} = getPagination(page, size);
@@ -338,7 +316,22 @@ const getCategoryCourses = async (categoryid, page, size, duration, rating, leve
         throw err;
     }
 }
-
+const checkExsistCategoryCourses = async (categoryid) => {
+    try {
+        const countCourses = await Course.count({
+            include: {
+                model: CategoryLink,
+                as: 'categoryLink',
+                where: {
+                    categoryId: categoryid
+                }
+            }
+        });
+        return countCourses;
+    } catch (err) {
+        throw err;
+    }
+}
 const getPopularCategoryCourses = async (categoryid) => {
     try {
         const popularCatetogyCourses = await Course.findAll({
@@ -435,6 +428,24 @@ const getSectionVideo = async (sectionid) => {
         console.log(sectionVideo.toJSON())
         return sectionVideo.toJSON();
     } catch (err) {
+        throw err;
+    }
+}
+const changeStatusCourse = async (courseid, status) => {
+    try{
+        const updateResult = await Course.update(
+            {
+                status: +status
+            },
+            {
+            where: {
+                id: courseid
+            }
+        });
+        if(updateResult === null) return null;
+        return updateResult;
+    }
+    catch (err){
         throw err;
     }
 }
@@ -548,7 +559,7 @@ module.exports = {
     update,
     findById,
     findAll,
-    search, getTopCoursesInWeek,
+    getTopCoursesInWeek,
     getNewestCourses,
     getMostEnrollCourses,
     getCategoryCourses,
@@ -557,6 +568,8 @@ module.exports = {
     findByInstructorId,
     getCourseChapter,
     getSectionVideo,
+    changeStatusCourse,
+    checkExsistCategoryCourses,
     checkCourseBeLongToInstructor,
     addChapter,
     addLesion,
@@ -564,7 +577,6 @@ module.exports = {
     deleteLesion,
     deleteChapter,
     findLesionById,
-    getSectionVideo,
     countRating,
     getRelatedCourses,
     publicCourse,

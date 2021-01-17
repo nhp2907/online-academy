@@ -12,7 +12,8 @@ const UserCourse = sequelize.define('userCourse', {
     userId: {
         type: DataTypes.INTEGER,
         defaultValue: null
-    }
+    },
+    type: DataTypes.INTEGER,
 }, {
     underscored: true,
     timestamps: true,

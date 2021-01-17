@@ -127,18 +127,23 @@
       padding: 8px; }
     .admin .template-table td {
       height: auto;
-      cursor: pointer; }
+      cursor: pointer;
+      padding: 5px; }
       .admin .template-table td:last-child {
         display: grid;
-        grid-template-columns: 30% 30% 30%;
-        min-width: 150px;
-        justify-content: space-between; }
+        grid-template-columns: auto auto auto;
+        justify-content: space-between;
+        grid-column-gap: 5px;
+        align-items: center;
+        border-bottom: none; }
         .admin .template-table td:last-child button {
+          display: flex;
+          justify-content: center;
+          width: 50px;
           padding: 5px;
           font-size: 11px;
           border-radius: 5px;
-          color: white;
-          text-align: center; }
+          color: white; }
           .admin .template-table td:last-child button:hover {
             filter: brightness(90%); }
         .admin .template-table td:last-child .info-btn {
@@ -190,9 +195,9 @@
         background-color: #FFFFFF;
         padding: 0px 10px; }
         .admin .dt-dashboard .dt-content .dt-block .dt-item {
-          display: flex;
+          display: grid;
+          grid-template-columns: 30% 70%;
           align-items: center;
-          justify-content: space-between;
           border-bottom: 1px solid #CCCCCC;
           font-size: 14px;
           height: auto; }
@@ -202,7 +207,8 @@
             .admin .dt-dashboard .dt-content .dt-block .dt-item p:first-child {
               font-weight: bold; }
             .admin .dt-dashboard .dt-content .dt-block .dt-item p:last-child {
-              color: #3C8DBC; }
+              color: #3C8DBC;
+              text-align: right; }
           .admin .dt-dashboard .dt-content .dt-block .dt-item:last-child {
             border-bottom: none; }
         .admin .dt-dashboard .dt-content .dt-block .edit-btn, .admin .dt-dashboard .dt-content .dt-block .delete-btn, .admin .dt-dashboard .dt-content .dt-block .update-btn {
@@ -211,7 +217,8 @@
           width: 100%;
           padding: 8px;
           color: white;
-          border-radius: 5px; }
+          border-radius: 5px;
+          grid-column: 1/3; }
           .admin .dt-dashboard .dt-content .dt-block .edit-btn:hover, .admin .dt-dashboard .dt-content .dt-block .delete-btn:hover, .admin .dt-dashboard .dt-content .dt-block .update-btn:hover {
             filter: brightness(90%); }
         .admin .dt-dashboard .dt-content .dt-block .edit-btn {
@@ -341,6 +348,19 @@
         overflow-x: auto; }
         .admin .dashboard .module-introduce .category-dashboard .category-dashboard-content table th {
           background-color: #00C0EF; }
+    .admin .dashboard .module-introduce .course-dashboard {
+      display: none;
+      padding: 20px 0px;
+      border: 1px solid black; }
+      .admin .dashboard .module-introduce .course-dashboard .course-dashboard-nav select {
+        background-color: #00A65A; }
+      .admin .dashboard .module-introduce .course-dashboard .course-dashboard-nav .add-btn button {
+        background-color: #00A65A; }
+      .admin .dashboard .module-introduce .course-dashboard .course-dashboard-content {
+        border: 1px solid black;
+        overflow-x: auto; }
+        .admin .dashboard .module-introduce .course-dashboard .course-dashboard-content table th {
+          background-color: #00A65A; }
     .admin .dashboard .module-introduce .user-dashboard {
       display: none;
       padding: 20px 0px;
@@ -357,13 +377,81 @@
     .admin .dashboard .module-detail .category-detail .category-detail-content .category-block .dt-item:first-child img {
       width: 100%;
       display: block;
-      margin: 10px auto; }
+      margin: 10px auto;
+      grid-column: 1 / 3; }
     .admin .dashboard .module-detail .category-detail .category-detail-content .sub-category-block table th {
       background-color: #00C0EF; }
     .admin .dashboard .module-detail .category-detail .category-detail-content .sub-category-block table td:last-child {
-      grid-template-columns: 48% 48%;
-      min-width: 80px; }
+      grid-template-columns: auto auto;
+      grid-column-gap: 5px; }
+    .admin .dashboard .module-detail .course-detail .course-detail-content {
+      grid-template-columns: 49% 49%;
+      justify-content: space-between; }
+      .admin .dashboard .module-detail .course-detail .course-detail-content .course-block .dt-item:first-child img {
+        width: 100%;
+        display: block;
+        margin: 10px auto;
+        grid-column: 1 / 3; }
     .admin .dashboard .module-detail .user-detail .user-detail-content .user-block .dt-item:first-child img {
       width: 100%;
       display: block;
-      margin: 10px auto; }
+      margin: 10px auto;
+      grid-column: 1 / 3; }
+  .admin .confirm-notification {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 10%;
+    transform: translateX(-50%);
+    color: white;
+    z-index: 1;
+    width: 600px; }
+    .admin .confirm-notification .headline {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px; }
+      .admin .confirm-notification .headline .headline-text {
+        font-weight: 500;
+        font-size: 18px; }
+      .admin .confirm-notification .headline .close-btn {
+        color: #b8b4b4;
+        background-color: transparent;
+        transition: 0.3s; }
+        .admin .confirm-notification .headline .close-btn:hover {
+          color: white; }
+    .admin .confirm-notification .info {
+      padding: 15px;
+      height: 70px; }
+    .admin .confirm-notification .confirm {
+      padding: 15px;
+      display: flex;
+      justify-content: space-between; }
+      .admin .confirm-notification .confirm button {
+        border: 1px solid white;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: transparent;
+        color: white; }
+        .admin .confirm-notification .confirm button:hover {
+          filter: brightness(80%); }
+  .admin .notification-danger {
+    background-color: #D33724; }
+    .admin .notification-danger .info {
+      background-color: #DD4B39; }
+  .admin .notification-success {
+    background-color: #008D4C; }
+    .admin .notification-success .info {
+      background-color: #00A65A; }
+  .admin .notification-info {
+    background-color: #00A7D0; }
+    .admin .notification-info .info {
+      background-color: #00C0EF; }
+  .admin .notification-warning {
+    background-color: #DB8B0B; }
+    .admin .notification-warning .info {
+      background-color: #F39C12; }
+  .admin .notification-default {
+    color: black;
+    background-color: #FFFFFF; }
+    .admin .notification-default .info {
+      background-color: #FFFFFF; }
