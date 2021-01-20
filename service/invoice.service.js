@@ -102,7 +102,8 @@ module.exports = {
         
         const userCourse = await UserCourse.create({
                 userId: userid,
-                courseId: courseid
+                courseId: courseid,
+                type: 2,
             });
         if(userCourse == null) return null;
         return userCourse.toJSON();
